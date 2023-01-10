@@ -1,0 +1,15 @@
+LoginUser|ivan@ivan.com|Ivan12
+
+LoginUser|gabs@gabs.bg|Gabs1010
+
+
+
+AddGame|Overwatch|100.00|15.5|FqnKB22pOC0|https://us.battle.net/forums/static/images/social-thumbs/overwatch.png|Overwatch is a team-basedmultiplayer online first-person shooter video game developed and published by Blizzard Entertainment.|24-05-2016
+
+AddGame|RaymanOrigins|100.00|365.5|MvhwWXF-LfU|https://us.rayman.cover.png|RaymanOrigins is a singel player arcade video game developed and published by Rayman Entertainment.|02-04-2012
+
+EditGame|1|price=80.00|size=12.0
+
+EditGame|2|size=689.8|thumbnailURL=www.go.rayman.cover.png
+
+EditGame|2|size=689.8|description=Rayman Origins is a 2011 platform video game developed and published by Ubisoft.|thumbnailURL=https://www.go.rayman.cover.png|trailer=MvhwWXF-LfU
