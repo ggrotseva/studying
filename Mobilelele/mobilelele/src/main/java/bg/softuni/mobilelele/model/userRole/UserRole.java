@@ -22,15 +22,17 @@ public class UserRole {
         return id;
     }
 
-    public void setId(Long id) {
+    public UserRole setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public UserRoleEnum getRole() {
         return role;
     }
 
-    public void setRole(UserRoleEnum role) {
+    public UserRole setRole(UserRoleEnum role) {
         this.role = role;
+        return this;
     }
 }

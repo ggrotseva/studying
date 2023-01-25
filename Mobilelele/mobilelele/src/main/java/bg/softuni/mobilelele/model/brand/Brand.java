@@ -32,31 +32,35 @@ public class Brand {
         return id;
     }
 
-    public void setId(Long id) {
+    public Brand setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Brand setName(String name) {
         this.name = name;
+        return this;
     }
 
     public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public Brand setCreated(LocalDateTime created) {
         this.created = created;
+        return this;
     }
 
     public LocalDateTime getModified() {
         return modified;
     }
 
-    public void setModified(LocalDateTime modified) {
+    public Brand setModified(LocalDateTime modified) {
         this.modified = modified;
+        return this;
     }
 }

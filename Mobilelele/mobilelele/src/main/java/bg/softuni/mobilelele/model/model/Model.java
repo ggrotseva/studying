@@ -47,71 +47,80 @@ public class Model {
         return id;
     }
 
-    public void setId(Long id) {
+    public Model setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Model setName(String name) {
         this.name = name;
+        return this;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public Model setCategory(Category category) {
         this.category = category;
+        return this;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public Model setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
     }
 
     public int getStartYear() {
         return startYear;
     }
 
-    public void setStartYear(int startYear) {
+    public Model setStartYear(int startYear) {
         this.startYear = startYear;
+        return this;
     }
 
     public int getEndYear() {
         return endYear;
     }
 
-    public void setEndYear(int endYear) {
+    public Model setEndYear(int endYear) {
         this.endYear = endYear;
+        return this;
     }
 
     public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public Model setCreated(LocalDateTime created) {
         this.created = created;
+        return this;
     }
 
     public LocalDateTime getModified() {
         return modified;
     }
 
-    public void setModified(LocalDateTime modified) {
+    public Model setModified(LocalDateTime modified) {
         this.modified = modified;
+        return this;
     }
 
     public Brand getBrand() {
         return brand;
     }
 
-    public void setBrand(Brand brand) {
+    public Model setBrand(Brand brand) {
         this.brand = brand;
+        return this;
     }
 }
