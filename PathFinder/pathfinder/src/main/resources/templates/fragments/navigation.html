@@ -1,0 +1,40 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<header th:fragment="navigation">
+    <nav class="main-nav">
+
+        <ul>
+            <th:block th:if="${true}">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/user/login">Login</a>
+                </li>
+                <li>
+                    <a href="/user/register">Register</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+            </th:block>
+
+            <th:block th:if="${false}">
+                <li>
+                    <a href="/">Add new route</a>
+                </li>
+                <li>
+                    <a href="/">Profile</a>
+                </li>
+                <li>
+                    <a href="/">Logout</a>
+                </li>
+                <li>
+                    <a href="/">Admin</a>
+                </li>
+            </th:block>
+
+        </ul>
+    </nav>
+</header>

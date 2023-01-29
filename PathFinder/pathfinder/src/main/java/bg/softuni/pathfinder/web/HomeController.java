@@ -1,6 +1,7 @@
 package bg.softuni.pathfinder.web;
 
 import bg.softuni.pathfinder.model.Route;
+import bg.softuni.pathfinder.model.dtos.MostCommentedRouteDTO;
 import bg.softuni.pathfinder.service.RouteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +18,15 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        Route route = routeService.getMostCommented();
+        MostCommentedRouteDTO routeDto = routeService.getMostCommented();
 
-        model.addAttribute("mostCommented", route);
+        model.addAttribute("mostCommented", routeDto);
 
         return "index";
     }
 
-
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 }
