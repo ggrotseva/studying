@@ -1,7 +1,7 @@
 package softuni.modelMapping.services;
 
-import softuni.modelMapping.entities.dtos.address.AddressDTO;
-import softuni.modelMapping.entities.dtos.address.CreateAddressDTO;
+import softuni.modelMapping.entities.dtos.gson.AddressDTO;
+import softuni.modelMapping.entities.dtos.gson.CreateAddressDTO;
 
 public interface AddressService {
 

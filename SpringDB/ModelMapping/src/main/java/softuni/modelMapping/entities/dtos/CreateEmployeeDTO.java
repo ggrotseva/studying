@@ -1,7 +1,7 @@
 package softuni.modelMapping.entities.dtos;
 
 import com.google.gson.annotations.Expose;
-import softuni.modelMapping.entities.dtos.address.CreateAddressDTO;
+import softuni.modelMapping.entities.dtos.gson.CreateAddressDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

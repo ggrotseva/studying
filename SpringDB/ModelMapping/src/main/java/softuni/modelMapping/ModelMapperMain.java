@@ -1,7 +1,7 @@
 package softuni.modelMapping;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import softuni.modelMapping.entities.dtos.EmployeeDTO;
@@ -9,6 +9,7 @@ import softuni.modelMapping.entities.Address;
 import softuni.modelMapping.entities.Employee;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 //@Component
 public class ModelMapperMain implements CommandLineRunner {

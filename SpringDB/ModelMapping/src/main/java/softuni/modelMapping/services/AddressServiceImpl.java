@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.modelMapping.entities.Address;
-import softuni.modelMapping.entities.dtos.address.AddressDTO;
-import softuni.modelMapping.entities.dtos.address.CreateAddressDTO;
+import softuni.modelMapping.entities.dtos.gson.AddressDTO;
+import softuni.modelMapping.entities.dtos.gson.CreateAddressDTO;
 import softuni.modelMapping.repositories.AddressRepository;
 
 @Service

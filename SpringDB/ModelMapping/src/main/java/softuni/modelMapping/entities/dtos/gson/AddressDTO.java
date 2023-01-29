@@ -1,4 +1,4 @@
-package softuni.modelMapping.entities.dtos.address;
+package softuni.modelMapping.entities.dtos.gson;
 
 import com.google.gson.annotations.Expose;
 

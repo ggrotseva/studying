@@ -3,7 +3,7 @@ package softuni.modelMapping;
 import com.google.gson.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import softuni.modelMapping.entities.dtos.address.CreateAddressDTO;
+import softuni.modelMapping.entities.dtos.gson.CreateAddressDTO;
 import softuni.modelMapping.entities.dtos.CompanyDTO;
 import softuni.modelMapping.entities.dtos.CreateEmployeeDTO;
 
@@ -17,7 +17,7 @@ import java.util.Scanner;
 //@Component
 public class JsonTestMain implements CommandLineRunner {
 
-    // object -> JSON
+    // ако искаме в посока object -> JSON
     private class LocalDateAdapter implements JsonSerializer<LocalDate> {
         @Override
         public JsonElement serialize(LocalDate date, Type typeOfSrc, JsonSerializationContext context) {
@@ -25,7 +25,7 @@ public class JsonTestMain implements CommandLineRunner {
         }
     }
 
-    // JSON -> object
+    // ако искаме в посока JSON -> object
     private class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
         @Override
         public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -50,14 +50,11 @@ public class JsonTestMain implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-        jsonTest();
-
-//        nestedDtoTest();
+        test();
 
     }
 
-    private void nestedDtoTest() {
+    private void nestedTest() {
         CreateAddressDTO addressDTO1 = new CreateAddressDTO("Bulgaria", "Burgas");
         CreateEmployeeDTO employee1 = new CreateEmployeeDTO("First", BigDecimal.TEN, LocalDate.now(), addressDTO1);
 
@@ -75,10 +72,10 @@ public class JsonTestMain implements CommandLineRunner {
 
         CompanyDTO companyDTO = gson.fromJson(scanner.nextLine(), CompanyDTO.class);
 
-        System.out.println(companyDTO);
+        System.out.println();
     }
 
-    private void jsonTest() {
+    private void test() {
 
         CreateAddressDTO addressDTO1 = new CreateAddressDTO("Bulgaria", "Burgas");
 

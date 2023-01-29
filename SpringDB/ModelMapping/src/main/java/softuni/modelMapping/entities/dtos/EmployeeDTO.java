@@ -11,7 +11,6 @@ public class EmployeeDTO {
     private String addressCity;
 
     public EmployeeDTO() {
-
     }
 
     public String getFirstName() {

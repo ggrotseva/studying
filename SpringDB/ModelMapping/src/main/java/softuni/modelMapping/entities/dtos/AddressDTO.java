@@ -1,19 +1,12 @@
-package softuni.modelMapping.entities.dtos.address;
+package softuni.modelMapping.entities.dtos;
 
-import com.google.gson.annotations.Expose;
+public class AddressDTO {
 
-public class CreateAddressDTO {
-
-    @Expose
     private String country;
 
-    @Expose
     private String city;
 
-    public CreateAddressDTO() {
-    }
-
-    public CreateAddressDTO(String country, String city) {
+    public AddressDTO(String country, String city) {
         this.country = country;
         this.city = city;
     }
