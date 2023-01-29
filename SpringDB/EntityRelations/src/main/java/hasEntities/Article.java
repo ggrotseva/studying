@@ -2,45 +2,40 @@ package hasEntities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table
+@Table(name = "articles")
 public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
-    private String name;
+    private String text;
 
     @ManyToOne
-//    @JoinColumn(referencedColumnName = "id", name = "author_id")
+//    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
 
+    @ManyToMany
+//    @JoinTable(name = "articles_categories",
+//        joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
+//    )
+    private Set<Category> categories;
+
     public Article() {
+        this.categories = new HashSet<>();
     }
 
-    public int getId() {
-        return id;
+    public Article(String text) {
+        this();
+        this.text = text;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAuthor(User author) {
+        this.author = author;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-//    public User getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(User author) {
-//        this.author = author;
-//    }
 }

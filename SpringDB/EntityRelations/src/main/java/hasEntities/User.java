@@ -2,38 +2,33 @@ package hasEntities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
-    private String username;
+    private String name;
 
-//    @OneToMany(mappedBy = "author")
-//    List<Article> articles;
+    @OneToMany(mappedBy = "author", targetEntity = Article.class,
+            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Article> articles;
 
     public User() {
+        this.articles = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
+    public User(String name) {
+        this();
+        this.name = name;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void addArticle(Article article) {
+        this.articles.add(article);
     }
 }
