@@ -21,5 +21,4 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 //    Optional<Set<GameViewDTO>> viewAllGames();
 
 
-
 }

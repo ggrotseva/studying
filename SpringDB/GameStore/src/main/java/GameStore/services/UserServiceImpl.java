@@ -3,7 +3,6 @@ package GameStore.services;
 import GameStore.domain.dtos.UserRegisterDTO;
 import GameStore.domain.entities.Game;
 import GameStore.domain.entities.User;
-import GameStore.repositories.GameRepository;
 import GameStore.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,12 @@ public class UserServiceImpl implements UserService {
     private User loggedInUser;
 
     private final ModelMapper mapper;
-    private final GameRepository gameRepository;
     private final UserRepository userRepository;
 
+
     @Autowired
-    public UserServiceImpl(ModelMapper mapper, GameRepository gameRepository, UserRepository userRepository) {
+    public UserServiceImpl(ModelMapper mapper, UserRepository userRepository) {
         this.mapper = mapper;
-        this.gameRepository = gameRepository;
         this.userRepository = userRepository;
     }
 
@@ -104,7 +102,9 @@ public class UserServiceImpl implements UserService {
             return NO_LOGGED_USER;
         }
 
-        return this.loggedInUser.getGames().stream().map(Game::getTitle).collect(Collectors.joining(System.lineSeparator()));
+        return this.loggedInUser.getGames().stream()
+                .map(Game::getTitle)
+                .collect(Collectors.joining(System.lineSeparator()));
     }
 
     @Override

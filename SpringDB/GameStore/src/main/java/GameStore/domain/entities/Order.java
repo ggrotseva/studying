@@ -21,9 +21,9 @@ public class Order extends BaseEntity {
         this.games = new HashSet<>();
     }
 
-    public Order(User user, Set<Game> games) {
+    public Order(User user) {
+        this();
         this.user = user;
-        this.games = games;
     }
 
     public User getUser() {
@@ -40,5 +40,13 @@ public class Order extends BaseEntity {
 
     public void setGames(Set<Game> games) {
         this.games = games;
+    }
+
+    public void addGame(Game game) {
+        this.games.add(game);
+    }
+
+    public void removeGame(Game game) {
+        this.games.remove(game);
     }
 }

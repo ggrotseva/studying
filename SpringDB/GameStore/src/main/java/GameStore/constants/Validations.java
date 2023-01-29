@@ -31,6 +31,11 @@ public enum Validations {
     public static final String INVALID_ID_MESSAGE = "Invalid game ID";
     public static final String NO_SUCH_GAME_MESSAGE = "No game with such title found";
 
+    // Order validation messages
+    public static final String ALREADY_PURCHASED_MESSAGE = "You already purchased this game";
+    public static final String ORDER_EMPTY_MESSAGE = "No items in the cart.";
+    public static final String NO_SUCH_GAME_IN_CART_MESSAGE = "No game with such title found in cart";
+
     // Common messages
     public static final String NO_ADMIN_RIGHTS_MESSAGE = "You have no admin rights!";
     public static final String COMMAND_NOT_FOUND_MESSAGE = "Command not found";

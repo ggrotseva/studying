@@ -8,12 +8,19 @@ import static GameStore.constants.Validations.*;
 public class GameDTO {
 
     private Long id;
+
     private String title;
+
     private String trailerId;
+
     private String imageUrl;
+
     private float size;
+
     private BigDecimal price;
+
     private String description;
+
     private LocalDate releaseDate;
 
     public GameDTO() {

@@ -2,6 +2,7 @@ package GameStore.domain.entities;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -20,16 +21,12 @@ public class User extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Game> games;
 
-//    @OneToMany(mappedBy = "user")
-//    private Set<Order> orders;
-
     @Column
     private boolean isAdmin;
     // boolean, not wrapper. Because default value is "false" and should be explicitly set
 
     public User() {
         this.games = new HashSet<>();
-//        this.orders = new HashSet<>();
     }
 
     public User(String email, String password, String fullName) {
@@ -72,19 +69,30 @@ public class User extends BaseEntity {
         this.games = games;
     }
 
-//    public Set<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(Set<Order> orders) {
-//        this.orders = orders;
-//    }
-
     public boolean isAdmin() {
         return isAdmin;
     }
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public void addGames(Set<Game> boughtGames) {
+        this.games.addAll(boughtGames);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password, getId());
     }
 }

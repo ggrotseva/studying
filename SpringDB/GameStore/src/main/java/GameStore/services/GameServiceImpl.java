@@ -25,6 +25,7 @@ public class GameServiceImpl implements GameService {
     public static final String GAME_DELETED_MESSAGE = "Deleted %s";
     public static final String GAME_EDITED_MESSAGE = "Edited %s";
     public static final String INVALID_FIELD_MESSAGE = "Invalid field name in edit command";
+    public static final String EXISTING_GAME_MESSAGE = "Game with this title already exists";
 
     private final GameRepository gameRepository;
     private final UserService userService;
@@ -40,7 +41,13 @@ public class GameServiceImpl implements GameService {
     @Override
     public String addGame(String[] tokens) {
         if (isAdminLogged()) {
+
             String title = tokens[1];
+
+            if (this.gameRepository.findByTitle(title).isPresent()) {
+                return EXISTING_GAME_MESSAGE;
+            }
+
             BigDecimal price = new BigDecimal(tokens[2]);
             float size = Float.parseFloat(tokens[3]);
             String trailerId = tokens[4];
@@ -56,7 +63,7 @@ public class GameServiceImpl implements GameService {
                 return e.getMessage();
             }
 
-            Game gameToAdd = mapper.map(game, Game.class);
+            final Game gameToAdd = mapper.map(game, Game.class);
 
             this.gameRepository.save(gameToAdd);
 
@@ -90,6 +97,7 @@ public class GameServiceImpl implements GameService {
 
             final Game game = mapper.map(gameDTO, Game.class);
 
+            // .save() does merge too
             this.gameRepository.save(game);
 
             return String.format(GAME_EDITED_MESSAGE, gameFromDB.getTitle());
@@ -103,7 +111,7 @@ public class GameServiceImpl implements GameService {
     public String deleteGame(Long id) {
         if (isAdminLogged()) {
 
-            Optional<Game> game = this.gameRepository.findFirstById(id);
+            final Optional<Game> game = this.gameRepository.findFirstById(id);
 
             if (game.isEmpty()) {
                 return INVALID_ID_MESSAGE;
@@ -125,6 +133,7 @@ public class GameServiceImpl implements GameService {
 //            return NO_LOGGED_USER;
 //        }
 
+
         return this.gameRepository.findAll().stream()
                 .map(game -> mapper.map(game, GameViewDTO.class))
                 .map(GameViewDTO::toTitleAndPrice)
@@ -137,7 +146,7 @@ public class GameServiceImpl implements GameService {
 //            return NO_LOGGED_USER;
 //        }
 
-        Optional<Game> gameFromDB = this.gameRepository.findByTitle(title);
+        final Optional<Game> gameFromDB = this.gameRepository.findByTitle(title);
 
         if (gameFromDB.isPresent()) {
 
@@ -157,7 +166,7 @@ public class GameServiceImpl implements GameService {
         return userService.getLoggedInUser() == null;
     }
 
-    @Transactional
+//    @Transactional
     private void parseEditCommand(GameDTO game, String command) {
         String[] commandTokens = command.split("=");
 
