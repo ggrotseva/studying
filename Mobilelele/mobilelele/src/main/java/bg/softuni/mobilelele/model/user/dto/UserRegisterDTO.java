@@ -12,7 +12,9 @@ public class UserRegisterDTO {
 
     private String lastName;
 
-    private UserRole role;
+    private String confirmPassword;
+
+//    private UserRole role;
 
     public String getUsername() {
         return username;
@@ -50,12 +52,21 @@ public class UserRegisterDTO {
         return this;
     }
 
-    public UserRole getRole() {
-        return role;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public UserRegisterDTO setRole(UserRole role) {
-        this.role = role;
+    public UserRegisterDTO setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
         return this;
     }
+
+    //    public UserRole getRole() {
+//        return role;
+//    }
+//
+//    public UserRegisterDTO setRole(UserRole role) {
+//        this.role = role;
+//        return this;
+//    }
 }
