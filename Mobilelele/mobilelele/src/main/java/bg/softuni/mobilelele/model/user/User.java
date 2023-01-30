@@ -4,6 +4,8 @@ import bg.softuni.mobilelele.model.userRole.UserRole;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -43,6 +45,7 @@ public class User {
     private LocalDateTime modified;
 
     public User() {
+        this.userRoles = new ArrayList<>();
     }
 
     public Long getId() {
@@ -100,7 +103,7 @@ public class User {
     }
 
     public List<UserRole> getUserRoles() {
-        return userRoles;
+        return Collections.unmodifiableList(this.userRoles);
     }
 
     public User setUserRoles(List<UserRole> userRoles) {
@@ -137,5 +140,9 @@ public class User {
 
     public void addRole(UserRole userRole) {
         this.userRoles.add(userRole);
+    }
+
+    public void removeRole(UserRole userRole) {
+        this.userRoles.remove(userRole);
     }
 }
