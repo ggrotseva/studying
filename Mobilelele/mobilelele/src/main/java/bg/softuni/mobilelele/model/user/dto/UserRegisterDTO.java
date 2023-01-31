@@ -61,7 +61,7 @@ public class UserRegisterDTO {
         return this;
     }
 
-    //    public UserRole getRole() {
+//    public UserRole getRole() {
 //        return role;
 //    }
 //
