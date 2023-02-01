@@ -14,11 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 //@SessionScope
 public class StateController extends BaseController {
 
-    private final String COOKIE_NAME = "uname";
+    private static final String COOKIE_NAME = "uname";
 
     @GetMapping("/register")
     public ModelAndView getRegister(Model model,
-             @CookieValue(required = false, defaultValue = COOKIE_NAME) String username) {
+                                    @CookieValue(required = false, defaultValue = COOKIE_NAME) String username) {
 
         model.addAttribute(COOKIE_NAME, username);
 
@@ -28,17 +28,21 @@ public class StateController extends BaseController {
     @PostMapping("/register")
     public ModelAndView getRegister(HttpServletResponse response,
                                     @RequestParam() String username) {
-
-        response.addCookie(new Cookie(COOKIE_NAME, username));
+        Cookie cookie = new Cookie(COOKIE_NAME, username);
+        response.addCookie(cookie);
 
         return super.redirect("/demo/login");
     }
 
     @GetMapping("/login")
-    public ModelAndView getLogin() {
-        return super.view("demo/login");
-    }
+    public ModelAndView getLogin(ModelAndView modelAndView,
+                                 @CookieValue(name = COOKIE_NAME, value = "")
+                                         String username) {
 
+        modelAndView.addObject(COOKIE_NAME, username);
+
+        return super.view("demo/login", modelAndView);
+    }
 
 //    @PostMapping("/login")
 //    public ModelAndView getLogin(UserLoginDTO userLoginDTO) {
