@@ -5,7 +5,7 @@
     <nav class="main-nav">
 
         <ul>
-            <th:block th:if="${true}">
+            <th:block th:if="${uname == null}">
                 <li>
                     <a href="/">Home</a>
                 </li>
@@ -20,15 +20,15 @@
                 </li>
             </th:block>
 
-            <th:block th:if="${false}">
+            <th:block th:unless="${uname == null}">
                 <li>
-                    <a href="/">Add new route</a>
+                    <a href="/routes/add">Add new route</a>
                 </li>
                 <li>
                     <a href="/">Profile</a>
                 </li>
                 <li>
-                    <a href="/">Logout</a>
+                    <a href="/logout">Logout</a>
                 </li>
                 <li>
                     <a href="/">Admin</a>
