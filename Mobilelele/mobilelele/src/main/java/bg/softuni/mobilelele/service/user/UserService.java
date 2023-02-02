@@ -1,5 +1,6 @@
 package bg.softuni.mobilelele.service.user;
 
+import bg.softuni.mobilelele.demo.CurrentUser;
 import bg.softuni.mobilelele.model.user.User;
 import bg.softuni.mobilelele.model.user.dto.UserLoginDTO;
 import bg.softuni.mobilelele.model.user.dto.UserRegisterDTO;
@@ -9,16 +10,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class UserService implements DatabaseInitService {
 
     private Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-    private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final UserRepository userRepository;
+    private CurrentUser currentUser;
+
+    public UserService(UserRepository userRepository, CurrentUser currentUser) {
         this.userRepository = userRepository;
+        this.currentUser = currentUser;
     }
 
     @Override
@@ -32,14 +37,18 @@ public class UserService implements DatabaseInitService {
     }
 
     public void registerAndLogin(UserRegisterDTO userRegisterDTO) {
+
         User newUser = new User()
                 .setActive(true)
-                .setFirstName(userRegisterDTO.getFirstName())
-                .setLastName(userRegisterDTO.getLastName())
+                .setCreated(LocalDateTime.now())
                 .setUsername(userRegisterDTO.getUsername())
-                .setPassword(userRegisterDTO.getPassword());
+                .setPassword(userRegisterDTO.getPassword())
+                .setFirstName(userRegisterDTO.getFirstName())
+                .setLastName(userRegisterDTO.getLastName());
 
-        this.userRepository.save(newUser);
+        userRepository.save(newUser);
+
+        login(newUser);
     }
 
     public boolean login(UserLoginDTO userLoginDTO) {
@@ -50,6 +59,24 @@ public class UserService implements DatabaseInitService {
             return false;
         }
 
-        return user.get().getPassword().equals(userLoginDTO.getPassword());
+        boolean success = user.get().getPassword().equals(userLoginDTO.getPassword());
+
+        if (success) {
+            login(user.get());
+        } else {
+            logout();
+        }
+
+        return success;
     }
+
+    public void login(User user) {
+        // TODO
+
+    }
+
+    public void logout() {
+        this.currentUser = null;
+    }
+
 }

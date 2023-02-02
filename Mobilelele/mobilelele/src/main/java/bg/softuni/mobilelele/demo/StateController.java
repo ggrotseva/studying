@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/demo")
-//@SessionScope
 public class StateController extends BaseController {
 
     private static final String USERNAME_KEY = "uname";
