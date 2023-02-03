@@ -1,16 +1,26 @@
-package bg.softuni.mobilelele.model.user.dto;
+package bg.softuni.mobilelele.model.dto;
 
-import bg.softuni.mobilelele.model.userRole.UserRole;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
 
+    @NotEmpty
+    @Size(min = 2, max = 20)
     private String username;
 
-    private String password;
-
+    @NotEmpty
+    @Size(min = 2, max = 20)
     private String firstName;
 
+    @NotEmpty
+    @Size(min = 2, max = 20)
     private String lastName;
+
+    @NotEmpty
+    @Size(min = 5)
+    private String password;
 
     private String confirmPassword;
 

@@ -1,11 +1,10 @@
-package bg.softuni.mobilelele.service.user;
+package bg.softuni.mobilelele.service;
 
-import bg.softuni.mobilelele.demo.CurrentUser;
-import bg.softuni.mobilelele.model.user.User;
-import bg.softuni.mobilelele.model.user.dto.UserLoginDTO;
-import bg.softuni.mobilelele.model.user.dto.UserRegisterDTO;
+import bg.softuni.mobilelele.user.CurrentUser;
+import bg.softuni.mobilelele.model.entities.User;
+import bg.softuni.mobilelele.model.dto.UserLoginDTO;
+import bg.softuni.mobilelele.model.dto.UserRegisterDTO;
 import bg.softuni.mobilelele.repository.UserRepository;
-import bg.softuni.mobilelele.service.DatabaseInitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -55,7 +54,7 @@ public class UserService implements DatabaseInitService {
         Optional<User> user = userRepository.findByUsername(userLoginDTO.getUsername());
 
         if (user.isEmpty()) {
-            LOGGER.debug("User with name [{}] not found.", userLoginDTO.getUsername());
+            LOGGER.info("User with name [{}] not found.", userLoginDTO.getUsername());
             return false;
         }
 
@@ -70,13 +69,14 @@ public class UserService implements DatabaseInitService {
         return success;
     }
 
-    public void login(User user) {
-        // TODO
-
+    private void login(User user) {
+        this.currentUser
+                .setLoggedIn(true)
+                .setName(user.getUsername());
     }
 
     public void logout() {
-        this.currentUser = null;
+        this.currentUser.clear();
     }
 
 }

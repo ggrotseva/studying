@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.service.brand;
+package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.repository.BrandRepository;
 import bg.softuni.mobilelele.service.DatabaseInitService;

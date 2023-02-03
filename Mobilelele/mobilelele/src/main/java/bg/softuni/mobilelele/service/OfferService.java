@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.service.offer;
+package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.repository.OfferRepository;
 import bg.softuni.mobilelele.service.DatabaseInitService;

@@ -1,6 +1,5 @@
-package bg.softuni.mobilelele.model.model;
+package bg.softuni.mobilelele.model.entities;
 
-import bg.softuni.mobilelele.model.brand.Brand;
 import bg.softuni.mobilelele.model.enums.Category;
 import jakarta.persistence.*;
 

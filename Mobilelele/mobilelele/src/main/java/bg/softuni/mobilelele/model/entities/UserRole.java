@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.model.userRole;
+package bg.softuni.mobilelele.model.entities;
 
 import bg.softuni.mobilelele.model.enums.UserRoleEnum;
 import jakarta.persistence.*;

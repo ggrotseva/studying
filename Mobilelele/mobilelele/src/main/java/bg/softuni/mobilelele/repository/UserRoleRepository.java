@@ -1,6 +1,6 @@
 package bg.softuni.mobilelele.repository;
 
-import bg.softuni.mobilelele.model.userRole.UserRole;
+import bg.softuni.mobilelele.model.entities.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

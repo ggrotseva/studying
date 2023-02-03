@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.model.userRole.dto;
+package bg.softuni.mobilelele.model.dto;
 
 import bg.softuni.mobilelele.model.enums.UserRoleEnum;
 

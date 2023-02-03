@@ -1,18 +1,16 @@
 package bg.softuni.mobilelele.web;
 
-import bg.softuni.mobilelele.model.user.dto.UserLoginDTO;
-import bg.softuni.mobilelele.model.user.dto.UserRegisterDTO;
-import bg.softuni.mobilelele.model.userRole.dto.UserRoleViewDTO;
-import bg.softuni.mobilelele.service.user.UserService;
-import bg.softuni.mobilelele.service.userRole.UserRoleService;
+import bg.softuni.mobilelele.model.dto.UserLoginDTO;
+import bg.softuni.mobilelele.model.dto.UserRegisterDTO;
+import bg.softuni.mobilelele.service.UserRoleService;
+import bg.softuni.mobilelele.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -34,23 +32,38 @@ public class UserController extends BaseController {
     @PostMapping("/login")
     public ModelAndView getLogin(UserLoginDTO userLoginDTO) {
 
-        System.out.println("User is logged: " + userService.login(userLoginDTO));
+        this.userService.login(userLoginDTO);
+
+//        System.out.println("User is logged: " + userService.login(userLoginDTO));
 
         return super.redirect("/");
     }
 
-    @GetMapping("/register")
-    public ModelAndView getRegister(ModelAndView modelAndView) {
+//    @GetMapping("/register")
+//    public ModelAndView getRegister(ModelAndView modelAndView) {
+//
+////        List<UserRoleViewDTO> roles = this.userRoleService.getRoles();
+////        modelAndView.addObject("roles", roles);
+//
+//        return super.view("auth-register", modelAndView);
+//    }
+//
+//    @PostMapping("/register")
+//    public ModelAndView postRegister(@Valid UserRegisterDTO userRegisterDTO,
+//                                     BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return super.redirect("/users/register");
+//        }
+//
+//        this.userService.registerAndLogin(userRegisterDTO);
+//
+//        return super.redirect("/");
+//    }
 
-//        List<UserRoleViewDTO> roles = this.userRoleService.getRoles();
-//        modelAndView.addObject("roles", roles);
-
-        return super.view("auth-register", modelAndView);
-    }
-
-    @PostMapping("/register")
-    public ModelAndView postRegister(@ModelAttribute UserRegisterDTO userRegisterDTO) {
-
-        return super.redirect("/users/login");
+    @GetMapping("/logout")
+    public ModelAndView getLogout() {
+        this.userService.logout();
+        return super.redirect("/");
     }
 }

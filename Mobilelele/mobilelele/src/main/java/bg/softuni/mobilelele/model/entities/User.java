@@ -1,6 +1,5 @@
-package bg.softuni.mobilelele.model.user;
+package bg.softuni.mobilelele.model.entities;
 
-import bg.softuni.mobilelele.model.userRole.UserRole;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

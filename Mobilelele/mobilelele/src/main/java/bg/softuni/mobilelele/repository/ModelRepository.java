@@ -1,6 +1,6 @@
 package bg.softuni.mobilelele.repository;
 
-import bg.softuni.mobilelele.model.model.Model;
+import bg.softuni.mobilelele.model.entities.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

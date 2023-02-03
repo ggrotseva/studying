@@ -1,10 +1,9 @@
-package bg.softuni.mobilelele.service.userRole;
+package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.model.enums.UserRoleEnum;
-import bg.softuni.mobilelele.model.userRole.UserRole;
-import bg.softuni.mobilelele.model.userRole.dto.UserRoleViewDTO;
+import bg.softuni.mobilelele.model.entities.UserRole;
+import bg.softuni.mobilelele.model.dto.UserRoleViewDTO;
 import bg.softuni.mobilelele.repository.UserRoleRepository;
-import bg.softuni.mobilelele.service.DatabaseInitService;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.model.brand;
+package bg.softuni.mobilelele.model.entities;
 
 import jakarta.persistence.*;
 

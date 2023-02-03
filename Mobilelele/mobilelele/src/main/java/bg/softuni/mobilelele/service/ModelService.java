@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.service.model;
+package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.repository.ModelRepository;
 import bg.softuni.mobilelele.service.DatabaseInitService;
