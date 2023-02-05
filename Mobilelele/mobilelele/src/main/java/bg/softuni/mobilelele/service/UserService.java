@@ -1,15 +1,17 @@
 package bg.softuni.mobilelele.service;
 
-import bg.softuni.mobilelele.user.CurrentUser;
-import bg.softuni.mobilelele.model.entities.User;
 import bg.softuni.mobilelele.model.dto.UserLoginDTO;
 import bg.softuni.mobilelele.model.dto.UserRegisterDTO;
+import bg.softuni.mobilelele.model.entities.User;
 import bg.softuni.mobilelele.repository.UserRepository;
+import bg.softuni.mobilelele.user.CurrentUser;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,11 +19,20 @@ public class UserService implements DatabaseInitService {
 
     private Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
+    private static final String USER_ROLE = "USER";
+
     private final UserRepository userRepository;
+    private final UserRoleService userRoleService;
+    private final ModelMapper mapper;
+
     private CurrentUser currentUser;
 
-    public UserService(UserRepository userRepository, CurrentUser currentUser) {
+    public UserService(UserRepository userRepository,
+                       UserRoleService userRoleService,
+                       ModelMapper mapper, CurrentUser currentUser) {
         this.userRepository = userRepository;
+        this.userRoleService = userRoleService;
+        this.mapper = mapper;
         this.currentUser = currentUser;
     }
 
@@ -35,19 +46,17 @@ public class UserService implements DatabaseInitService {
         return this.userRepository.count() > 0;
     }
 
-    public void registerAndLogin(UserRegisterDTO userRegisterDTO) {
+    public void register(UserRegisterDTO userRegisterDTO) {
 
-        User newUser = new User()
+        User newUser = mapper.map(userRegisterDTO, User.class)
                 .setActive(true)
                 .setCreated(LocalDateTime.now())
-                .setUsername(userRegisterDTO.getUsername())
-                .setPassword(userRegisterDTO.getPassword())
-                .setFirstName(userRegisterDTO.getFirstName())
-                .setLastName(userRegisterDTO.getLastName());
+                .setUserRoles(this.userRepository.count() == 0 ?
+                        this.userRoleService.getRoles() :
+                        List.of(this.userRoleService.findByRole(USER_ROLE)));
 
         userRepository.save(newUser);
 
-        login(newUser);
     }
 
     public boolean login(UserLoginDTO userLoginDTO) {

@@ -24,8 +24,6 @@ public class UserRegisterDTO {
 
     private String confirmPassword;
 
-//    private UserRole role;
-
     public String getUsername() {
         return username;
     }
@@ -70,13 +68,4 @@ public class UserRegisterDTO {
         this.confirmPassword = confirmPassword;
         return this;
     }
-
-//    public UserRole getRole() {
-//        return role;
-//    }
-//
-//    public UserRegisterDTO setRole(UserRole role) {
-//        this.role = role;
-//        return this;
-//    }
 }

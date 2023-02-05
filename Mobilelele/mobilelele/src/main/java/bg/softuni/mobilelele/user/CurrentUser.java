@@ -1,7 +1,10 @@
 package bg.softuni.mobilelele.user;
 
+import bg.softuni.mobilelele.model.dto.UserRoleViewDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
+
+import java.util.List;
 
 @Component
 @SessionScope
@@ -12,6 +15,8 @@ public class CurrentUser {
     private boolean loggedIn;
 
     private boolean isAdmin;
+
+    private List<UserRoleViewDTO> roles;
 
     public String getName() {
         return name;
@@ -40,6 +45,15 @@ public class CurrentUser {
         return isAdmin;
     }
 
+    public List<UserRoleViewDTO> getRoles() {
+        return roles;
+    }
+
+    public CurrentUser setRole(List<UserRoleViewDTO> roles) {
+        this.roles = roles;
+        return this;
+    }
+
     public boolean isAnonymous() {
         return !isLoggedIn();
     }
@@ -47,6 +61,7 @@ public class CurrentUser {
     public void clear() {
         this.loggedIn = false;
         this.name = null;
+        this.roles = null;
         this.isAdmin = false;
     }
 

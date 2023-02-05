@@ -16,11 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/users")
 public class UserController extends BaseController {
 
-    private final UserRoleService userRoleService;
     private final UserService userService;
 
-    public UserController(UserRoleService userRoleService, UserService userService) {
-        this.userRoleService = userRoleService;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -32,18 +30,13 @@ public class UserController extends BaseController {
     @PostMapping("/login")
     public ModelAndView getLogin(UserLoginDTO userLoginDTO) {
 
-        this.userService.login(userLoginDTO);
-
-//        System.out.println("User is logged: " + userService.login(userLoginDTO));
-
-        return super.redirect("/");
+        return this.userService.login(userLoginDTO)
+                ? super.redirect("/")
+                : super.redirect("/users/login");
     }
 
 //    @GetMapping("/register")
 //    public ModelAndView getRegister(ModelAndView modelAndView) {
-//
-////        List<UserRoleViewDTO> roles = this.userRoleService.getRoles();
-////        modelAndView.addObject("roles", roles);
 //
 //        return super.view("auth-register", modelAndView);
 //    }

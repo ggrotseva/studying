@@ -1,4 +1,4 @@
-package bg.softuni.mobilelele.model.dto;
+package bg.softuni.mobilelele.demo;
 
 public class UserRegisterDemoDTO {
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserRoleService implements DatabaseInitService {
@@ -41,9 +42,14 @@ public class UserRoleService implements DatabaseInitService {
         return this.userRoleRepository.count() > 0;
     }
 
-    public List<UserRoleViewDTO> getRoles() {
+    public List<UserRole> getRoles() {
         return this.userRoleRepository.findAll().stream()
-                .map(role -> this.mapper.map(role, UserRoleViewDTO.class))
+//                .map(role -> this.mapper.map(role, UserRoleViewDTO.class))
                 .toList();
+    }
+
+    public UserRole findByRole(String userRole) {
+        return this.userRoleRepository.findByRole(userRole)
+                .orElseThrow(NoSuchElementException::new);
     }
 }

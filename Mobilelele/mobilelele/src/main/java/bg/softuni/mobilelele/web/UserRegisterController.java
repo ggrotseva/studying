@@ -46,9 +46,9 @@ public class UserRegisterController extends BaseController {
             return super.redirect("/users/register");
         }
 
-        this.userService.registerAndLogin(userRegisterDTO);
+        this.userService.register(userRegisterDTO);
 
-        return super.redirect("/");
+        return super.redirect("/users/login");
     }
 
 }
