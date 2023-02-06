@@ -1,4 +1,4 @@
-package bg.softuni.pathfinder.model.dtos;
+package bg.softuni.pathfinder.model.dto;
 
 import bg.softuni.pathfinder.model.Route;
 

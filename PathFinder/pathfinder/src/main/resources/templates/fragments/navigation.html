@@ -3,37 +3,37 @@
 
 <header th:fragment="navigation">
     <nav class="main-nav">
-
         <ul>
-            <th:block th:if="${uname == null}">
+
+<!--            <th:block th:if="${uname == null}">-->
                 <li>
                     <a href="/">Home</a>
                 </li>
                 <li>
-                    <a href="/user/login">Login</a>
+                    <a th:href="@{/login}">Login</a>
                 </li>
                 <li>
-                    <a href="/user/register">Register</a>
+                    <a th:href="@{/register}">Register</a>
                 </li>
                 <li>
-                    <a href="/about">About</a>
+                    <a th:href="@{/about}">About</a>
                 </li>
-            </th:block>
+<!--            </th:block>-->
 
-            <th:block th:unless="${uname == null}">
+<!--            <th:block th:unless="${uname == null}">-->
                 <li>
-                    <a href="/routes/add">Add new route</a>
+                    <a th:href="@{/routes/add}">Add new route</a>
                 </li>
                 <li>
                     <a href="/">Profile</a>
                 </li>
                 <li>
-                    <a href="/logout">Logout</a>
+                    <a th:href="@{/logout}">Logout</a>
                 </li>
                 <li>
                     <a href="/">Admin</a>
                 </li>
-            </th:block>
+<!--            </th:block>-->
 
         </ul>
     </nav>

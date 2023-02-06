@@ -1,7 +1,6 @@
 package bg.softuni.pathfinder.web;
 
-import bg.softuni.pathfinder.model.Route;
-import bg.softuni.pathfinder.model.dtos.MostCommentedRouteDTO;
+import bg.softuni.pathfinder.model.dto.MostCommentedRouteDTO;
 import bg.softuni.pathfinder.service.RouteService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;

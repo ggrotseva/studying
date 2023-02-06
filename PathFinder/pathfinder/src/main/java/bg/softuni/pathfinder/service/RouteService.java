@@ -1,7 +1,6 @@
 package bg.softuni.pathfinder.service;
 
-import bg.softuni.pathfinder.model.Route;
-import bg.softuni.pathfinder.model.dtos.MostCommentedRouteDTO;
+import bg.softuni.pathfinder.model.dto.MostCommentedRouteDTO;
 import bg.softuni.pathfinder.repository.RouteRepository;
 import org.springframework.stereotype.Service;
 
