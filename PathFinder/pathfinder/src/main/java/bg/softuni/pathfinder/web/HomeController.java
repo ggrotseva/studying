@@ -20,14 +20,12 @@ public class HomeController {
     @GetMapping("/")
     public String home(HttpSession httpSession, Model model) {
 
-        final String sessionUsername = httpSession.getAttribute(USERNAME_KEY) != null
-                ? httpSession.getAttribute(USERNAME_KEY).toString()
-                : "";
+//        final Object sessionUsername = httpSession.getAttribute(USERNAME_KEY);
 
         MostCommentedRouteDTO routeDto = routeService.getMostCommented();
 
         model.addAttribute("mostCommented", routeDto);
-        model.addAttribute(USERNAME_KEY, sessionUsername);
+//        model.addAttribute(USERNAME_KEY, sessionUsername);
 
         return "index";
     }

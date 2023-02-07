@@ -1,5 +1,6 @@
 package bg.softuni.pathfinder.web;
 
+import bg.softuni.pathfinder.model.dto.UserLoginDTO;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
 import bg.softuni.pathfinder.service.AuthService;
 import jakarta.validation.Valid;
@@ -34,11 +35,10 @@ public class AuthController extends BaseController {
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
 
-//        bindingResult.rejectValue(userRegisterDTO.getUsername(), "email.used", "Email is already in use");
-
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegisterDTO", userRegisterDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDTO", bindingResult);
+            bindingResult.rejectValue("email", "email.used", "Email is already used");
 
             return "redirect:/register";
         }
@@ -51,5 +51,19 @@ public class AuthController extends BaseController {
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String doLogin(UserLoginDTO userLoginDTO) {
+
+        return this.authService.login(userLoginDTO) ?
+                "redirect:/" :
+                "redirect:/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        this.authService.logout();
+        return "redirect:/";
     }
 }

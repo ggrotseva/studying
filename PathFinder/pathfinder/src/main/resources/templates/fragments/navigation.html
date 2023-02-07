@@ -5,7 +5,7 @@
     <nav class="main-nav">
         <ul>
 
-<!--            <th:block th:if="${uname == null}">-->
+            <th:block th:unless="${@currentUser.isLogged()}">
                 <li>
                     <a href="/">Home</a>
                 </li>
@@ -18,9 +18,9 @@
                 <li>
                     <a th:href="@{/about}">About</a>
                 </li>
-<!--            </th:block>-->
+            </th:block>
 
-<!--            <th:block th:unless="${uname == null}">-->
+            <th:block th:if="${@currentUser.isLogged()}">
                 <li>
                     <a th:href="@{/routes/add}">Add new route</a>
                 </li>
@@ -33,7 +33,7 @@
                 <li>
                     <a href="/">Admin</a>
                 </li>
-<!--            </th:block>-->
+            </th:block>
 
         </ul>
     </nav>
