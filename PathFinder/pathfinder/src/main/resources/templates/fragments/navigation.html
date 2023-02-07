@@ -27,11 +27,11 @@
                 <li>
                     <a href="/">Profile</a>
                 </li>
-                <li>
-                    <a th:href="@{/logout}">Logout</a>
+                <li th:if="${@currentUser.isAdmin()}">
+                    <a href="/">Admin</a>
                 </li>
                 <li>
-                    <a href="/">Admin</a>
+                    <a th:href="@{/logout}">Logout</a>
                 </li>
             </th:block>
 

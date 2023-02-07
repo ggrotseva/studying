@@ -1,5 +1,6 @@
 package bg.softuni.pathfinder.service;
 
+import bg.softuni.pathfinder.model.Role;
 import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.UserLoginDTO;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -80,6 +82,7 @@ public class AuthService {
     private void login(User user) {
         this.currentUser
                 .setUsername(user.getUsername())
+                .setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
                 .setLogged(true);
     }
 

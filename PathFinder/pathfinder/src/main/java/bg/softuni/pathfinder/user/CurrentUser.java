@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @SessionScope
@@ -14,7 +15,7 @@ public class CurrentUser {
 
     private boolean isLogged;
 
-    private List<UserRole> roles;
+    private Set<UserRole> roles;
 
     public String getUsername() {
         return username;
@@ -34,13 +35,17 @@ public class CurrentUser {
         return this;
     }
 
-    public List<UserRole> getRoles() {
+    public Set<UserRole> getRoles() {
         return roles;
     }
 
-    public CurrentUser setRoles(List<UserRole> roles) {
+    public CurrentUser setRoles(Set<UserRole> roles) {
         this.roles = roles;
         return this;
+    }
+
+    public boolean isAdmin() {
+        return this.roles.stream().anyMatch(r -> r.equals(UserRole.ADMIN));
     }
 
     public void clear() {
