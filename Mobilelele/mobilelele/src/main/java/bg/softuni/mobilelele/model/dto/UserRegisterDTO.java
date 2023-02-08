@@ -1,13 +1,15 @@
 package bg.softuni.mobilelele.model.dto;
 
 
+import bg.softuni.mobilelele.model.validation.UniqueUsername;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
 
-    @NotEmpty
-    @Size(min = 2, max = 20)
+    @NotEmpty(message = "Username is required")
+    @Size(min = 2, max = 20, message = "Size must be between 2 and 20 characters.")
+    @UniqueUsername(message = "User with this name already exists")
     private String username;
 
     @NotEmpty

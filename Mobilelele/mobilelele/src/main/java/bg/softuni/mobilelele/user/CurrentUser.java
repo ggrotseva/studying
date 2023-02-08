@@ -1,9 +1,11 @@
 package bg.softuni.mobilelele.user;
 
 import bg.softuni.mobilelele.model.dto.UserRoleViewDTO;
+import bg.softuni.mobilelele.model.enums.UserRoleEnum;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -14,9 +16,11 @@ public class CurrentUser {
 
     private boolean loggedIn;
 
-    private boolean isAdmin;
-
     private List<UserRoleViewDTO> roles;
+
+    public CurrentUser() {
+        this.roles = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
@@ -36,13 +40,8 @@ public class CurrentUser {
         return this;
     }
 
-    public CurrentUser setAdmin(boolean admin) {
-        isAdmin = admin;
-        return this;
-    }
-
     public boolean isAdmin() {
-        return isAdmin;
+        return this.roles.stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN));
     }
 
     public List<UserRoleViewDTO> getRoles() {
@@ -62,7 +61,6 @@ public class CurrentUser {
         this.loggedIn = false;
         this.name = null;
         this.roles = null;
-        this.isAdmin = false;
     }
 
 }

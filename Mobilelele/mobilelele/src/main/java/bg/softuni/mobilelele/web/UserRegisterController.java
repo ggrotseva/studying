@@ -24,8 +24,8 @@ public class UserRegisterController extends BaseController {
     }
 
     @ModelAttribute("userModel")
-    public void initUserModel(Model model) {
-        model.addAttribute("userModel", new UserRegisterDTO());
+    public UserRegisterDTO initUserModel() {
+        return new UserRegisterDTO();
     }
 
     @GetMapping("/register")
