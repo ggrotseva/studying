@@ -1,6 +1,6 @@
 package bg.softuni.pathfinder.repository;
 
-import bg.softuni.pathfinder.model.Route;
+import bg.softuni.pathfinder.model.entities.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

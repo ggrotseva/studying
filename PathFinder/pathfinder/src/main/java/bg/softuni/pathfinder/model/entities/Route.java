@@ -1,9 +1,7 @@
-package bg.softuni.pathfinder.model;
+package bg.softuni.pathfinder.model.entities;
 
 import bg.softuni.pathfinder.model.enums.Level;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Set;

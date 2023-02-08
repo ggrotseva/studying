@@ -38,7 +38,6 @@ public class AuthController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegisterDTO", userRegisterDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDTO", bindingResult);
-            bindingResult.rejectValue("email", "email.used", "Email is already used");
 
             return "redirect:/register";
         }

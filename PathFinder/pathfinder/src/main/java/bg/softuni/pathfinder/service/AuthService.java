@@ -1,7 +1,7 @@
 package bg.softuni.pathfinder.service;
 
-import bg.softuni.pathfinder.model.Role;
-import bg.softuni.pathfinder.model.User;
+import bg.softuni.pathfinder.model.entities.Role;
+import bg.softuni.pathfinder.model.entities.User;
 import bg.softuni.pathfinder.model.dto.UserLoginDTO;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
 import bg.softuni.pathfinder.repository.UserRepository;
@@ -62,16 +62,16 @@ public class AuthService {
     }
 
     public boolean login(UserLoginDTO userLoginDTO) {
-        Optional<User> byUsername = this.userRepository.findByUsername(userLoginDTO.getUsername());
+        Optional<User> user = this.userRepository.findByUsername(userLoginDTO.getUsername());
 
-        if (byUsername.isEmpty()) {
+        if (user.isEmpty()) {
             return false;
         }
 
-        boolean success = byUsername.get().getPassword().equals(userLoginDTO.getPassword());
+        boolean success = user.get().getPassword().equals(userLoginDTO.getPassword());
 
         if (success) {
-            login(byUsername.get());
+            login(user.get());
         } else {
             logout();
         }

@@ -1,4 +1,4 @@
-package bg.softuni.pathfinder.model;
+package bg.softuni.pathfinder.model.entities;
 
 import jakarta.persistence.*;
 

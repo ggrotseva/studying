@@ -1,11 +1,14 @@
 package bg.softuni.pathfinder.model.dto;
 
+import bg.softuni.pathfinder.model.validations.UniqueEmail;
+import bg.softuni.pathfinder.model.validations.UniqueUsername;
 import jakarta.validation.constraints.*;
 
 public class UserRegisterDTO {
 
     @NotBlank
     @Size(min = 5, max = 20)
+    @UniqueUsername
     private String username;
 
     @NotBlank
@@ -14,6 +17,7 @@ public class UserRegisterDTO {
 
     @NotBlank
     @Email
+    @UniqueEmail
     private String email;
 
     @Min(0)

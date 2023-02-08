@@ -1,7 +1,7 @@
 package bg.softuni.pathfinder.service;
 
-import bg.softuni.pathfinder.model.Role;
-import bg.softuni.pathfinder.model.User;
+import bg.softuni.pathfinder.model.entities.Role;
+import bg.softuni.pathfinder.model.entities.User;
 import bg.softuni.pathfinder.model.enums.UserRole;
 import bg.softuni.pathfinder.repository.UserRepository;
 import org.springframework.stereotype.Service;

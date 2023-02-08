@@ -1,6 +1,6 @@
 package bg.softuni.pathfinder.model.dto;
 
-import bg.softuni.pathfinder.model.Route;
+import bg.softuni.pathfinder.model.entities.Route;
 
 public class MostCommentedRouteDTO {
 

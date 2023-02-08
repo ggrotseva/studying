@@ -1,6 +1,6 @@
 package bg.softuni.pathfinder.service;
 
-import bg.softuni.pathfinder.model.Role;
+import bg.softuni.pathfinder.model.entities.Role;
 import bg.softuni.pathfinder.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
