@@ -28,13 +28,13 @@
                                class="form-control"
                                aria-describedby="usernameHelpInline">
                         <!--                       required minlength="5" maxlength="20"-->
-<!--                        <small id="usernameError"-->
-<!--                               class="invalid-feedback bg-danger rounded">Username length must be more than 3-->
-<!--                            characters</small>-->
+                        <!--                        <small id="usernameError"-->
+                        <!--                               class="invalid-feedback bg-danger rounded">Username length must be more than 3-->
+                        <!--                            characters</small>-->
 
-                            <small th:each="err : ${#fields.errors('username')}" th:text="${err}"
-                                   id="usernameUniqueError"
-                                   class=" bg-danger rounded">Username is already occupied</small>
+                        <small th:each="err : ${#fields.errors('username')}" th:text="${err}"
+                               id="usernameUniqueError"
+                               class=" bg-danger rounded">Username error</small>
 
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                         <!--                        required-->
                         <small th:each="err : ${#fields.errors('email')}" th:text="${err}"
                                id="emailError"
-                                class="invalid-feedback form-text bg-danger rounded">Must be valid email</small>
+                               class="invalid-feedback form-text bg-danger rounded">Must be valid email</small>
                     </div>
                 </div>
                 <div>
@@ -100,14 +100,14 @@
                     <div class="col-auto">
                         <input name="password"
                                th:field="*{password}"
-                               required minlength="5" maxlength="20"
                                type="password"
                                id="inputPassword"
                                class="form-control"
                                aria-describedby="passwordHelpInline">
+                        <!--                        required minlength="5" maxlength="20"-->
                         <small id="passwordError"
                                class="invalid-feedback  form-text bg-danger rounded">
-                            Password length must be between 5 and 20 characters and passwords should match.
+                            Password length must be between 5 and 20 characters.
                         </small>
                     </div>
                 </div>
@@ -119,14 +119,14 @@
                     <div class="col-auto">
                         <input name="confirmPassword"
                                th:field="*{confirmPassword}"
-                               required minlength="5" maxlength="20"
+                               th:errorclass="is-invalid"
                                type="password"
                                id="inputConfirmPassword"
                                class="form-control"
                                aria-describedby="confirmPasswordHelpInline">
                         <small id="confirmPasswordError"
                                class="invalid-feedback  form-text bg-danger rounded">
-                            Password length must be between 5 and 20 characters and passwords should match.
+                            Passwords should match.
                         </small>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ import bg.softuni.pathfinder.model.entities.Role;
 import bg.softuni.pathfinder.model.entities.User;
 import bg.softuni.pathfinder.model.dto.UserLoginDTO;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
+import bg.softuni.pathfinder.model.enums.Level;
 import bg.softuni.pathfinder.repository.UserRepository;
 import bg.softuni.pathfinder.user.CurrentUser;
 import org.springframework.stereotype.Service;
@@ -26,23 +27,7 @@ public class AuthService {
         this.currentUser = currentUser;
     }
 
-    public boolean register(UserRegisterDTO registerDTO) {
-
-        if (!registerDTO.getPassword().equals(registerDTO.getConfirmPassword())) {
-            throw new RuntimeException("passwords.match");
-        }
-
-        Optional<User> byEmail = this.userRepository.findByEmail(registerDTO.getEmail());
-
-        if (byEmail.isPresent()) {
-            throw new RuntimeException("email.used");
-        }
-
-        Optional<User> byUsername = this.userRepository.findByUsername(registerDTO.getUsername());
-
-        if (byUsername.isPresent()) {
-            throw new RuntimeException("username.used");
-        }
+    public void register(UserRegisterDTO registerDTO) {
 
         User user = new User(
                 registerDTO.getUsername(),
@@ -50,15 +35,11 @@ public class AuthService {
                 registerDTO.getEmail(),
                 registerDTO.getFullName(),
                 registerDTO.getAge())
-                .setRoles(Set.of(this.roleService.findByName("USER")));
+                .setLevel(Level.BEGINNER)
+                .setRoles(Set.of(this.roleService.findByName("USER"))
+                );
 
         this.userRepository.save(user);
-
-        this.currentUser
-                .setUsername(user.getUsername())
-                .setLogged(true);
-
-        return true;
     }
 
     public boolean login(UserLoginDTO userLoginDTO) {

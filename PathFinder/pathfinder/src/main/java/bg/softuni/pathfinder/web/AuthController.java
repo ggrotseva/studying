@@ -48,16 +48,25 @@ public class AuthController extends BaseController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@ModelAttribute("userLoginDTO") UserLoginDTO userLoginDTO) {
         return "login";
     }
 
     @PostMapping("/login")
-    public String doLogin(UserLoginDTO userLoginDTO) {
+    public String doLogin(@Valid UserLoginDTO userLoginDTO,
+                          BindingResult bindingResult,
+                          RedirectAttributes redirectAttributes) {
 
-        return this.authService.login(userLoginDTO) ?
-                "redirect:/" :
-                "redirect:/login";
+        if (bindingResult.hasErrors() || !this.authService.login(userLoginDTO)) {
+            redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
+
+            // when I put an error message in the form, I'll need this
+//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
+
+            return "redirect:/login";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/logout")

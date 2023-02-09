@@ -1,6 +1,7 @@
 package bg.softuni.pathfinder.service;
 
 import bg.softuni.pathfinder.model.entities.Role;
+import bg.softuni.pathfinder.model.enums.UserRole;
 import bg.softuni.pathfinder.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class RoleService {
     }
 
     public Role findByName(String name) {
-        return this.roleRepository.findByName(name)
+        return this.roleRepository.findByName(UserRole.valueOf(name.toUpperCase()))
                 .orElseThrow(NoSuchElementException::new);
     }
 }

@@ -1,9 +1,13 @@
 package bg.softuni.pathfinder.model.dto;
 
+import bg.softuni.pathfinder.model.validations.FieldMatch;
 import bg.softuni.pathfinder.model.validations.UniqueEmail;
 import bg.softuni.pathfinder.model.validations.UniqueUsername;
 import jakarta.validation.constraints.*;
 
+@FieldMatch(first = "password",
+        second = "confirmPassword",
+        message = "Passwords don't match.")
 public class UserRegisterDTO {
 
     @NotBlank
