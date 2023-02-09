@@ -16,7 +16,7 @@ public class OfferController extends BaseController {
 
     @GetMapping("/add")
     public ModelAndView getAddOffer() {
-        return super.view("offers-add");
+        return super.view("offer-add");
     }
 
 

@@ -58,9 +58,10 @@
                        placeholder="First name"/>
                 <div class="invalid-feedback errors alert alert-danger">
                     <div th:each="err : ${#fields.errors('username')}" th:text="${err}">
-                    Username is required.</div>
+                        Username is required.
+                    </div>
                 </div>
-                <!--                add Username should be between 2 and 20 symbols-->
+                <!--                Username should be between 2 and 20 symbols-->
 
             </div>
             <div class="form-group col-md-6 mb-3">
@@ -78,8 +79,11 @@
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="confirmPassword" class="text-white font-weight-bold">Password confirm</label>
-                <input id="confirmPassword" name="confirmPassword" type="password" class="form-control"
-                       placeholder="Password"/>
+                <input id="confirmPassword"
+                       th:field="*{confirmPassword}"
+                       th:errorclass="is-invalid"
+                       type="password" class="form-control"
+                       placeholder="Confirm Password"/>
                 <p class="invalid-feedback errors alert alert-danger">
                     Password doesn't match.
                 </p>
