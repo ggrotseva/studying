@@ -24,10 +24,10 @@ public class Model {
     private String imageUrl;
 
     @Column(name = "start_year")
-    private int startYear;
+    private Integer startYear;
 
     @Column(name = "end_year")
-    private int endYear;
+    private Integer endYear;
 
     @Column
     private LocalDateTime created;
@@ -78,20 +78,20 @@ public class Model {
         return this;
     }
 
-    public int getStartYear() {
+    public Integer getStartYear() {
         return startYear;
     }
 
-    public Model setStartYear(int startYear) {
+    public Model setStartYear(Integer startYear) {
         this.startYear = startYear;
         return this;
     }
 
-    public int getEndYear() {
+    public Integer getEndYear() {
         return endYear;
     }
 
-    public Model setEndYear(int endYear) {
+    public Model setEndYear(Integer endYear) {
         this.endYear = endYear;
         return this;
     }

@@ -12,7 +12,7 @@ import java.util.List;
 @SessionScope
 public class CurrentUser {
 
-    private String name;
+    private String username;
 
     private boolean loggedIn;
 
@@ -22,12 +22,12 @@ public class CurrentUser {
         this.roles = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public CurrentUser setName(String name) {
-        this.name = name;
+    public CurrentUser setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -59,8 +59,8 @@ public class CurrentUser {
 
     public void clear() {
         this.loggedIn = false;
-        this.name = null;
-        this.roles = null;
+        this.username = null;
+        this.roles = new ArrayList<>();
     }
 
 }

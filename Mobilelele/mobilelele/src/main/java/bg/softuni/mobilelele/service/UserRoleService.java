@@ -49,7 +49,7 @@ public class UserRoleService implements DatabaseInitService {
     }
 
     public UserRole findByRole(String userRole) {
-        return this.userRoleRepository.findByRole(userRole)
+        return this.userRoleRepository.findByRole(UserRoleEnum.valueOf(userRole))
                 .orElseThrow(NoSuchElementException::new);
     }
 }

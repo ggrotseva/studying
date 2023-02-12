@@ -1,8 +1,11 @@
 package bg.softuni.mobilelele.model.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "brands")
@@ -21,9 +24,9 @@ public class Brand {
     @Column
     private LocalDateTime modified;
 
-//    @OneToMany
-//    @Fetch(FetchMode.JOIN)
-//    private List<Model> models;
+    @OneToMany(mappedBy = "brand")
+    @Fetch(FetchMode.JOIN)
+    private List<Model> models;
 
     public Brand() {
     }
@@ -61,6 +64,15 @@ public class Brand {
 
     public Brand setModified(LocalDateTime modified) {
         this.modified = modified;
+        return this;
+    }
+
+    public List<Model> getModels() {
+        return models;
+    }
+
+    public Brand setModels(List<Model> models) {
+        this.models = models;
         return this;
     }
 }
