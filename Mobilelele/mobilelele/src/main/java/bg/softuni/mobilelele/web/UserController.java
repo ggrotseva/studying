@@ -27,6 +27,7 @@ public class UserController extends BaseController {
         return new UserLoginDTO();
     }
 
+
     @GetMapping("/login")
     public ModelAndView getLogin() {
         return super.view("auth-login");
@@ -37,14 +38,14 @@ public class UserController extends BaseController {
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors() || !this.userService.login(userLoginDTO)) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
-
-            // when I put an error message in the form, I'll need this
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
 
             return super.redirect("/users/login");
         }
+
+        this.userService.login(userLoginDTO);
 
         return  super.redirect("/");
     }

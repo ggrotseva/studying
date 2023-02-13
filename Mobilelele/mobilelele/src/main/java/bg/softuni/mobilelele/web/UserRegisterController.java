@@ -27,6 +27,7 @@ public class UserRegisterController extends BaseController {
         return new UserRegisterDTO();
     }
 
+
     @GetMapping("/register")
     public ModelAndView getRegister() {
         return super.view("auth-register");

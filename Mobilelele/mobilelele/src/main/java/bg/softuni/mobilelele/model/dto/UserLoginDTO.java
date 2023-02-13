@@ -1,8 +1,15 @@
 package bg.softuni.mobilelele.model.dto;
 
+import bg.softuni.mobilelele.model.validation.ValidateLoginUser;
+import jakarta.validation.constraints.NotBlank;
+
+@ValidateLoginUser
 public class UserLoginDTO {
 
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String password;
 
     public String getUsername() {

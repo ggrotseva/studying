@@ -4,7 +4,7 @@ import bg.softuni.mobilelele.model.enums.Engine;
 import bg.softuni.mobilelele.model.enums.Transmission;
 import jakarta.validation.constraints.*;
 
-public class AddOfferDTO {
+public class OfferAddDTO {
 
     @NotNull
     @Min(1)
@@ -39,7 +39,7 @@ public class AddOfferDTO {
         return modelId;
     }
 
-    public AddOfferDTO setModelId(Long modelId) {
+    public OfferAddDTO setModelId(Long modelId) {
         this.modelId = modelId;
         return this;
     }
@@ -48,7 +48,7 @@ public class AddOfferDTO {
         return description;
     }
 
-    public AddOfferDTO setDescription(String description) {
+    public OfferAddDTO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -57,7 +57,7 @@ public class AddOfferDTO {
         return engine;
     }
 
-    public AddOfferDTO setEngine(Engine engine) {
+    public OfferAddDTO setEngine(Engine engine) {
         this.engine = engine;
         return this;
     }
@@ -66,7 +66,7 @@ public class AddOfferDTO {
         return imageUrl;
     }
 
-    public AddOfferDTO setImageUrl(String imageUrl) {
+    public OfferAddDTO setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
@@ -75,7 +75,7 @@ public class AddOfferDTO {
         return transmission;
     }
 
-    public AddOfferDTO setTransmission(Transmission transmission) {
+    public OfferAddDTO setTransmission(Transmission transmission) {
         this.transmission = transmission;
         return this;
     }
@@ -84,7 +84,7 @@ public class AddOfferDTO {
         return mileage;
     }
 
-    public AddOfferDTO setMileage(Integer mileage) {
+    public OfferAddDTO setMileage(Integer mileage) {
         this.mileage = mileage;
         return this;
     }
@@ -93,7 +93,7 @@ public class AddOfferDTO {
         return price;
     }
 
-    public AddOfferDTO setPrice(Integer price) {
+    public OfferAddDTO setPrice(Integer price) {
         this.price = price;
         return this;
     }
@@ -102,7 +102,7 @@ public class AddOfferDTO {
         return year;
     }
 
-    public AddOfferDTO setYear(Integer year) {
+    public OfferAddDTO setYear(Integer year) {
         this.year = year;
         return this;
     }

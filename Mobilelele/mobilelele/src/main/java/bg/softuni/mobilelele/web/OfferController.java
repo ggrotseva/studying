@@ -1,6 +1,6 @@
 package bg.softuni.mobilelele.web;
 
-import bg.softuni.mobilelele.model.dto.AddOfferDTO;
+import bg.softuni.mobilelele.model.dto.OfferAddDTO;
 import bg.softuni.mobilelele.service.BrandService;
 import bg.softuni.mobilelele.service.OfferService;
 import jakarta.validation.Valid;
@@ -32,8 +32,8 @@ public class OfferController extends BaseController {
 
     @GetMapping("/add")
     public ModelAndView getAddOffer(Model model) {
-        if (!model.containsAttribute("addOfferDTO")) {
-            model.addAttribute("addOfferDTO", new AddOfferDTO());
+        if (!model.containsAttribute("offerAddDTO")) {
+            model.addAttribute("offerAddDTO", new OfferAddDTO());
         }
 
         model.addAttribute("brands", this.brandService.getAllBrands());
@@ -42,18 +42,18 @@ public class OfferController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ModelAndView postAddOffer(@Valid AddOfferDTO addOfferDTO,
+    public ModelAndView postAddOffer(@Valid OfferAddDTO offerAddDTO,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addOfferDTO", addOfferDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addOfferDTO", bindingResult);
+            redirectAttributes.addFlashAttribute("offerAddDTO", offerAddDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerAddDTO", bindingResult);
 
             return super.redirect("/offers/add");
         }
 
-        this.offerService.addOffer(addOfferDTO);
+        this.offerService.addOffer(offerAddDTO);
 
         return super.redirect("/offers/all");
     }

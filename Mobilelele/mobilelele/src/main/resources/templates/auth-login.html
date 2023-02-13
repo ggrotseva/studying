@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>MobiLeLeLe</title>
     <link rel="stylesheet" href="/css/reset-css.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -31,10 +31,11 @@
                    placeholder="Password"/>
 
         </div>
-        
-<!--        <p class="invalid-feedback errors alert alert-danger">-->
-<!--            Invalid username or password.-->
-<!--        </p>-->
+
+        <p th:if="${#fields.hasErrors('*')}"
+           class="errors alert alert-danger">
+            Invalid username or password.
+        </p>
 
         <div class="row">
             <div class="col col-md-4">
@@ -47,7 +48,7 @@
 </div>
 
 <div>
-    <footer> </footer>
+    <footer></footer>
 </div>
 </body>
 </html>

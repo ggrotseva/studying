@@ -1,6 +1,6 @@
 package bg.softuni.mobilelele.service;
 
-import bg.softuni.mobilelele.model.dto.AddOfferDTO;
+import bg.softuni.mobilelele.model.dto.OfferAddDTO;
 import bg.softuni.mobilelele.model.entities.Model;
 import bg.softuni.mobilelele.model.entities.Offer;
 import bg.softuni.mobilelele.model.entities.User;
@@ -44,7 +44,7 @@ public class OfferService implements DatabaseInitService {
         return this.offerRepository.count() > 0;
     }
 
-    public void addOffer(AddOfferDTO addOfferDTO) {
+    public void addOffer(OfferAddDTO addOfferDTO) {
         Offer newOffer = mapper.map(addOfferDTO, Offer.class);
 
         // TODO: check if current user is logged

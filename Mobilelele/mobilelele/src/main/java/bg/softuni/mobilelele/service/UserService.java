@@ -61,24 +61,12 @@ public class UserService implements DatabaseInitService {
 
     }
 
-    public boolean login(UserLoginDTO userLoginDTO) {
-        Optional<User> user = userRepository.findByUsername(userLoginDTO.getUsername());
+    public void login(UserLoginDTO userLoginDTO) {
+        User user = userRepository.findByUsername(userLoginDTO.getUsername()).get();
 
-        if (user.isEmpty()) {
-            LOGGER.info("User with name [{}] not found.", userLoginDTO.getUsername());
-            return false;
-        }
+        // if invalid
+//        LOGGER.info("User with name [{}] not found.", userLoginDTO.getUsername());
 
-        boolean success = user.get().getPassword().equals(userLoginDTO.getPassword());
-
-        if (success) {
-            login(user.get());
-        }
-
-        return success;
-    }
-
-    private void login(User user) {
         this.currentUser
                 .setLoggedIn(true)
                 .setUsername(user.getUsername())
