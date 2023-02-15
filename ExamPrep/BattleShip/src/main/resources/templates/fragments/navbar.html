@@ -3,21 +3,29 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top rounded">
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/login}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/register}">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/ships/add}">Add Ship</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/logout}">Logout</a>
-            </li>
+            <th:block th:unless="${@loggedUser.id}">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+            </th:block>
+
+            <th:block th:if="${@loggedUser.id}">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/home}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ships/add}">Add Ship</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </th:block>
         </ul>
         <img width="50px" src="/images/ufo.png" alt="Ufo image">
     </div>

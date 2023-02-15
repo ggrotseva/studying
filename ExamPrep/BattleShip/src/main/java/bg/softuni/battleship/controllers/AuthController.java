@@ -1,5 +1,6 @@
 package bg.softuni.battleship.controllers;
 
+import bg.softuni.battleship.models.dto.UserLoginDTO;
 import bg.softuni.battleship.models.dto.UserRegisterDTO;
 import bg.softuni.battleship.services.AuthService;
 import jakarta.validation.Valid;
@@ -26,6 +27,11 @@ public class AuthController {
         return new UserRegisterDTO();
     }
 
+    @ModelAttribute("userLoginDTO")
+    public UserLoginDTO initUserLoginDTO() {
+        return new UserLoginDTO();
+    }
+
     @GetMapping("/register")
     private String getRegister() {
         return "register";
@@ -49,5 +55,27 @@ public class AuthController {
     @GetMapping("/login")
     private String getLogin() {
         return "login";
+    }
+
+    @PostMapping("/login")
+    private String postLogin(@Valid UserLoginDTO userLoginDTO,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
+
+            return "redirect:/login";
+        }
+
+        if (!this.authService.login(userLoginDTO)) {
+            redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
+            redirectAttributes.addFlashAttribute("badCredentials", true);
+
+            return "redirect:/login";
+        }
+
+        return "redirect:/home";
     }
 }

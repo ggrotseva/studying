@@ -10,9 +10,7 @@
 </head>
 <body class="body-main">
 <header>
-
-    <div th:replace="fragments/navbar"/>
-
+    <div th:replace="~{fragments/navbar}"/>
 </header>
 <main role="main">
     <div class="jumbotron">
@@ -30,7 +28,7 @@
 
             <div class="col-md-6">
                 <div class="container bg-blur rounded p-5 mt-5 w-75">
-                    <form th:action="@{/users/register}" th:method="POST" th:object="${userRegisterDTO}"
+                    <form th:action="@{/register}" th:method="POST" th:object="${userRegisterDTO}"
                           class=" text-center text-light">
                         <div class="form-group row">
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
