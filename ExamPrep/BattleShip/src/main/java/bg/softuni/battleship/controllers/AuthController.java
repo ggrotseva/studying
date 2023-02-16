@@ -34,6 +34,10 @@ public class AuthController {
 
     @GetMapping("/register")
     private String getRegister() {
+        if (this.authService.isLoggedIn()) {
+            return "redirect:/home";
+        }
+
         return "register";
     }
 
@@ -41,6 +45,10 @@ public class AuthController {
     private String postRegister(@Valid UserRegisterDTO userRegisterDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
+
+        if (this.authService.isLoggedIn()) {
+            return "redirect:/home";
+        }
 
         if (bindingResult.hasErrors() || !this.authService.register(userRegisterDTO)) {
             redirectAttributes.addFlashAttribute("userRegisterDTO", userRegisterDTO);
@@ -54,6 +62,10 @@ public class AuthController {
 
     @GetMapping("/login")
     private String getLogin() {
+        if (this.authService.isLoggedIn()) {
+            return "redirect:/home";
+        }
+
         return "login";
     }
 
@@ -61,6 +73,10 @@ public class AuthController {
     private String postLogin(@Valid UserLoginDTO userLoginDTO,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
+
+        if (this.authService.isLoggedIn()) {
+            return "redirect:/home";
+        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
@@ -77,5 +93,11 @@ public class AuthController {
         }
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/logout")
+    private String logout() {
+        this.authService.logout();
+        return "redirect:/";
     }
 }
