@@ -9,13 +9,11 @@ import bg.softuni.battleship.models.dto.CreateShipDTO;
 import bg.softuni.battleship.models.dto.ShipDTO;
 import bg.softuni.battleship.repositories.CategoryRepository;
 import bg.softuni.battleship.repositories.ShipRepository;
-import bg.softuni.battleship.repositories.UserRepository;
-import bg.softuni.battleship.session.LoggedUser;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,40 +21,29 @@ import java.util.stream.Collectors;
 public class ShipService {
 
     private final ShipRepository shipRepository;
-    private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
-    private final LoggedUser loggedUser;
+    private final CategoryService categoryService;
+    private final AuthService authService;
+    private final ModelMapper mapper;
 
     @Autowired
     public ShipService(ShipRepository shipRepository,
-                       CategoryRepository categoryRepository,
-                       UserRepository userRepository,
-                       LoggedUser loggedUser) {
+                       CategoryService categoryService,
+                       AuthService authService,
+                       ModelMapper mapper) {
         this.shipRepository = shipRepository;
-        this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
-        this.loggedUser = loggedUser;
+        this.categoryService = categoryService;
+        this.authService = authService;
+        this.mapper = mapper;
     }
-
 
     public boolean create(CreateShipDTO createShipDTO) {
 
-        Optional<Ship> byName = this.shipRepository.findByName(createShipDTO.getName());
-
-        if (byName.isPresent()) {
-            return false;
-        }
-
         ShipType type = ShipType.values()[createShipDTO.getCategory()];
-        Category category = this.categoryRepository.findByName(type);
+        Category category = this.categoryService.getByName(type);
 
-        User owner = this.userRepository.findById(loggedUser.getId()).get();
+        User owner = this.authService.findById(authService.getLoggedUserId());
 
-        Ship ship = new Ship()
-                .setName(createShipDTO.getName())
-                .setPower(createShipDTO.getPower())
-                .setHealth(createShipDTO.getHealth())
-                .setCreated(createShipDTO.getCreated())
+        Ship ship = mapper.map(createShipDTO, Ship.class)
                 .setCategory(category)
                 .setOwner(owner);
 
@@ -67,19 +54,19 @@ public class ShipService {
 
     public List<ShipDTO> getShipsOwnedBy(Long ownerId) {
         return this.shipRepository.findByUserId(ownerId)
-                .stream().map(ShipDTO::new)
+                .stream().map(ship -> this.mapper.map(ship, ShipDTO.class))
                 .collect(Collectors.toList());
     }
 
     public List<ShipDTO> getShipsNotOwnedBy(Long userId) {
         return this.shipRepository.findByUserIdNot(userId)
-                .stream().map(ShipDTO::new)
+                .stream().map(ship -> this.mapper.map(ship, ShipDTO.class))
                 .collect(Collectors.toList());
     }
 
     public List<ShipDTO> getAllSorted() {
         return this.shipRepository.findAllByOrderByHealthAscNameAscPowerAsc()
-                .stream().map(ShipDTO::new)
+                .stream().map(ship -> this.mapper.map(ship, ShipDTO.class))
                 .collect(Collectors.toList());
     }
 

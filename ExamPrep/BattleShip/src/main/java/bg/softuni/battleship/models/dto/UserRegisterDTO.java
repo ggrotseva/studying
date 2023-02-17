@@ -1,29 +1,31 @@
 package bg.softuni.battleship.models.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import bg.softuni.battleship.util.validations.UniqueEmail;
+import bg.softuni.battleship.util.validations.UniqueUsername;
+import jakarta.validation.constraints.*;
 
 public class UserRegisterDTO {
 
-    @NotBlank
-    @Size(min = 3, max = 10)
+    @UniqueUsername
+    @NotNull
+    @Size(min = 3, max = 10, message = "The username must be between 3 and 10 characters long.")
     private String username;
 
-    @NotBlank
-    @Size(min = 5, max = 20)
+    @NotNull
+    @Size(min = 5, max = 20, message = "Full name length must be between 5 and 20 characters long.")
     private String fullName;
 
-    @NotBlank
-    @Email
+    @Email(message = "Enter a valid email address.")
+    @NotEmpty(message = "Enter a valid email address.")
+    @UniqueEmail
     private String email;
 
-    @NotBlank
-    @Size(min = 3)
+    @NotNull
+    @Size(min = 3, message = "Password must be at least 3 characters long.")
     private String password;
 
-    @NotBlank
-    @Size(min = 3)
+    @NotNull
+    @Size(min = 3, message = "Password must be at least 3 characters long.")
     private String confirmPassword;
 
     public UserRegisterDTO() {

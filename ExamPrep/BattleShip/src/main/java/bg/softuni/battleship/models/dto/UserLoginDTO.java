@@ -5,12 +5,12 @@ import jakarta.validation.constraints.Size;
 
 public class UserLoginDTO {
 
-    @NotBlank
-    @Size(min = 3, max = 10)
+    @NotBlank(message = "Username must not be blank.")
+    @Size(min = 3, max = 10,  message = "The username must be between 3 and 10 characters long.")
     private String username;
 
-    @NotBlank
-    @Size(min = 3)
+    @NotBlank(message = "Password must not be blank.")
+    @Size(min = 3,  message = "Password must be at least 3 characters long.")
     private String password;
 
     public UserLoginDTO() {

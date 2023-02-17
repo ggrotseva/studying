@@ -5,6 +5,7 @@ import bg.softuni.battleship.models.dto.UserLoginDTO;
 import bg.softuni.battleship.models.dto.UserRegisterDTO;
 import bg.softuni.battleship.repositories.UserRepository;
 import bg.softuni.battleship.session.LoggedUser;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,13 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final LoggedUser userSession;
+    private final ModelMapper mapper;
 
     @Autowired
-    public AuthService(UserRepository userRepository, LoggedUser userSession) {
+    public AuthService(UserRepository userRepository, LoggedUser userSession, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.userSession = userSession;
+        this.mapper = mapper;
     }
 
     public boolean register(UserRegisterDTO userRegisterDTO) {
@@ -27,23 +30,7 @@ public class AuthService {
             return false;
         }
 
-        Optional<User> byUsername = this.userRepository.findByUsername(userRegisterDTO.getUsername());
-
-        if (byUsername.isPresent()) {
-            return false;
-        }
-
-        Optional<User> byEmail = this.userRepository.findByEmail(userRegisterDTO.getEmail());
-
-        if (byEmail.isPresent()) {
-            return false;
-        }
-
-        User user = new User()
-                .setUsername(userRegisterDTO.getUsername())
-                .setFullName(userRegisterDTO.getFullName())
-                .setEmail(userRegisterDTO.getEmail())
-                .setPassword(userRegisterDTO.getPassword());
+        User user = mapper.map(userRegisterDTO, User.class);
 
         this.userRepository.save(user);
 
@@ -68,10 +55,14 @@ public class AuthService {
     }
 
     public boolean isLoggedIn() {
-        return this.userSession.getId() != null;
+        return getLoggedUserId() != null;
     }
 
     public Long getLoggedUserId() {
         return this.userSession.getId();
+    }
+
+    public User findById(Long id) {
+        return this.userRepository.findById(id).orElse(null);
     }
 }

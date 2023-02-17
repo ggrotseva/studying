@@ -1,7 +1,5 @@
 package bg.softuni.battleship.models.dto;
 
-import bg.softuni.battleship.models.Ship;
-
 public class ShipDTO {
 
     private Long id;
@@ -11,13 +9,6 @@ public class ShipDTO {
     private Long health;
 
     private Long power;
-
-    public ShipDTO(Ship ship) {
-        this.id = ship.getId();
-        this.name = ship.getName();
-        this.health = ship.getHealth();
-        this.power = ship.getPower();
-    }
 
     public Long getId() {
         return id;

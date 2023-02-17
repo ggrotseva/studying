@@ -32,5 +32,7 @@ public class CategoryService {
         }
     }
 
-
+    public Category getByName(ShipType name) {
+        return this.categoryRepository.getByName(name);
+    }
 }

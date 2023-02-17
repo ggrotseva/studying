@@ -6,20 +6,24 @@ import java.time.LocalDate;
 
 public class CreateShipDTO {
 
-    @NotBlank
-    @Size(min = 2, max = 10)
+    @NotBlank(message = "The name must not be blank.")
+    @Size(min = 2, max = 10, message = "The name must be between 2 and 10 characters long.")
+//    @UniqueShipName
     private String name;
 
-    @Positive
+    @NotNull(message = "The power cannot be empty, please enter a valid value.")
+    @Positive(message = "Power must be a positive value.")
     private Long power;
 
-    @Positive
+    @NotNull(message = "The health cannot be empty, please enter a valid value.")
+    @Positive(message = "Health must be a positive value.")
     private Long health;
 
     @PastOrPresent
-    @NotNull
+    @NotNull(message = "The field cannot be empty, please enter a valid date.")
     private LocalDate created;
 
+    @PositiveOrZero(message = "You must specify a category")
     private int category = -1;
 
     public CreateShipDTO() {
