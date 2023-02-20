@@ -20,6 +20,14 @@ public class Offer {
     @ManyToOne(optional = false)
     private Condition condition;
 
+    @ManyToOne
+    @JoinColumn
+    private User seller;
+
+    @ManyToOne
+    @JoinColumn
+    private User buyer;
+
     public Long getId() {
         return id;
     }
@@ -53,6 +61,24 @@ public class Offer {
 
     public Offer setCondition(Condition condition) {
         this.condition = condition;
+        return this;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public Offer setSeller(User seller) {
+        this.seller = seller;
+        return this;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public Offer setBuyer(User buyer) {
+        this.buyer = buyer;
         return this;
     }
 }

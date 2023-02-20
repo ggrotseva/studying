@@ -22,16 +22,10 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @OneToMany
-    @JoinTable(name = "users_offers",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "seller")
     private List<Offer> offers;
 
-    @OneToMany
-    @JoinTable(name = "users_bought_offers",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "bought_offer_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "buyer")
     private List<Offer> boughtOffers;
 
     public User() {

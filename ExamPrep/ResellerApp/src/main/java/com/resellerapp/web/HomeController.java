@@ -5,11 +5,9 @@ import com.resellerapp.service.AuthService;
 import com.resellerapp.service.OfferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -38,26 +36,16 @@ public class HomeController {
             return "redirect:/";
         }
 
-        Long loggedUserId = this.authService.getLoggedUserId();
 
-        List<OfferDTO> ownOffers = this.offerService.getOffersByUserId(loggedUserId);
-        List<OfferDTO> boughtOffers = this.offerService.getBoughtOffersByUserId(loggedUserId);
-        List<OfferDTO> allOffers = this.offerService.getAllOffers();
+        List<OfferDTO> ownOffers = this.offerService.getOffersByLoggedUser();
+        List<OfferDTO> boughtOffers = this.offerService.getBoughtOffersByLoggedUser();
+        List<OfferDTO> otherOffers = this.offerService.getAllOtherOffers();
 
         model.addAttribute("ownOffers", ownOffers);
         model.addAttribute("boughtOffers", boughtOffers);
-        model.addAttribute("allOffers", allOffers);
+        model.addAttribute("otherOffers", otherOffers);
 
         return "home";
     }
 
-    @PostMapping("/offer/buy")
-    public String postBuyOffer() {
-        if (!this.authService.isLoggedIn()) {
-            return "redirect:/";
-        }
-
-
-        return "home";
-    }
 }

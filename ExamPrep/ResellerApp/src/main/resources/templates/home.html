@@ -11,7 +11,7 @@
                 <div>
                     <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Offers</h3>
                     <h6 class="mySticky bg-gray text-dark  mb-0 mt-0"
-                        th:text="|Username: ${@loggedUser.getUsername()}|">
+                        th:text="'Username: ' + ${@loggedUser.getUsername()}">
                         Username: {loggedUsername}
                     </h6>
                     <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
@@ -21,11 +21,10 @@
                                     <img class="mr-2 " src="/img/etiquette.png" alt="Etiquette" width="35px"
                                          height="35px">
                                 </td>
-
                                 <td th:text="*{conditionName}" style="width: 5%" class="bg-info">{condition}</td>
                                 <td th:text="|*{price} €|" class="bg-primary" style="width: 15%">{price} €</td>
                                 <td th:text="*{description}">{description}</td>
-                                <td style="width: 15%"><a class="btn-danger btn" href="/">Remove</a></td>
+                                <td style="width: 15%"><a class="btn-danger btn" th:href="@{/offers/remove/{id}(id= *{id})}">Remove</a></td>
                             </tr>
                         </table>
                     </div>
@@ -56,19 +55,19 @@
             <div class="col-6 mt-1 mb-1">
                 <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">All Other Offers</h3>
                 <h6 class="mySticky bg-gray text-dark  mb-0 mt-0"
-                    th:text="|${allOffers.size()} offers|">
+                    th:text="|${otherOffers.size()} offers|">
                     {totalOffers}
                 </h6>
                 <div class="bg-dark rounded m-auto" style="height: 67vh; overflow: auto">
                     <div>
-                        <div th:each="offer : ${allOffers}" th:object="${offer}">
+                        <div th:each="offer : ${otherOffers}" th:object="${offer}">
                             <br>
                             <ul class="list-group list-group-horizontal text-dark">
                                 <li class="list-group-item">
                                     <table>
                                         <tr>
                                             <td style="width: 35%">
-                                                <a>{sellersUsername} sells: &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                <a th:text="*{sellerUsername} + ' sells: &emsp;'">{sellersUsername} sells:</a>
                                             </td>
                                             <td>
                                                 <a th:text="*{description}">{offerDescription}</a>
@@ -83,10 +82,10 @@
                                                 <a th:text="|Condition: *{conditionName}|">Condition: {offerCondition}</a>
                                             </td>
                                             <td class="text-primary" style="width: 40%">
-                                                <a th:text="|Price: *{price}|">Price: {offerPrice} €</a>
+                                                <a th:text="|Price: *{price} €|">Price: {offerPrice} €</a>
                                             </td>
                                             <td>
-                                                <a class="ml-3 text-danger" href="/">
+                                                <a class="ml-3 text-danger" th:href="@{/offers/buy/{id}(id= *{id})}">
                                                     <img src="/img/buy.png" height="35px"></a>
                                             </td>
                                         </tr>

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users")
 public class AuthController {
 
     private final AuthService authService;
@@ -23,7 +22,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/register")
+    @GetMapping("/users/register")
     public String getRegister() {
         if (this.authService.isLoggedIn()) {
             return "redirect:/home";
@@ -32,7 +31,7 @@ public class AuthController {
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/users/register")
     public String postRegister(@Valid UserRegisterDTO userRegisterDTO,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) {
@@ -45,13 +44,13 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("userRegisterDTO", userRegisterDTO)
                     .addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDTO", bindingResult);
 
-            return "redirect:register";
+            return "redirect:/users/register";
         }
 
-        return "redirect:login";
+        return "redirect:/users/login";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/users/login")
     public String getLogin() {
         if (this.authService.isLoggedIn()) {
             return "redirect:/home";
@@ -60,7 +59,7 @@ public class AuthController {
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public String postLogin(@Valid UserLoginDTO userLoginDTO,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) {
@@ -73,14 +72,14 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO)
                     .addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
 
-            return "redirect:login";
+            return "redirect:/users/login";
         }
 
         if (!this.authService.login(userLoginDTO)) {
             redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
             redirectAttributes.addFlashAttribute("badCredentials", true);
 
-            return "redirect:login";
+            return "redirect:/users/login";
         }
 
         return "redirect:/home";

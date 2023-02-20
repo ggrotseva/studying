@@ -4,12 +4,12 @@ import com.resellerapp.model.dto.OfferAddDTO;
 import com.resellerapp.model.dto.OfferDTO;
 import com.resellerapp.model.entity.Condition;
 import com.resellerapp.model.entity.Offer;
-import com.resellerapp.model.entity.User;
 import com.resellerapp.repository.OfferRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,50 +18,66 @@ public class OfferService {
 
     private final OfferRepository offerRepository;
     private final ConditionService conditionService;
-    private final UserService userService;
+    private final AuthService authService;
     private final ModelMapper mapper;
 
     public OfferService(OfferRepository offerRepository,
                         ConditionService conditionService,
-                        UserService userService,
+                        AuthService authService,
                         ModelMapper mapper) {
         this.offerRepository = offerRepository;
         this.conditionService = conditionService;
-        this.userService = userService;
+        this.authService = authService;
         this.mapper = mapper;
     }
 
     public void add(OfferAddDTO offerAddDTO) {
         Condition condition = this.conditionService.findByName(offerAddDTO.getCondition());
 
-        Offer offer = this.mapper.map(offerAddDTO, Offer.class);
-        offer.setCondition(condition);
+        Offer offer = this.mapper.map(offerAddDTO, Offer.class)
+                .setCondition(condition)
+                .setSeller(this.authService.getLoggedUser());
 
         this.offerRepository.saveAndFlush(offer);
-
-        this.userService.addOfferByLoggedUser(offer);
     }
 
     @Transactional
-    public List<OfferDTO> getOffersByUserId(Long id) {
-        User user = this.userService.findById(id);
-        return user.getOffers().stream()
+    public List<OfferDTO> getOffersByLoggedUser() {
+        return this.authService.getLoggedUser()
+                .getOffers()
+                .stream()
                 .map(offer -> mapper.map(offer, OfferDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<OfferDTO> getBoughtOffersByUserId(Long id) {
-        User user = this.userService.findById(id);
-        return user.getBoughtOffers().stream()
+    public List<OfferDTO> getBoughtOffersByLoggedUser() {
+        return this.authService.getLoggedUser()
+                .getBoughtOffers()
+                .stream()
                 .map(offer -> mapper.map(offer, OfferDTO.class))
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public List<OfferDTO> getAllOffers() {
-        return this.offerRepository.findAll().stream()
+    public List<OfferDTO> getAllOtherOffers() {
+        return this.offerRepository.findBySellerIdNot(this.authService.getLoggedUserId())
+                .orElse(new ArrayList<>())
+                .stream()
                 .map(offer -> mapper.map(offer, OfferDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public void buyOffer(Long id) {
+        Offer offer = this.offerRepository.findById(id).orElseThrow();
+
+        offer.setSeller(null)
+                .setBuyer(this.authService.getLoggedUser());
+
+        this.offerRepository.saveAndFlush(offer);
+    }
+
+    @Transactional
+    public void removeOffer(Long id) {
+        this.offerRepository.deleteById(id);
     }
 }

@@ -18,22 +18,10 @@ public class UserService {
     }
 
     @Transactional
-    public void addOfferByLoggedUser(Offer offer) {
-        User loggedUser = this.authService.getLoggedUser();
-        loggedUser.addOffer(offer);
-
-        this.userRepository.saveAndFlush(loggedUser);
-    }
-
-    @Transactional
     public void buyOfferByLoggedUser(Offer offer) {
         User loggedUser = this.authService.getLoggedUser();
         loggedUser.buyOffer(offer);
 
         this.userRepository.saveAndFlush(loggedUser);
-    }
-
-    public User findById(Long id) {
-        return this.userRepository.findById(id).orElse(null);
     }
 }
