@@ -21,11 +21,9 @@ public class Offer {
     private Condition condition;
 
     @ManyToOne
-    @JoinColumn
     private User seller;
 
     @ManyToOne
-    @JoinColumn
     private User buyer;
 
     public Long getId() {

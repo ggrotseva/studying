@@ -6,7 +6,6 @@ import com.resellerapp.service.OfferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -35,7 +34,6 @@ public class HomeController {
         if (!this.authService.isLoggedIn()) {
             return "redirect:/";
         }
-
 
         List<OfferDTO> ownOffers = this.offerService.getOffersByLoggedUser();
         List<OfferDTO> boughtOffers = this.offerService.getBoughtOffersByLoggedUser();

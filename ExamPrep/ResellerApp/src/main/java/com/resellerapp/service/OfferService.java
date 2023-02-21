@@ -2,6 +2,7 @@ package com.resellerapp.service;
 
 import com.resellerapp.model.dto.OfferAddDTO;
 import com.resellerapp.model.dto.OfferDTO;
+import com.resellerapp.model.dto.UserWithOffersDTO;
 import com.resellerapp.model.entity.Condition;
 import com.resellerapp.model.entity.Offer;
 import com.resellerapp.repository.OfferRepository;
@@ -43,20 +44,14 @@ public class OfferService {
 
     @Transactional
     public List<OfferDTO> getOffersByLoggedUser() {
-        return this.authService.getLoggedUser()
-                .getOffers()
-                .stream()
-                .map(offer -> mapper.map(offer, OfferDTO.class))
-                .collect(Collectors.toList());
+        return mapper.map(this.authService.getLoggedUser(), UserWithOffersDTO.class)
+                .getOffers();
     }
 
     @Transactional
     public List<OfferDTO> getBoughtOffersByLoggedUser() {
-        return this.authService.getLoggedUser()
-                .getBoughtOffers()
-                .stream()
-                .map(offer -> mapper.map(offer, OfferDTO.class))
-                .collect(Collectors.toList());
+        return mapper.map(this.authService.getLoggedUser(), UserWithOffersDTO.class)
+                .getBoughtOffers();
     }
 
     public List<OfferDTO> getAllOtherOffers() {
