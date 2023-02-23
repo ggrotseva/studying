@@ -137,6 +137,10 @@ public class User {
         return this;
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     public void addRole(UserRole userRole) {
         this.userRoles.add(userRole);
     }
