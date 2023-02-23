@@ -2,7 +2,6 @@ package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.model.dto.UserLoginDTO;
 import bg.softuni.mobilelele.model.dto.UserRegisterDTO;
-import bg.softuni.mobilelele.model.dto.UserRoleViewDTO;
 import bg.softuni.mobilelele.model.entities.User;
 import bg.softuni.mobilelele.repository.UserRepository;
 import bg.softuni.mobilelele.user.CurrentUser;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements DatabaseInitService {
@@ -67,16 +64,12 @@ public class UserService implements DatabaseInitService {
         // if invalid
 //        LOGGER.info("User with name [{}] not found.", userLoginDTO.getUsername());
 
-        this.currentUser
-                .setLoggedIn(true)
-                .setUsername(user.getUsername())
-                .setRole(user.getUserRoles().stream()
-                        .map(r -> mapper.map(r, UserRoleViewDTO.class))
-                        .collect(Collectors.toList()));
+        this.currentUser.login(user);
+
     }
 
     public void logout() {
-        this.currentUser.clear();
+        this.currentUser.logout();
     }
 
 }

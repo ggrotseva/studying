@@ -11,6 +11,7 @@ import bg.softuni.mobilelele.user.CurrentUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
@@ -49,7 +50,7 @@ public class OfferService implements DatabaseInitService {
 
         // TODO: check if current user is logged
 
-        User user = this.userRepository.findByUsername(currentUser.getUsername())
+        User user = this.userRepository.findById(currentUser.getId())
                 .orElseThrow(NoSuchElementException::new);
 
         Model model = this.modelRepository.findById(addOfferDTO.getModelId())
@@ -58,7 +59,8 @@ public class OfferService implements DatabaseInitService {
         newOffer
                 .setId(null)
                 .setSeller(user)
-                .setModel(model);
+                .setModel(model)
+                .setCreated(LocalDateTime.now());
 
         System.out.println(newOffer);
 
