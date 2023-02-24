@@ -36,7 +36,12 @@
             </ul>
             <div class="card-body">
                 <a class="card-link" th:href="@{/offers/update/{id}(id=*{id})}">Update</a>
-                <a class="card-link" th:href="@{/offers/delete/{id}(id=*{id})}">Delete</a>
+                <form th:action="@{/offers/delete/{id}(id=*{id})}" th:method="DELETE">
+                    <button class="card-link" type="submit" style="color: #007bfc; cursor: pointer; border: none;">
+                        Delete
+                    </button>
+<!--                    <a class="card-link" th:href="@{/offers/delete/{id}(id=*{id})}">Delete</a>-->
+                </form>
             </div>
         </div>
         <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
