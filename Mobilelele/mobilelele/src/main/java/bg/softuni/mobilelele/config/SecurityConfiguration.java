@@ -37,7 +37,9 @@ public class SecurityConfiguration {
                 // success URL redirect
                 .defaultSuccessUrl("/", true)
                 // not successful URL redirect
-                .failureForwardUrl("/users/login-error");
+                .failureForwardUrl("/users/login-error")
+                .and()
+                .logout().logoutSuccessUrl("/").invalidateHttpSession(true);
 
         return httpSecurity.build();
     }
