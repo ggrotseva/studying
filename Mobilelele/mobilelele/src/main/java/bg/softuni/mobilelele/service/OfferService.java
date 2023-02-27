@@ -6,14 +6,12 @@ import bg.softuni.mobilelele.model.dto.OfferDetailsDTO;
 import bg.softuni.mobilelele.model.dto.OfferUpdateDTO;
 import bg.softuni.mobilelele.model.entities.Model;
 import bg.softuni.mobilelele.model.entities.Offer;
-import bg.softuni.mobilelele.model.entities.User;
+import bg.softuni.mobilelele.model.entities.UserEntity;
 import bg.softuni.mobilelele.repository.ModelRepository;
 import bg.softuni.mobilelele.repository.OfferRepository;
 import bg.softuni.mobilelele.repository.UserRepository;
 import bg.softuni.mobilelele.user.CurrentUser;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -57,7 +55,7 @@ public class OfferService implements DatabaseInitService {
 
         // TODO: check if current user is logged
 
-        User user = this.userRepository.findById(currentUser.getId())
+        UserEntity user = this.userRepository.findById(currentUser.getId())
                 .orElseThrow(NoSuchElementException::new);
 
         Model model = this.modelRepository.findById(addOfferDTO.getModelId())

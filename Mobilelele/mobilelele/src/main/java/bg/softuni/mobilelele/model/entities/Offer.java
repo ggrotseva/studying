@@ -50,7 +50,7 @@ public class Offer {
 
     @ManyToOne
     @JoinColumn
-    private User seller;
+    private UserEntity seller;
 
     public Offer() {
     }
@@ -154,11 +154,11 @@ public class Offer {
         return this;
     }
 
-    public User getSeller() {
+    public UserEntity getSeller() {
         return seller;
     }
 
-    public Offer setSeller(User seller) {
+    public Offer setSeller(UserEntity seller) {
         this.seller = seller;
         return this;
     }

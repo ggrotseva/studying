@@ -1,7 +1,7 @@
 package bg.softuni.mobilelele.user;
 
 import bg.softuni.mobilelele.model.dto.UserRoleViewDTO;
-import bg.softuni.mobilelele.model.entities.User;
+import bg.softuni.mobilelele.model.entities.UserEntity;
 import bg.softuni.mobilelele.model.enums.UserRoleEnum;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -57,7 +57,7 @@ public class CurrentUser {
         return this.id != null;
     }
 
-    public void login(User user) {
+    public void login(UserEntity user) {
         this.id = user.getId();
         this.name = user.getFirstName();
         this.roles = user.getUserRoles().stream()

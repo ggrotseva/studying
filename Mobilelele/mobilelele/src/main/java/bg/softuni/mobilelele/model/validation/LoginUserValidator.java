@@ -1,7 +1,7 @@
 package bg.softuni.mobilelele.model.validation;
 
 import bg.softuni.mobilelele.model.dto.UserLoginDTO;
-import bg.softuni.mobilelele.model.entities.User;
+import bg.softuni.mobilelele.model.entities.UserEntity;
 import bg.softuni.mobilelele.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -18,7 +18,7 @@ public class LoginUserValidator implements ConstraintValidator<ValidateLoginUser
 
     @Override
     public boolean isValid(UserLoginDTO userLoginDTO, ConstraintValidatorContext context) {
-        Optional<User> user = this.userRepository.findByUsername(userLoginDTO.getUsername());
+        Optional<UserEntity> user = this.userRepository.findByUsername(userLoginDTO.getUsername());
 
         return user.isPresent()
                 && user.get().getPassword().equals(userLoginDTO.getPassword());

@@ -2,7 +2,7 @@ package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.model.dto.UserLoginDTO;
 import bg.softuni.mobilelele.model.dto.UserRegisterDTO;
-import bg.softuni.mobilelele.model.entities.User;
+import bg.softuni.mobilelele.model.entities.UserEntity;
 import bg.softuni.mobilelele.repository.UserRepository;
 import bg.softuni.mobilelele.user.CurrentUser;
 import org.modelmapper.ModelMapper;
@@ -47,7 +47,7 @@ public class UserService implements DatabaseInitService {
 
     public void register(UserRegisterDTO userRegisterDTO) {
 
-        User newUser = mapper.map(userRegisterDTO, User.class)
+        UserEntity newUser = mapper.map(userRegisterDTO, UserEntity.class)
                 .setActive(true)
                 .setCreated(LocalDateTime.now())
                 .setUserRoles(this.userRepository.count() == 0 ?
@@ -59,7 +59,7 @@ public class UserService implements DatabaseInitService {
     }
 
     public void login(UserLoginDTO userLoginDTO) {
-        User user = userRepository.findByUsername(userLoginDTO.getUsername()).get();
+        UserEntity user = userRepository.findByUsername(userLoginDTO.getUsername()).get();
 
         // if invalid
 //        LOGGER.info("User with name [{}] not found.", userLoginDTO.getUsername());

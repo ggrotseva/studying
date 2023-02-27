@@ -1,9 +1,11 @@
 package bg.softuni.mobilelele.service;
 
 import bg.softuni.mobilelele.model.dto.BrandDTO;
+import bg.softuni.mobilelele.model.dto.BrandWithModelsDTO;
 import bg.softuni.mobilelele.repository.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +34,12 @@ public class BrandService implements DatabaseInitService {
     public List<BrandDTO> getAllBrands() {
         return this.brandRepository.findAll().stream()
                 .map(b -> mapper.map(b, BrandDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<BrandWithModelsDTO> getAllBrandsWithModelsInfo() {
+        return this.brandRepository.findAll().stream()
+                .map(b -> mapper.map(b, BrandWithModelsDTO.class))
                 .collect(Collectors.toList());
     }
 }
