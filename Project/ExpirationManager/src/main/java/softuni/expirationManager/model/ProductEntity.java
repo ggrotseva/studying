@@ -29,10 +29,6 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
     private CategoryEntity category;
 
     public Long getId() {
@@ -86,15 +82,6 @@ public class ProductEntity {
 
     public ProductEntity setOpened(boolean opened) {
         isOpened = opened;
-        return this;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public ProductEntity setUser(UserEntity user) {
-        this.user = user;
         return this;
     }
 

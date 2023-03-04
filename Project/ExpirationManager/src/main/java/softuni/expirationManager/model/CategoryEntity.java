@@ -2,6 +2,8 @@ package softuni.expirationManager.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 public class CategoryEntity {
@@ -18,6 +20,10 @@ public class CategoryEntity {
 
     @Column(name = "icon_url")
     private String iconUrl;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private UserEntity user;
 
     public Long getId() {
         return id;
@@ -52,6 +58,15 @@ public class CategoryEntity {
 
     public CategoryEntity setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+        return this;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public CategoryEntity setUser(UserEntity user) {
+        this.user = user;
         return this;
     }
 }

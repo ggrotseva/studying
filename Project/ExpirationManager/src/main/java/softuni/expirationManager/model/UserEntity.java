@@ -36,12 +36,8 @@ public class UserEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_categories",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<CategoryEntity> categories;
-
 
     public Long getId() {
         return id;
@@ -112,6 +108,15 @@ public class UserEntity {
 
     public UserEntity setDeleted(boolean deleted) {
         isDeleted = deleted;
+        return this;
+    }
+
+    public List<CategoryEntity> getCategories() {
+        return categories;
+    }
+
+    public UserEntity setCategories(List<CategoryEntity> categories) {
+        this.categories = categories;
         return this;
     }
 }
