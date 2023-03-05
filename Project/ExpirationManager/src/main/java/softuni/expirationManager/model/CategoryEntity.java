@@ -18,8 +18,8 @@ public class CategoryEntity {
     @Column
     private String description;
 
-    @Column(name = "icon_url")
-    private String iconUrl;
+    @Lob
+    private byte[] icon;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -52,12 +52,12 @@ public class CategoryEntity {
         return this;
     }
 
-    public String getIconUrl() {
-        return iconUrl;
+    public byte[] getIcon() {
+        return icon;
     }
 
-    public CategoryEntity setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
+    public CategoryEntity setIcon(byte[] icon) {
+        this.icon = icon;
         return this;
     }
 

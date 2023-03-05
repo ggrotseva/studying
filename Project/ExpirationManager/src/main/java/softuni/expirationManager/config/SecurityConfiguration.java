@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                 .defaultSuccessUrl("/")
                 .failureForwardUrl("/users/login-error")
                 .and()
-                .logout().logoutUrl("/users/logout").logoutSuccessUrl("/").invalidateHttpSession(true)
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true)
         ;
         return httpSecurity.build();
     }

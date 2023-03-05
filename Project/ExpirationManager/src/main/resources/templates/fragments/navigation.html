@@ -16,7 +16,7 @@
                 <a class="nav-link" th:href="@{/}">Home</a>
             </li>
             <li sec:authorize="!isAuthenticated()" class="nav-item">
-                <a class="nav-link" th:href="@{/users/logi}">Login</a>
+                <a class="nav-link" th:href="@{/users/login}">Login</a>
             </li>
             <li sec:authorize="!isAuthenticated()" class="nav-item">
                 <a class="nav-link" th:href="@{/users/register}">Register</a>
@@ -36,7 +36,9 @@
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" th:href="@{/logout}">Logout</a>
+                <form th:method="post" th:action="@{/logout}">
+                    <button class="nav-link btn btn-link" type="submit">Logout</button>
+                </form>
             </li>
         </ul>
     </div>
