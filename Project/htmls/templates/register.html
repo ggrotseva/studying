@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
 
-    <title>Login</title>
+    <title>Register</title>
 </head>
 
 <body>
@@ -55,7 +55,9 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <form method="post" action="/logout">
+                            <button class="nav-link btn btn-link" type="submit">Logout</button>
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -141,11 +143,9 @@
 
     </main>
 
-    <footer class="footer">
-        <img class="footer-img" src="../static/images/Background1.jpg">
+    <footer>
         <div class="text-center footer-msg">&copy; by Gabriela Grotseva</div>
     </footer>
-
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
 
-    <title>Home</title>
+    <title>Add Category</title>
 </head>
 
 <body>
@@ -65,23 +65,57 @@
     </header>
 
     <main>
-        <section class="text-white container-fluid pt-4">
-            <h1 class="text-center">Expiration Date Manager</h1>
-            <h5 class="text-center mb-5">get your pantry organized</h5>
 
-            <div>
-                <div class="row justify-content-center">
-                    <form action="/users/login"><button class="btn my-btn" type="submit">Login</button></form>
-                    <div class="col-sm-auto"></div>
-                    <form action="/users/register"><button class="btn my-btn" type="submit">Register</button></form>
+        <h2 class="text-center text-white p-3">Add Category</h2>
+
+        <div class="container">
+            <form method="post" action="/categories/add"
+                class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+                <div class="form-group">
+                    <label for="categoryName" class="text-white font-weight-bold">Name</label>
+                    <input id="categoryName" name="categoryName" type="text" min="2" max="50" class="form-control"
+                        placeholder="Category name" />
+                    <!-- <small class="errors alert alert-danger">
+                            Name is required.
+                        </small> -->
                 </div>
-            </div>
-        </section>
+                <div class="form-group">
+                    <label for="description" class="text-white font-weight-bold">Description (optional)</label>
+                    <input id="description" name="description" type="text" class="form-control"
+                        placeholder="Description" />
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <div class="row">
+                    <div class="form-group col mb-3">
+                        <p class="text-white">
+                            Upload *.png file format as an icon to your Category (optional)
+                        </p>
+                        <label for="icon" class="text-white font-weight-bold">Icon (optional)</label>
+                        <input id="icon" name="icon" type="file" class="form-control-file" />
+                    </div>
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <div class="row my-3">
+                    <div class="col col-md-4">
+                        <div class="d-flex">
+                            <input type="submit" class="btn my-btn" value="Add" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </main>
 
     <footer>
         <div class="text-center footer-msg">&copy; by Gabriela Grotseva</div>
     </footer>
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

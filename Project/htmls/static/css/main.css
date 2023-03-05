@@ -1,15 +1,21 @@
 body {
      background-color: #a5baab;
      font-family: 'Montserrat', sans-serif;
-
-     display: grid;
-     grid-template-rows: auto 1fr auto;
+     background-image: url('../images/Background40.png');
+     background-repeat: no-repeat;
+     background-size: 100% auto;
+     background-position: bottom;
      min-height: 100vh;
+     display: flex;
+     flex-direction: column;
 }
 
-.footer-img {
-     width: 100%;
-     opacity: 40%;
+/* main {
+     padding-bottom: 4rem;
+} */
+
+footer {
+     margin-top: auto;
 }
 
 .footer-msg {
@@ -51,11 +57,16 @@ body {
      overflow: auto;
 }
 
+.box-content-table {
+     min-height: 288px;
+}
+
 form.main-form {
      background-image: linear-gradient(rgba(184, 202, 189, 0.8), rgba(165, 186, 171, 0.8));
      padding: 10px 30px;
      border-radius: 20px;
 }
+
 
 /* -------------------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------------------- */

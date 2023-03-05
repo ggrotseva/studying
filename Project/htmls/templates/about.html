@@ -55,7 +55,9 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <form method="post" action="/logout">
+                            <button class="nav-link btn btn-link" type="submit">Logout</button>
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -72,10 +74,11 @@
             search for foods,
             check stock and make a meal plan based on what needs to be used quicker - all from your computer.
         </p>
+        <p class="row">Need more information?</p>
+        <a href="/getting-started" class="btn my-btn text-white" role="button" aria-disabled="true">Get started</a>
     </main>
 
-    <footer class="footer">
-        <img class="footer-img" src="../static/images/Background1.jpg">
+    <footer>
         <div class="text-center footer-msg">&copy; by Gabriela Grotseva</div>
     </footer>
     
