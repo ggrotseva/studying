@@ -3,7 +3,7 @@
 
 <head>
     <title>Register</title>
-    <th:block th:include="~{fragments/head}"/>
+    <th:block th:insert="~{fragments/head}"/>
 </head>
 
 <body>
@@ -70,7 +70,6 @@
                                id="inputEmail"
                                class="form-control"
                                aria-describedby="emailHelpInline">
-                        <!--                        required-->
                         <small th:each="err : ${#fields.errors('email')}" th:text="${err}"
                                id="emailError"
                                class="invalid-feedback form-text bg-danger rounded">Must be valid email</small>
@@ -88,7 +87,6 @@
                                id="inputAge"
                                class="form-control"
                                aria-describedby="ageHelpInline">
-                        <!--                        min="0" max="90"-->
                         <small id="ageError"
                                class="invalid-feedback  form-text bg-danger rounded">Must be valid age</small>
                     </div>
@@ -139,6 +137,6 @@
         </div>
     </div>
 </main>
-<th:block th:include="~{/fragments/footer}"/>
+<th:block th:insert="~{/fragments/footer}"/>
 </body>
 </html>

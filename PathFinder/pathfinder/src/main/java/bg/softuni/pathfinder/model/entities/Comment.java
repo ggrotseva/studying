@@ -20,7 +20,7 @@ public class Comment {
     private String textContent;
 
     @ManyToOne
-    private User author;
+    private UserEntity author;
 
     @ManyToOne
     private Route route;
@@ -60,11 +60,11 @@ public class Comment {
         this.textContent = textContent;
     }
 
-    public User getAuthor() {
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserEntity author) {
         this.author = author;
     }
 

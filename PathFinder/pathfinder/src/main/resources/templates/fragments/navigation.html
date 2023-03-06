@@ -1,11 +1,12 @@
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <header th:fragment="navigation">
     <nav class="main-nav">
         <ul>
 
-            <th:block th:unless="${@currentUser.isLogged()}">
+            <th:block sec:authorize="!isAuthenticated()">
                 <li>
                     <a href="/">Home</a>
                 </li>
@@ -20,7 +21,7 @@
                 </li>
             </th:block>
 
-            <th:block th:if="${@currentUser.isLogged()}">
+            <th:block sec:authorize="isAuthenticated()">
                 <li>
                     <a th:href="@{/routes/add}">Add new route</a>
                 </li>
@@ -28,10 +29,12 @@
                     <a th:href="@{/users/profile}">Profile</a>
                 </li>
                 <li>
-                    <a th:if="${@currentUser.isAdmin()}" href="/">Admin</a>
+                    <a sec:authorize="hasRole('ADMIN')" href="/">Admin</a>
                 </li>
                 <li>
-                    <a th:href="@{/logout}">Logout</a>
+                    <form th:action="@{/logout}" th:method="POST">
+                        <button class="logout-btn" type="submit" value="Logout">Logout</button>
+                    </form>
                 </li>
             </th:block>
 

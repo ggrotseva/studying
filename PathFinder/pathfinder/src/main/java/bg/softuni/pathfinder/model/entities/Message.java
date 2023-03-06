@@ -20,11 +20,11 @@ public class Message {
 
     @ManyToOne
     @JoinColumn
-    private User author;
+    private UserEntity author;
 
     @ManyToOne
     @JoinColumn
-    private User recipient;
+    private UserEntity recipient;
 
     public Message() {
     }
@@ -53,19 +53,19 @@ public class Message {
         this.text = text;
     }
 
-    public User getAuthor() {
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserEntity author) {
         this.author = author;
     }
 
-    public User getRecipient() {
+    public UserEntity getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(User recipient) {
+    public void setRecipient(UserEntity recipient) {
         this.recipient = recipient;
     }
 }

@@ -3,13 +3,13 @@
 
 <head>
     <title>Motorcycle</title>
-    <th:block th:include="~{fragments/head}"/>
+    <th:block th:insert="~{fragments/head}"/>
 </head>
 
 <body>
 <div class="wrapper">
     <!-- Navigation -->
-    <th:block th:include="~{fragments/navigation}"/>
+    <th:block th:insert="~{fragments/navigation}"/>
 
      <section class="road">
         <div>
@@ -22,5 +22,5 @@
 </div>
 <!-- Wrapper Ends -->
 </body>
-<th:block th:include="~{/fragments/footer}" />
+<th:block th:insert="~{/fragments/footer}" />
 </html>

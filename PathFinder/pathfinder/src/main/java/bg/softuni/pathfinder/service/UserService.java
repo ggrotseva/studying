@@ -2,10 +2,9 @@ package bg.softuni.pathfinder.service;
 
 import bg.softuni.pathfinder.model.dto.UserDetailsDTO;
 import bg.softuni.pathfinder.model.entities.Role;
-import bg.softuni.pathfinder.model.entities.User;
+import bg.softuni.pathfinder.model.entities.UserEntity;
 import bg.softuni.pathfinder.model.enums.UserRole;
 import bg.softuni.pathfinder.repository.UserRepository;
-import bg.softuni.pathfinder.user.CurrentUser;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -17,39 +16,38 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final CurrentUser currentUser;
 
-    public UserService(UserRepository userRepository, RoleService roleService, CurrentUser currentUser) {
+    public UserService(UserRepository userRepository,
+                       RoleService roleService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
-        this.currentUser = currentUser;
     }
 
-    public UserDetailsDTO getUserProfile() {
-        User user = this.userRepository.findByUsername(currentUser.getUsername()).get();
+    public UserDetailsDTO getUserProfile(String username) {
+        UserEntity userEntity = this.userRepository.findByUsername(username).get();
 
         return new UserDetailsDTO()
-                .setId(user.getId())
-                .setUsername(user.getUsername())
-                .setFullName(user.getFullName())
-                .setAge(user.getAge())
-                .setLevel(user.getLevel());
+                .setId(userEntity.getId())
+                .setUsername(userEntity.getUsername())
+                .setFullName(userEntity.getFullName())
+                .setAge(userEntity.getAge())
+                .setLevel(userEntity.getLevel());
     }
 
     public Set<UserRole> addRole(Long id, boolean shouldReplaceRoles, String roleName) {
 
-        User user = this.userRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        UserEntity userEntity = this.userRepository.findById(id).orElseThrow(NoSuchElementException::new);
 
-        Set<Role> roles = user.getRoles();
+        Set<Role> roles = userEntity.getRoles();
 
         if (shouldReplaceRoles) {
-            user.setRoles(Set.of(this.roleService.findByName(roleName)));
+            userEntity.setRoles(Set.of(this.roleService.findByName(roleName)));
         } else {
             roles.add(this.roleService.findByName(roleName));
         }
 
-        user.setRoles(roles);
-        this.userRepository.save(user);
+        userEntity.setRoles(roles);
+        this.userRepository.save(userEntity);
 
         return roles.stream().map(Role::getName).collect(Collectors.toSet());
     }

@@ -23,26 +23,26 @@ insert into users (id, age, full_name, level, password, username)
 values (4, 33, 'Ivan Ivanov', 'BEGINNER', '12345', 'ivan');
 -- user roles
 -- admin
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (1, 1);
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (1, 2);
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (1, 3);
 -- moderator
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (2, 2);
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (2, 3);
 -- user
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (3, 3);
 -- user 2
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (4, 3);
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (4, 2);
-insert into users_roles (`user_id`, `roles_id`)
+insert into users_roles (`user_id`, `role_id`)
 VALUES (4, 1);
 
 -- categories

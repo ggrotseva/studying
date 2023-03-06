@@ -3,12 +3,12 @@
 
 <head>
     <title>Route Details</title>
-    <th:block th:include="~{fragments/head}"/>
+    <th:block th:insert="~{fragments/head}"/>
 </head>
 
 <body>
 <div class="wrapper">
-    <th:block th:include="~{fragments/navigation}"/>
+    <th:block th:insert="~{fragments/navigation}"/>
 
     <input type="hidden" name="routeId" id="routeId">   
     <div class="details-main">
@@ -102,6 +102,6 @@
     <script th:src="@{/js/comments.js}"></script>
 	-->
 </div>
-<th:block th:include="~{/fragments/footer}" />
+<th:block th:insert="~{/fragments/footer}" />
 </body>
 </html>

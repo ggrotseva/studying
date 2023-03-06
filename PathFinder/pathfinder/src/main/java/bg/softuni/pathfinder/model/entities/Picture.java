@@ -16,7 +16,7 @@ public class Picture {
     private String url;
 
     @ManyToOne
-    private User author;
+    private UserEntity author;
 
     @ManyToOne
     private Route route;
@@ -48,11 +48,11 @@ public class Picture {
         this.url = url;
     }
 
-    public User getAuthor() {
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserEntity author) {
         this.author = author;
     }
 

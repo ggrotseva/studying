@@ -3,12 +3,12 @@
 
 <head>
     <title>Profile</title>
-    <th:block th:include="~{fragments/head}"/>
+    <th:block th:insert="~{fragments/head}"/>
 </head>
 
 <body>
 
-<th:block th:include="~{fragments/navigation}"/>
+<th:block th:insert="~{fragments/navigation}"/>
 
 <main class="p-5 align-content-center bg-blur my-register-div">
     <div class="container mt-5">
@@ -38,8 +38,8 @@
                             <li><i class="fab fa-google"></i></li>
                         </ul>
                         <div class="buttons">
-                            <button class="btn btn-outline-primary px-4">Back</button>
-                            <!--                            <button class="btn btn-primary px-4 ms-3">Contact</button>-->
+<!--                            <button class="btn btn-outline-primary px-4">Back</button>-->
+                            <button onclick="history.back()" class="btn btn-primary px-4 ms-3">Contact</button>
                         </div>
                     </div>
                 </div>
@@ -48,5 +48,5 @@
     </div>
 </main>
 </body>
-<th:block th:include="~{/fragments/footer}"/>
+<th:block th:insert="~{/fragments/footer}"/>
 </html>

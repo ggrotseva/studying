@@ -4,6 +4,7 @@ import bg.softuni.pathfinder.model.dto.UserLoginDTO;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
 import bg.softuni.pathfinder.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ public class AuthController extends BaseController {
         return "register";
     }
 
+
+    // we hit the controller when security lets us do that
+    // AND validations work
     @PostMapping("/register")
     public String doRegister(@Valid UserRegisterDTO userRegisterDTO,
                              BindingResult bindingResult,
@@ -47,31 +51,21 @@ public class AuthController extends BaseController {
         return "redirect:/login";
     }
 
+
     @GetMapping("/login")
-    public String login(@ModelAttribute("userLoginDTO") UserLoginDTO userLoginDTO) {
+    public String login() {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String doLogin(@Valid UserLoginDTO userLoginDTO,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes) {
+    @PostMapping("/login-error")
+    public String onFailedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                                     String username,
+                             RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors() || !this.authService.login(userLoginDTO)) {
-            redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
+        redirectAttributes.addFlashAttribute(
+                UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
+        redirectAttributes.addFlashAttribute("badCredentials", true);
 
-            // when I put an error message in the form, I'll need this
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
-
-            return "redirect:/login";
-        }
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        this.authService.logout();
-        return "redirect:/";
+        return "redirect:/login";
     }
 }
