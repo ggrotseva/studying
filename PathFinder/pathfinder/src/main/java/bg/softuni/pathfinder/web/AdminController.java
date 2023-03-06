@@ -22,6 +22,7 @@ public class AdminController {
     // {
     //   "roleName" : "ADMIN"
     // }
+
     @PatchMapping("/changeUserPermission/{id}")
     @ResponseBody
     public Set<UserRole> changeRoles(@PathVariable Long id,

@@ -2,14 +2,14 @@ package bg.softuni.pathfinder.model.dto;
 
 import bg.softuni.pathfinder.model.entities.Route;
 
-public class RouteMostCommentedDTO {
+public class RouteBriefDTO {
 
     private Long id;
     private String name;
     private String description;
     private String pictureUrl;
 
-    public RouteMostCommentedDTO(Long id, String name, String description, String pictureUrl) {
+    public RouteBriefDTO(Long id, String name, String description, String pictureUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -20,7 +20,7 @@ public class RouteMostCommentedDTO {
         return id;
     }
 
-    public RouteMostCommentedDTO setId(Long id) {
+    public RouteBriefDTO setId(Long id) {
         this.id = id;
         return this;
     }
@@ -29,7 +29,7 @@ public class RouteMostCommentedDTO {
         return name;
     }
 
-    public RouteMostCommentedDTO setName(String name) {
+    public RouteBriefDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -38,7 +38,7 @@ public class RouteMostCommentedDTO {
         return description;
     }
 
-    public RouteMostCommentedDTO setDescription(String description) {
+    public RouteBriefDTO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -47,13 +47,13 @@ public class RouteMostCommentedDTO {
         return pictureUrl;
     }
 
-    public RouteMostCommentedDTO setPictureUrl(String pictureUrl) {
+    public RouteBriefDTO setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
         return this;
     }
 
-    public static RouteMostCommentedDTO makeDTO(Route route) {
-        return new RouteMostCommentedDTO(
+    public static RouteBriefDTO makeDTO(Route route) {
+        return new RouteBriefDTO(
                 route.getId(),
                 route.getName(),
                 route.getDescription(),

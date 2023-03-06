@@ -61,10 +61,7 @@ public class AuthService {
     }
 
     private void login(User user) {
-        this.currentUser
-                .setUsername(user.getUsername())
-                .setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
-                .setLogged(true);
+        this.currentUser.login(user);
     }
 
     public void logout() {

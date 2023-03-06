@@ -1,6 +1,6 @@
 package bg.softuni.pathfinder.web;
 
-import bg.softuni.pathfinder.model.dto.MostCommentedRouteDTO;
+import bg.softuni.pathfinder.model.dto.RouteBriefDTO;
 import bg.softuni.pathfinder.service.RouteService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class HomeController {
 
 //        final Object sessionUsername = httpSession.getAttribute(USERNAME_KEY);
 
-        MostCommentedRouteDTO routeDto = routeService.getMostCommented();
+        RouteBriefDTO routeDto = routeService.getMostCommented();
 
         model.addAttribute("mostCommented", routeDto);
 //        model.addAttribute(USERNAME_KEY, sessionUsername);
@@ -31,7 +31,7 @@ public class HomeController {
     }
 
     @GetMapping("/about")
-    public String about() {
+    public String getAbout() {
         return "about";
     }
 }

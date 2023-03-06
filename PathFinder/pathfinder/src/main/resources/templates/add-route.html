@@ -9,13 +9,15 @@
 <body>
 <!--<div class="wrapper">-->
 <!-- Navigation -->
-<th:block th:include="fragments/navigation"/>
+<th:block th:include="~{fragments/navigation}"/>
 
 <!-- Top Container -->
 <div class="row justify-content-center ">
     <form id="add-route-form" class="w-50 rounded text-white mt-5"
-          action="/" 
-          method="/" enctype="multipart/form-data">
+          th:action="@{/routes/add}"
+          th:method="POST"
+          th:object="${routeAddDTO}"
+          enctype="multipart/form-data">
 
         <h3 class="border-left border-light pl-2">Add a new route</h3>
         <div>
@@ -23,13 +25,13 @@
                 <label for="inputName" class="col-form-label ">Name</label>
             </div>
             <div class="form-group">
-                <input name="name" 
-                       required minlength="5" maxlength="20"
+                <input name="name"
+                       th:field="*{name}"
                        type="text"
                        id="inputName"
                        class="form-control"
                        aria-describedby="inputNameError">
-                <small id="inputNameError"
+                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="inputNameError"
                        class="invalid-feedback bg-danger rounded">Name length must be more than 3 characters</small>
 
             </div>
@@ -40,13 +42,13 @@
                 <label for="inputDescription" class="col-form-label ">Description</label>
             </div>
             <div class="form-group">
-                    <textarea name="description" 
-                              required minlength="5"
+                    <textarea name="description"
+                              th:field="*{description}"
                               id="inputDescription"
                               class="form-control"
                               aria-describedby="inputDescriptionError"></textarea>
-                <small id="inputDescriptionError"
-                       class="invalid-feedback  form-text bg-danger rounded">Description length must be more than 5
+                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" id="inputDescriptionError"
+                       class="form-text bg-danger rounded">Description length must be more than 5
                     characters</small>
             </div>
         </div>
@@ -57,20 +59,24 @@
             </div>
             <div class="form-group">
                 <input type="file" name="gpxCoordinates"
+                       th:field="*{gpxCoordinates}"
 					   required
                        id="inputGpx"
                        class="form-control-file"
                        aria-describedby="inputGpxError">
-                <small id="inputGpxError"
-                       class="invalid-feedback  form-text bg-danger rounded">Must be valid GPX Coordinates</small>
+                <small th:if="${#fields.hasErrors('gpxCoordinates')}" th:errors="*{gpxCoordinates}" id="inputGpxError"
+                       class="form-text bg-danger rounded">Must be valid GPX Coordinates</small>
             </div>
         </div>
         <div>
             <div class="form-group">
                 <label for="level">Level</label>
-                <select id="level" class="custom-select">
+                <select id="level" class="custom-select" name="level">
                     <option value="" selected>Select level</option>
-                    <option value="1" text="ADVANCED">Select level</option>
+                    <option th:each="level : ${T(bg.softuni.pathfinder.model.enums.Level).values()}"
+                            th:value="${level}"
+                            th:text="${level}"
+                            th:selected="${level} == *{level}">level</option>
                 </select>
             </div>
         </div>
@@ -79,6 +85,7 @@
             <div class="form-group">
                 <label for="videoUrl">Video Url (only last eleven characters from Youtube)</label>
                 <input id="videoUrl" type="text"
+                       th:field="*{videoUrl}"
                        class="form-control" placeholder="Video url">
             </div>
         </div>
@@ -87,7 +94,10 @@
             <div class="form-group p-3">
                 <label class="p-2" for="categories">Categories:</label>
                 <input class="m-3" type="checkbox" name="categories" id="categories"
-                       value="1" text="Category">
+                       th:each="category : ${T(bg.softuni.pathfinder.model.enums.RouteCategory).values()}"
+                       th:object="${category}"
+                       th:value="${category}"
+                       th:text="${category}">
 				<br>
             </div>
         </div>
