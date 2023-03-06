@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -52,7 +53,8 @@ public class OfferController extends BaseController {
     @PostMapping("/add")
     public ModelAndView postAddOffer(@Valid OfferAddDTO offerAddDTO,
                                      BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes,
+                                     Principal principal) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddDTO", offerAddDTO);
@@ -61,7 +63,7 @@ public class OfferController extends BaseController {
             return super.redirect("/offers/add");
         }
 
-        this.offerService.addOffer(offerAddDTO);
+        this.offerService.addOffer(offerAddDTO, principal.getName());
 
         return super.redirect("/offers/all");
     }

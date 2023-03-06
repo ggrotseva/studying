@@ -27,18 +27,15 @@ public class OfferService implements DatabaseInitService {
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
     private final ModelRepository modelRepository;
-    private final CurrentUser currentUser;
     private final ModelMapper mapper;
 
     public OfferService(OfferRepository offerRepository,
                         UserRepository userRepository,
                         ModelRepository modelRepository,
-                        CurrentUser currentUser,
                         ModelMapper mapper) {
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
         this.modelRepository = modelRepository;
-        this.currentUser = currentUser;
         this.mapper = mapper;
     }
 
@@ -52,12 +49,10 @@ public class OfferService implements DatabaseInitService {
         return this.offerRepository.count() > 0;
     }
 
-    public void addOffer(OfferAddDTO addOfferDTO) {
+    public void addOffer(OfferAddDTO addOfferDTO, String username) {
         Offer newOffer = mapper.map(addOfferDTO, Offer.class);
 
-        // TODO: check if current user is logged
-
-        UserEntity user = this.userRepository.findById(currentUser.getId())
+        UserEntity user = this.userRepository.findByUsername(username)
                 .orElseThrow(NoSuchElementException::new);
 
         Model model = this.modelRepository.findById(addOfferDTO.getModelId())

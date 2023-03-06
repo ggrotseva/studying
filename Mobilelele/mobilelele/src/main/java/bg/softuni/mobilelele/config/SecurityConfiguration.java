@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 // all other pages: AUTHENTICATION REQUIRED !
                 .anyRequest().authenticated()
                 .and()
-                // set login page with credentials' names
+                // set the default login page and credentials' names
                 .formLogin().loginPage("/users/login")
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
