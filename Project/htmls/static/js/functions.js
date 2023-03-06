@@ -1,3 +1,10 @@
+window.paceOptions = {
+    ajax: {
+        ignoreURLs: ['signalr', '__browserLink', 'browserLinkSignalR'],
+        trackWebSockets: false
+    }
+};
+
 function fillTableRow(e) {
     var table = document.querySelector('tbody');
     var row = table.insertRow();
@@ -14,7 +21,7 @@ function fillTableRow(e) {
         <td>${expiryDate}</td>
         <td>${brand}</td>
         <td>${description}</td>
-        <td>${isOpened}</td>
+        <td></td>
     </tr>
     `;
 

@@ -35,7 +35,9 @@ footer {
      border-radius: 45px;
 }
 
-.my-btn:hover {
+.my-btn:hover,
+.my-btn:focus,
+.my-btn:active {
      background-color: #c99b10;
      border-color: #c99b10;
 }
@@ -66,7 +68,6 @@ form.main-form {
      padding: 10px 30px;
      border-radius: 20px;
 }
-
 
 /* -------------------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------------------- */
