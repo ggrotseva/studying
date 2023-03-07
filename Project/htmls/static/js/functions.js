@@ -6,7 +6,7 @@ window.paceOptions = {
 };
 
 function fillTableRow(e) {
-    var table = document.querySelector('tbody');
+    var table = document.getElementById('table-content');
     var row = table.insertRow();
 
     var name = document.getElementById("name").value;
@@ -15,7 +15,7 @@ function fillTableRow(e) {
     var description = document.getElementById("description").value;
     var isOpened = document.getElementById("isOpened").value;
 
-    row.innerHTML += `
+    table.innerHTML += `
     <tr>
         <td colspan="2">${name}</td>
         <td>${expiryDate}</td>
