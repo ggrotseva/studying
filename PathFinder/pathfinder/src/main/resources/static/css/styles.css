@@ -72,7 +72,7 @@ img {
     box-shadow: var(--shadow);
 }
 
-.main-nav button {
+.main-nav .nav-btn {
     background: var(--primary);
     display: block;
     text-decoration: none;
@@ -87,7 +87,7 @@ img {
     cursor: pointer;
 }
 
-.main-nav button:hover {
+.main-nav .nav-btn:hover {
     background: var(--dark);
     color: var(--light);
 }

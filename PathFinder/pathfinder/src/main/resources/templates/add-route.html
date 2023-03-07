@@ -20,11 +20,11 @@
           enctype="multipart/form-data">
 
         <h3 class="border-left border-light pl-2">Add a new route</h3>
-        <div>
-            <div class="form-group">
+        <div class="form-group">
+            <div>
                 <label for="inputName" class="col-form-label ">Name</label>
             </div>
-            <div class="form-group">
+            <div>
                 <input name="name"
                        th:field="*{name}"
                        type="text"
@@ -32,35 +32,34 @@
                        class="form-control"
                        aria-describedby="inputNameError">
                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="inputNameError"
-                       class="invalid-feedback bg-danger rounded">Name length must be more than 3 characters</small>
-
+                       class="form-text bg-danger rounded">Name length must be more than 3 characters</small>
             </div>
         </div>
 
-        <div>
-            <div class="form-group">
+        <div class="form-group">
+            <div>
                 <label for="inputDescription" class="col-form-label ">Description</label>
             </div>
-            <div class="form-group">
+            <div>
                     <textarea name="description"
                               th:field="*{description}"
                               id="inputDescription"
                               class="form-control"
                               aria-describedby="inputDescriptionError"></textarea>
-                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" id="inputDescriptionError"
+                    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" id="inputDescriptionError"
                        class="form-text bg-danger rounded">Description length must be more than 5
                     characters</small>
             </div>
         </div>
 
-        <div>
-            <div class="form-group">
-                <label for="inputGpx" class="col-form-label ">GPX Coordinates</label>
+        <div class="form-group">
+            <div>
+                <label for="inputGpx" class="col-form-label">GPX Coordinates</label>
             </div>
-            <div class="form-group">
+            <div>
                 <input type="file" name="gpxCoordinates"
                        th:field="*{gpxCoordinates}"
-					   required
+                       required
                        id="inputGpx"
                        class="form-control-file"
                        aria-describedby="inputGpxError">
@@ -68,21 +67,22 @@
                        class="form-text bg-danger rounded">Must be valid GPX Coordinates</small>
             </div>
         </div>
-        <div>
-            <div class="form-group">
+        <div class="form-group">
+            <div>
                 <label for="level">Level</label>
                 <select id="level" class="custom-select" name="level">
                     <option value="" selected>Select level</option>
                     <option th:each="level : ${T(bg.softuni.pathfinder.model.enums.Level).values()}"
                             th:value="${level}"
                             th:text="${level}"
-                            th:selected="${level} == *{level}">level</option>
+                            th:selected="${level} == *{level}">level
+                    </option>
                 </select>
             </div>
         </div>
-        <div>
+        <div class="form-group">
 
-            <div class="form-group">
+            <div>
                 <label for="videoUrl">Video Url (only last eleven characters from Youtube)</label>
                 <input id="videoUrl" type="text"
                        th:field="*{videoUrl}"
@@ -90,15 +90,15 @@
             </div>
         </div>
 
-        <div>
-            <div class="form-group p-3">
+        <div class="form-group p-3">
+            <div>
                 <label class="p-2" for="categories">Categories:</label>
                 <input class="m-3" type="checkbox" name="categories" id="categories"
                        th:each="category : ${T(bg.softuni.pathfinder.model.enums.RouteCategory).values()}"
                        th:object="${category}"
                        th:value="${category}"
                        th:text="${category}">
-				<br>
+                <br>
             </div>
         </div>
 
@@ -108,6 +108,6 @@
 
     </form>
 </div>
-<th:block th:insert="~{/fragments/footer}" />
+<th:block th:insert="~{/fragments/footer}"/>
 </body>
 </html>

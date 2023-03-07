@@ -7,8 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 public class RouteAddDTO {
@@ -31,10 +30,10 @@ public class RouteAddDTO {
     private String videoUrl;
 
     @NotNull
-    private List<RouteCategory> categories;
+    private Set<RouteCategory> categories;
 
     public RouteAddDTO() {
-        this.categories = new ArrayList<>();
+        this.categories = new HashSet<>();
     }
 
     public String getName() {
@@ -82,11 +81,11 @@ public class RouteAddDTO {
         return this;
     }
 
-    public List<RouteCategory> getCategories() {
+    public Set<RouteCategory> getCategories() {
         return categories;
     }
 
-    public RouteAddDTO setCategories(List<RouteCategory> categories) {
+    public RouteAddDTO setCategories(Set<RouteCategory> categories) {
         this.categories = categories;
         return this;
     }

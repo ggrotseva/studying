@@ -9,6 +9,9 @@ public class RouteBriefDTO {
     private String description;
     private String pictureUrl;
 
+    public RouteBriefDTO() {
+    }
+
     public RouteBriefDTO(Long id, String name, String description, String pictureUrl) {
         this.id = id;
         this.name = name;

@@ -2,17 +2,17 @@ package bg.softuni.pathfinder.web;
 
 import bg.softuni.pathfinder.model.dto.RouteAddDTO;
 import bg.softuni.pathfinder.model.dto.RouteBriefDTO;
+import bg.softuni.pathfinder.model.dto.RouteDTO;
 import bg.softuni.pathfinder.service.RouteService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -36,12 +36,13 @@ public class RouteController extends BaseController {
     }
 
     @GetMapping("/details/{id}")
-    public ModelAndView getDetails(ModelAndView modelAndView) {
+    public ModelAndView getDetails(@PathVariable Long id, ModelAndView modelAndView) {
 
         modelAndView.setViewName("route-details");
 
-//        this.routeService.findById();
-//        modelAndView.addObject("route", );
+        RouteDTO routeDTO = this.routeService.findById(id);
+        modelAndView.addObject("route", routeDTO);
+
         return modelAndView;
     }
 
@@ -54,7 +55,8 @@ public class RouteController extends BaseController {
     @PostMapping("/add")
     public ModelAndView postAddRoute(@Valid RouteAddDTO routeAddDTO,
                                      BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes,
+                                     Principal principal) throws IOException {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("routeAddDTO", routeAddDTO);
@@ -63,8 +65,18 @@ public class RouteController extends BaseController {
             return super.redirect("/routes/add");
         }
 
-        this.routeService.addRoute(routeAddDTO);
+        this.routeService.addRoute(routeAddDTO, principal.getName());
 
         return super.redirect("/routes/all");
+    }
+
+    @GetMapping("/{category}")
+    public ModelAndView getRoutesByCategory(@PathVariable("category") String categoryName, ModelAndView modelAndView) {
+
+        List<RouteBriefDTO> routes = this.routeService.findByCategoriesContains(categoryName);
+
+        modelAndView.addObject("routes", routes);
+
+        return super.view("car", modelAndView);
     }
 }

@@ -22,15 +22,6 @@ public class UserController extends BaseController {
         this.mapper = mapper;
     }
 
-//    @GetMapping("/profile")
-//    public ModelAndView getProfile(ModelAndView modelAndView) {
-//        UserDetailsDTO userProfile = this.userService.getUserProfile();
-//
-//        modelAndView.addObject("userProfile", userProfile);
-//
-//        return super.view("profile", modelAndView);
-//    }
-
     @GetMapping("/profile")
     public ModelAndView getProfile(ModelAndView modelAndView, Principal principal) {
         UserDetailsDTO userProfile = mapper.map(this.userService.getUserProfile(principal.getName()),

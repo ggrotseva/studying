@@ -14,15 +14,15 @@ import java.util.List;
 
 public class PathfinderUserDetailsService implements UserDetailsService {
 
-    private final AuthService authService;
+    private final UserService userService;
 
-    public PathfinderUserDetailsService(AuthService authService) {
-        this.authService = authService;
+    public PathfinderUserDetailsService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return map(this.authService.findByUsername(username));
+        return map(this.userService.findByUsername(username));
     }
 
     private UserDetails map(UserEntity userEntity) {

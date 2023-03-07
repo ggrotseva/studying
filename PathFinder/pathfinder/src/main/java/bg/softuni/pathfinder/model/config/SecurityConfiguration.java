@@ -45,8 +45,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(AuthService authService) {
-        return new PathfinderUserDetailsService(authService);
+    public UserDetailsService userDetailsService(UserService userService) {
+        return new PathfinderUserDetailsService(userService);
     }
 }
 

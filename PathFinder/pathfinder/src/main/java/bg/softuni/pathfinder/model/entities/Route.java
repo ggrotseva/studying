@@ -37,7 +37,6 @@ public class Route {
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "route", fetch = FetchType.EAGER)
-//    @Fetch(FetchMode.JOIN)
     private Set<Picture> pictures;
 
     @ManyToMany
@@ -53,79 +52,89 @@ public class Route {
         return id;
     }
 
-    public void setId(Long id) {
+    public Route setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getGpxCoordinates() {
         return gpxCoordinates;
     }
 
-    public void setGpxCoordinates(String gpxCoordinates) {
+    public Route setGpxCoordinates(String gpxCoordinates) {
         this.gpxCoordinates = gpxCoordinates;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Route setName(String name) {
         this.name = name;
+        return this;
     }
 
     public Level getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public Route setLevel(Level level) {
         this.level = level;
+        return this;
     }
 
     public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserEntity author) {
+    public Route setAuthor(UserEntity author) {
         this.author = author;
+        return this;
     }
 
     public String getVideoUrl() {
         return videoUrl;
     }
 
-    public void setVideoUrl(String videoUrl) {
+    public Route setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Route setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public Route setComments(Set<Comment> comments) {
         this.comments = comments;
+        return this;
     }
 
     public Set<Picture> getPictures() {
         return pictures;
     }
 
-    public void setPictures(Set<Picture> pictures) {
+    public Route setPictures(Set<Picture> pictures) {
         this.pictures = pictures;
+        return this;
     }
 
     public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public Route setCategories(Set<Category> categories) {
         this.categories = categories;
+        return this;
     }
 }
