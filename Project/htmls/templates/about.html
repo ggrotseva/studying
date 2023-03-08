@@ -59,12 +59,15 @@
                             <button class="nav-link btn btn-link" type="submit">Logout</button>
                         </form>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
                 </ul>
             </div>
         </nav>
     </header>
 
-    <main class="container text-white pt-4 col-8">
+    <main class="container text-white p-5 col-8">
         <p class="row">about</p>
         <h4 class="row">Use the products that need to be used first</h4>
         <br>
@@ -72,16 +75,27 @@
             see
             which foods have a closer expiration date, without having to go through your whole pantry. You can
             search for foods,
-            check stock and make a meal plan based on what needs to be used quicker - all from your computer.
+            check stock and make a meal plan based on what needs to be used quicker - all from your computer.<br />
         </p>
-        <p class="row">Need more information?</p>
-        <a href="/getting-started" class="btn my-btn text-white" role="button" aria-disabled="true">Get started</a>
+        <div>
+            <h4 class="row pb-4">Get started!</h4>
+
+            <div class="row">
+                <div class="col-sm-auto">
+                    <form action="/users/login"><button class="btn my-btn" type="submit">Login</button></form>
+                </div>
+                <div class="col-sm-auto"></div>
+                <div class="col-sm-auto">
+                    <form action="/users/register"><button class="btn my-btn" type="submit">Register</button></form>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
         <div class="text-center footer-msg">&copy; by Gabriela Grotseva</div>
     </footer>
-    
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

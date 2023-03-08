@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="~{fragments/head}"/>
+
+    <title>About</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="~{fragments/navigation}"/>
+</header>
+
+<main class="container text-white p-5 col-8">
+    <p class="row">about</p>
+    <h4 class="row">Use the products that need to be used first</h4>
+    <br>
+    <p class="row">Insert everything from your pantry once and we will organize that for you. You can easily
+        see
+        which foods have a closer expiration date, without having to go through your whole pantry. You can
+        search for foods,
+        check stock and make a meal plan based on what needs to be used quicker - all from your computer.<br/>
+    </p>
+
+    <div sec:authorize="!isAuthenticated()">
+        <h4 class="row pb-4">Get started!</h4>
+
+        <div class="row">
+            <div class="col-sm-auto">
+                <form th:action="@{/users/login}">
+                    <button class="btn my-btn" type="submit">Login</button>
+                </form>
+            </div>
+            <div class="col-sm-auto"></div>
+            <div class="col-sm-auto">
+                <form th:action="@{/users/register}">
+                    <button class="btn my-btn" type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{/fragments/footer}"/>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

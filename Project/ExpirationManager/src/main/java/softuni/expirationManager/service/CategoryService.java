@@ -1,9 +1,11 @@
 package softuni.expirationManager.service;
 
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.model.dtos.CategoryAddDTO;
 import softuni.expirationManager.model.entities.CategoryEntity;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.repository.CategoryRepository;
+import softuni.expirationManager.repository.UserRepository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,9 +23,11 @@ public class CategoryService {
             "sweets", "biscuits, pralines, chocolates, etc.");
 
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, UserRepository userRepository) {
         this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -40,5 +44,17 @@ public class CategoryService {
                 .collect(Collectors.toList());
 
         this.categoryRepository.saveAllAndFlush(categories);
+    }
+
+    public void addCategory(CategoryAddDTO categoryAddDTO, String username) throws IOException {
+        CategoryEntity newCategory = new CategoryEntity().setName(categoryAddDTO.getName())
+                .setDescription(categoryAddDTO.getDescription())
+                .setIcon(categoryAddDTO.getIcon().getBytes());
+
+        UserEntity principalUser = this.userRepository.findByUsername(username).orElseThrow();
+
+        newCategory.setUser(principalUser);
+
+        this.categoryRepository.saveAndFlush(newCategory);
     }
 }
