@@ -1,8 +1,6 @@
-package softuni.expirationManager.model;
+package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -19,6 +17,7 @@ public class CategoryEntity {
     private String description;
 
     @Lob
+    @Column(columnDefinition = "BLOB")
     private byte[] icon;
 
     @ManyToOne

@@ -1,4 +1,4 @@
-package softuni.expirationManager.model;
+package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
 

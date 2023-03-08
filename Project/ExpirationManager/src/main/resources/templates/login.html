@@ -17,13 +17,13 @@
     <h2 class="text-center text-white m-3">Login</h2>
 
     <div class="container">
-        <form th:method="post" th:action="@{/users/login}" th:object="${userLoginDTO}"
+        <form th:method="post" th:action="@{/users/login}"
               class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <div class="form-group">
                 <label for="username" class="text-white font-weight-bold">Username</label>
                 <input id="username"
-                       th:field="*{username}"
                        name="username"
+                       th:value="${username}"
                        type="text"
                        min="2" max="50" class="form-control"
                        placeholder="Username"/>
@@ -31,7 +31,6 @@
             <div class="form-group">
                 <label for="password" class="text-white font-weight-bold">Password</label>
                 <input id="password"
-                       th:field="*{password}"
                        name="password"
                        type="password"
                        min="2" max="20" class="form-control"

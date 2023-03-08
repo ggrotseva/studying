@@ -1,5 +1,7 @@
 package softuni.expirationManager.config;
 
+import softuni.expirationManager.repository.UserRepository;
+import softuni.expirationManager.service.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import softuni.expirationManager.repository.UserRepository;
-import softuni.expirationManager.service.ApplicationUserDetailsService;
 
 @Configuration
 public class SecurityConfiguration {
@@ -24,7 +24,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
 //                .requestMatchers("/pages/moderator").hasRole(UserRoleEnum.MODERATOR.name())
 //                .requestMatchers("/pages/admin").hasRole(UserRoleEnum.ADMIN.name())
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/users/login")
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
@@ -32,8 +32,8 @@ public class SecurityConfiguration {
                 .defaultSuccessUrl("/")
                 .failureForwardUrl("/users/login-error")
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true)
-        ;
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
+
         return httpSecurity.build();
     }
 

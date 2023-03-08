@@ -1,10 +1,10 @@
-package softuni.expirationManager.manager;
+package softuni.expirationManager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class ExpirationManagerApplicationTests {
 
 	@Test
 	void contextLoads() {

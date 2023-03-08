@@ -1,7 +1,7 @@
-package softuni.expirationManager.model;
+package softuni.expirationManager.model.entities;
 
-import jakarta.persistence.*;
 import softuni.expirationManager.model.enums.UserRoleEnum;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_roles")

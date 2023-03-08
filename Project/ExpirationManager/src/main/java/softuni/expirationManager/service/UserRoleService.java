@@ -1,11 +1,11 @@
 package softuni.expirationManager.service;
 
+import softuni.expirationManager.model.entities.UserRoleEntity;
+import softuni.expirationManager.model.enums.UserRoleEnum;
+import softuni.expirationManager.repository.UserRoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.model.UserRoleEntity;
-import softuni.expirationManager.model.enums.UserRoleEnum;
-import softuni.expirationManager.repository.UserRoleRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,4 +39,6 @@ public class UserRoleService {
 //                .map(role -> this.mapper.map(role, UserRoleViewDTO.class))
                 .toList();
     }
+
+
 }

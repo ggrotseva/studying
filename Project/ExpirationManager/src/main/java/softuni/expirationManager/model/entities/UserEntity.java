@@ -1,7 +1,9 @@
-package softuni.expirationManager.model;
+package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +39,13 @@ public class UserEntity {
     private boolean isDeleted;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<CategoryEntity> categories;
+
+    public UserEntity() {
+        this.userRoles = new ArrayList<>();
+        this.categories = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;

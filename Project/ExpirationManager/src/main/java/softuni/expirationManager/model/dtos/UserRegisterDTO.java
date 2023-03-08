@@ -3,31 +3,35 @@ package softuni.expirationManager.model.dtos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import softuni.expirationManager.model.validations.FieldMatch;
 
+@FieldMatch(first = "password",
+        second = "confirmPassword",
+        message = "Password doesn't match")
 public class UserRegisterDTO {
 
-    @Size(min = 2, max = 50)
-    @NotNull
+    @Size(min = 2, max = 50, message = "First Name should be between 2 and 50 characters long.")
+    @NotNull(message = "First Name is required")
     private String firstName;
 
-    @Size(min = 2, max = 50)
-    @NotNull
+    @Size(min = 2, max = 50, message = "Last Name should be between 2 and 50 characters long.")
+    @NotNull(message = "Last Name is required")
     private String lastName;
 
-    @Size(min = 4, max = 50)
-    @NotNull
+    @Size(min = 4, max = 50, message = "Username should be between 4 and 50 characters long.")
+    @NotNull(message = "Username is required")
     private String username;
 
-    @Email
-    @NotNull
+    @Email(message = "Please enter a valid email address.")
+    @NotNull(message = "Email is required")
     private String email;
 
-    @Size(min = 6, max = 50)
-    @NotNull
+    @Size(min = 6, max = 50, message = "Password should be between 6 and 50 characters long.")
+    @NotNull(message = "Password is required")
     private String password;
 
-    @Size(min = 6, max = 50)
-    @NotNull
+    @Size(min = 6, max = 50, message = "Password should be between 6 and 50 characters long.")
+    @NotNull(message = "Password confirmation is required")
     private String confirmPassword;
 
     public String getUsername() {

@@ -1,8 +1,6 @@
-package softuni.expirationManager.model;
+package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "recipes")
@@ -12,8 +10,8 @@ public class RecipeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ElementCollection
-    private List<String> ingredients;
+    @Column(name = "ingredients_description", columnDefinition = "TEXT")
+    private String ingredientsDescription;
 
     @Column(columnDefinition = "TEXT")
     private String preparation;
@@ -31,12 +29,12 @@ public class RecipeEntity {
         return this;
     }
 
-    public List<String> getIngredients() {
-        return ingredients;
+    public String getIngredientsDescription() {
+        return ingredientsDescription;
     }
 
-    public RecipeEntity setIngredientList(List<String> ingredients) {
-        this.ingredients = ingredients;
+    public RecipeEntity setIngredientsDescription(String ingredientsDescription) {
+        this.ingredientsDescription = ingredientsDescription;
         return this;
     }
 

@@ -1,12 +1,11 @@
 package softuni.expirationManager;
 
+import softuni.expirationManager.model.entities.CategoryEntity;
+import softuni.expirationManager.repository.CategoryRepository;
+import softuni.expirationManager.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import softuni.expirationManager.model.CategoryEntity;
-import softuni.expirationManager.model.ProductEntity;
-import softuni.expirationManager.repository.CategoryRepository;
-import softuni.expirationManager.repository.ProductRepository;
 
 import java.util.List;
 
@@ -38,8 +37,7 @@ public class TestingClass implements CommandLineRunner {
 //            System.out.println(product.getName() + product.getBrand());
 //        }
 
-        List<CategoryEntity> categories = this.categoryRepository.findByUserId(1L).get();
-
-        System.out.println(categories.get(2).getIcon());
+//        List<CategoryEntity> categories = this.categoryRepository.findByUserId(1L).get();
+//        System.out.println(categories.get(2).getIcon());
     }
 }
