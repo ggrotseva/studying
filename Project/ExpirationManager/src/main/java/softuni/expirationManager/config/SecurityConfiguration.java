@@ -21,7 +21,7 @@ public class SecurityConfiguration {
         httpSecurity.
                 authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
+                .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
 //                .requestMatchers("/pages/moderator").hasRole(UserRoleEnum.MODERATOR.name())
 //                .requestMatchers("/pages/admin").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()
