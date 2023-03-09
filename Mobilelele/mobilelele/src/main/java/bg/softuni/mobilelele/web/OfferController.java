@@ -106,13 +106,6 @@ public class OfferController extends BaseController {
         return super.view("details");
     }
 
-//    @GetMapping("/delete/{id}")
-//    public ModelAndView getDeleteOffer(@PathVariable Long id) {
-//        this.offerService.deleteById(id);
-//
-//        return super.redirect("/offers/all");
-//    }
-
     @DeleteMapping("/delete/{id}")
     public ModelAndView getDeleteOffer(@PathVariable Long id) {
         this.offerService.deleteById(id);

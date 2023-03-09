@@ -17,12 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/users")
 public class UserController extends BaseController {
 
-//    private final UserService userService;
-//
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-//
     @ModelAttribute("userLoginDTO")
     public UserLoginDTO initUserModel() {
         return new UserLoginDTO();
@@ -33,22 +27,6 @@ public class UserController extends BaseController {
         return super.view("auth-login");
     }
 
-//    @PostMapping("/login")
-//    public ModelAndView postLogin(@Valid UserLoginDTO userLoginDTO,
-//                                 BindingResult bindingResult,
-//                                 RedirectAttributes redirectAttributes) {
-//
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("userLoginDTO", userLoginDTO);
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDTO", bindingResult);
-//
-//            return super.redirect("/users/login");
-//        }
-//
-//        this.userService.login(userLoginDTO);
-//
-//        return  super.redirect("/");
-//    }
 
     @PostMapping("/login-error")
     public ModelAndView postLoginError(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
@@ -60,9 +38,4 @@ public class UserController extends BaseController {
         return super.redirect("/users/login");
     }
 
-//    @PostMapping("/logout")
-//    public ModelAndView getLogout() {
-////        this.userService.logout();
-//        return super.redirect("/");
-//    }
 }

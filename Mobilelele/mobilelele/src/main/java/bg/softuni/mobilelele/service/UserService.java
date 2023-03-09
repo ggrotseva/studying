@@ -1,10 +1,8 @@
 package bg.softuni.mobilelele.service;
 
-import bg.softuni.mobilelele.model.dto.UserLoginDTO;
 import bg.softuni.mobilelele.model.dto.UserRegisterDTO;
 import bg.softuni.mobilelele.model.entities.UserEntity;
 import bg.softuni.mobilelele.repository.UserRepository;
-import bg.softuni.mobilelele.user.CurrentUser;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +22,12 @@ public class UserService implements DatabaseInitService {
     private final UserRoleService userRoleService;
     private final ModelMapper mapper;
 
-    private CurrentUser currentUser;
-
     public UserService(UserRepository userRepository,
                        UserRoleService userRoleService,
-                       ModelMapper mapper, CurrentUser currentUser) {
+                       ModelMapper mapper) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
         this.mapper = mapper;
-        this.currentUser = currentUser;
     }
 
     @Override
@@ -55,21 +50,5 @@ public class UserService implements DatabaseInitService {
                         List.of(this.userRoleService.findByRole(USER_ROLE)));
 
         userRepository.save(newUser);
-
     }
-
-    public void login(UserLoginDTO userLoginDTO) {
-        UserEntity user = userRepository.findByUsername(userLoginDTO.getUsername()).get();
-
-        // if invalid
-//        LOGGER.info("User with name [{}] not found.", userLoginDTO.getUsername());
-
-        this.currentUser.login(user);
-
-    }
-
-    public void logout() {
-        this.currentUser.logout();
-    }
-
 }
