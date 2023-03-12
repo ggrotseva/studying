@@ -54,6 +54,13 @@ footer {
      padding: 10px;
 }
 
+.box-head a:hover,
+.box-head a:focus,
+.box-head a:active {
+     text-decoration: none;
+     color: #67746b;
+}
+
 .box-content {
      height: 288px;
      overflow: auto;
@@ -61,6 +68,28 @@ footer {
 
 .box-content-table {
      min-height: 288px;
+}
+
+.box-recipes {
+     height: 600px;
+     overflow: auto;
+}
+
+.box-category {
+     min-height: 188px;
+}
+
+.box-bottom button {
+     background-color: transparent;
+     border: none;
+     color: #a5baab;
+}
+
+.box-bottom button:hover,
+.box-bottom button:focus,
+.box-bottom button:active {
+     cursor: pointer;
+     color: #67746b;
 }
 
 form.main-form {

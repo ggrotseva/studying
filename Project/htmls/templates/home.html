@@ -94,8 +94,8 @@
                                             <!-- This table can be done with DOM manipulation and jQuery/fetch API -->
                                             <thead>
                                                 <tr>
-                                                    <th><b>Product</b></th>
-                                                    <th><b>Expiry Date</b></th>
+                                                    <th style="width: 60%;"><b>Product</b></th>
+                                                    <th style="width: 40%;"><b>Expiry Date</b></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -113,10 +113,6 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
-
-                                    <div class="box-bottom">
-                                        <p></p>
                                     </div>
 
                                 </section>
@@ -135,25 +131,21 @@
                                             <!-- This table can be done with DOM manipulation and jQuery/fetch API -->
                                             <thead>
                                                 <tr>
-                                                    <th colspan="2"><b>Product</b></th>
-                                                    <th><b>Expiry Date</b></th>
+                                                    <th style="width: 60%;"><b>Product</b></th>
+                                                    <th style="width: 40%;"><b>Expiry Date</b></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td colspan="2">Name - Brand</td>
+                                                    <td>Name - Brand</td>
                                                     <td>Expiry Date</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2">Name - Brand</td>
+                                                    <td>Name - Brand</td>
                                                     <td>Expiry Date</td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
-
-                                    <div class="box-bottom">
-                                        <p></p>
                                     </div>
 
                                 </section>
@@ -169,85 +161,39 @@
                                 <section class="bg-white box">
 
                                     <div class="box-head">
-                                        <h4>Recipes:</h4>
+                                        <h4>Recipe ideas for your products:</h4>
                                     </div>
 
-                                    <div class="box-content px-3 pt-3">
+                                    <div class="box-recipes px-3">
                                         <div class="row">
-                                            <div class="col">
-                                                <div class="row">
-                                                    <div class="col-md-10">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <a href="/recipes/{id}" class="badge badge-light">
-                                                                    <h4>Recipe name</h4>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.</p>
-                                                                    Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                            </div>
-                                                        </div>
+                                            <div class="card col-sm-6 col-md-4 pt-3">
+                                                <a href="/recipes/{id}"><img class="card-img-top"
+                                                        src="../static/images/egg-toast.jpg" alt="Recipe image"></a>
 
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <img src="../static/images/egg-toast.jpg" class="img-thumbnail">
-                                                    </div>
-                                                </div>
-
-                                                <div class="dropdown-divider"></div>
-
-                                                <div class="row">
-                                                    <div class="col-10">
-
-                                                    </div>
-                                                    <div class="col-2">
-
-                                                    </div>
+                                                <div class="card-body">
+                                                    <p class="card-text">
+                                                        <a href="/recipes/{id}" class="badge badge-light">
+                                                            <span class="h4">Recipe Name</span>
+                                                        </a>
+                                                    </p>
+                                                    <p>
+                                                        <b>Type: </b>Sweet/Savory
+                                                    </p>
+                                                    <p>
+                                                        <b>Includes: </b>your product
+                                                    </p>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
 
-                                    <div class="box-bottom p-3">
-                                        <form action="/recipes">
-                                            <button class="btn my-btn" type="submit">See more</button>
-                                        </form>
+                                    <div class="row justify-content-center p-3">
+                                        <div class="col">
+                                            <form action="/recipes">
+                                                <button class="btn my-btn" type="submit">All Recipes</button>
+                                            </form>
+                                        </div>
                                     </div>
 
                                 </section>

@@ -93,7 +93,7 @@ const bullet = "\u2022";
 const bulletWithSpace = `${bullet} `;
 const enter = 13;
 
-const handleInput = (event) => {
+const formatInputWithBullets = (event) => {
     const { keyCode, target } = event;
     const { selectionStart, value } = target;
 
