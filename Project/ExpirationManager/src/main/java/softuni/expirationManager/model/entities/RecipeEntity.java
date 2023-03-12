@@ -17,8 +17,8 @@ public class RecipeEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "recipe_type", nullable = false)
-    private RecipeType recipeType;
+    @Column(nullable = false)
+    private RecipeType type;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -58,11 +58,11 @@ public class RecipeEntity {
     }
 
     public RecipeType getRecipeType() {
-        return recipeType;
+        return type;
     }
 
-    public RecipeEntity setRecipeType(RecipeType recipeType) {
-        this.recipeType = recipeType;
+    public RecipeEntity setRecipeType(RecipeType type) {
+        this.type = type;
         return this;
     }
 
