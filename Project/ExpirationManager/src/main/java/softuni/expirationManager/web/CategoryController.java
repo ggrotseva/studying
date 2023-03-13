@@ -2,16 +2,17 @@ package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.expirationManager.model.dtos.CategoryAddDTO;
+import softuni.expirationManager.model.dtos.CategoryViewDTO;
 import softuni.expirationManager.service.CategoryService;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class CategoryController {
@@ -47,6 +48,22 @@ public class CategoryController {
 
         this.categoryService.addCategory(categoryAddDTO, principal.getName());
 
-        return "redirect:/";
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/categories")
+    public String getCategories(Principal principal, Model model) {
+        List<CategoryViewDTO> categories = this.categoryService.findByOwnerUsername(principal.getName());
+
+        model.addAttribute("categories", categories);
+
+        return "categories";
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public String deleteCategory(@PathVariable Long id) {
+        this.categoryService.deleteById(id);
+
+        return "redirect:/categories";
     }
 }

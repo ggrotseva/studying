@@ -24,9 +24,6 @@ public class ProductEntity {
     @Column(name = "expiry_date", nullable = false)
     private LocalDate expiryDate;
 
-    @Column(name = "is_opened")
-    private boolean isOpened;
-
     @ManyToOne
     @JoinColumn(nullable = false)
     private CategoryEntity category;
@@ -73,15 +70,6 @@ public class ProductEntity {
 
     public ProductEntity setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
-        return this;
-    }
-
-    public boolean isOpened() {
-        return isOpened;
-    }
-
-    public ProductEntity setOpened(boolean opened) {
-        isOpened = opened;
         return this;
     }
 

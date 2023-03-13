@@ -10,10 +10,6 @@ body {
      flex-direction: column;
 }
 
-/* main {
-     padding-bottom: 4rem;
-} */
-
 footer {
      margin-top: auto;
 }
@@ -42,6 +38,22 @@ footer {
      border-color: #c99b10;
 }
 
+.add-btn {
+     background-color: #ecb409;
+     border-color: #ecb409;
+     color: white;
+     width: 100px;
+     height: 36px;
+     border-radius: 36px;
+}
+
+.add-btn:hover,
+.add-btn:focus,
+.add-btn:active {
+     background-color: #c99b10;
+     border-color: #c99b10;
+}
+
 .box {
      border-radius: 10px;
 }
@@ -54,6 +66,13 @@ footer {
      padding: 10px;
 }
 
+.box-head a:hover,
+.box-head a:focus,
+.box-head a:active {
+     text-decoration: none;
+     color: #67746b;
+}
+
 .box-content {
      height: 288px;
      overflow: auto;
@@ -61,6 +80,28 @@ footer {
 
 .box-content-table {
      min-height: 288px;
+}
+
+.box-recipes {
+     height: 600px;
+     overflow: auto;
+}
+
+.box-category {
+     min-height: 188px;
+}
+
+.box-bottom button {
+     background-color: transparent;
+     border: none;
+     color: #a5baab;
+}
+
+.box-bottom button:hover,
+.box-bottom button:focus,
+.box-bottom button:active {
+     cursor: pointer;
+     color: #67746b;
 }
 
 form.main-form {
@@ -71,30 +112,4 @@ form.main-form {
 
 th img {
      cursor: pointer;
-}
-
-/* -------------------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------------------- */
-
-.brand-section {
-     background-image: linear-gradient(to bottom right, rgba(220, 220, 220, 0.9), rgba(255, 255, 255, 0.9));
-}
-
-.card.offer,
-.offer-details .list-group-item {
-     background-image: linear-gradient(to bottom right, rgba(220, 220, 220, 0.9), rgba(255, 255, 255, 0.9));
-}
-
-.card-img-top-wrapper {
-     height: 150px;
-     overflow: hidden;
-}
-
-.field-error {
-     background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="red" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg> ') no-repeat top right/30px 30px;
-}
-
-.logged-user {
-     color: white;
 }
