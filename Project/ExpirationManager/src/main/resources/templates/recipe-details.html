@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/head}"/>
+
+    <title>Recipe Details</title>
+</head>
+
+<body>
+    <header>
+        <div th:replace="~{fragments/navigation}"/>
+    </header>
+
+
+    <main class="container pb-5">
+        <div class="row">
+            <div class="col-lg-12 pb-8">
+
+                <div class="row pt-4">
+                    <div class="col text-center text-white">
+                        <h2>Recipe Details</h2>
+                    </div>
+                </div>
+
+                <div class="row pt-4">
+                    <div class="col">
+                        <div class="row">
+                            <article class="col">
+                                <section class="bg-white box">
+
+                                    <div class="box-head">
+                                        <h4>Recipe name</h4>
+                                    </div>
+
+                                    <div class="row p-3">
+                                        <div class="col">
+                                            <div class="row">
+
+                                                <div class="col-md-4 pb-3">
+                                                    <img src="../static/images/egg-toast.jpg" class="img-thumbnail">
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <p>
+                                                        • 3 eggs<br />
+                                                        • 200ml milk<br />
+                                                        • 1 cup flour<br />
+                                                        • 1tbsp vegetable oil<br />
+                                                        • salt
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <p>Put the flour, eggs, milk, sunflower or vegetable oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.
+                                                        Put the flour, eggs, milk, sunflower or vegetable
+                                                        oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.
+                                                        Put the flour, eggs, milk, sunflower or vegetable
+                                                        oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.
+                                                        Put the flour, eggs, milk, sunflower or vegetable
+                                                        oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.
+                                                        Put the flour, eggs, milk, sunflower or vegetable
+                                                        oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.
+                                                        Put the flour, eggs, milk, sunflower or vegetable
+                                                        oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.
+                                                        Put the flour, eggs, milk, sunflower or vegetable
+                                                        oil
+                                                        and a pinch of salt into a bowl or large jug, then
+                                                        whisk to a smooth batter. Set aside for 30 mins to
+                                                        rest if you have time, or start cooking straight
+                                                        away.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center p-3">
+                                        <form action="/recipes/{id}/edit">
+                                            <button class="btn my-btn" type="submit">Edit</button>
+                                        </form>
+                                        <div class="col-sm-auto"></div>
+                                        <form action="/recipes/{id}" method="delete">
+                                            <button class="btn my-btn" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+
+                                </section>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </main>
+
+    <footer th:replace="~{/fragments/footer}"/>
+</body>
+
+</html>

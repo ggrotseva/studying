@@ -1,29 +1,28 @@
 package softuni.expirationManager.model.dtos;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
-public class ProductViewDTO {
+public class ProductAddDTO {
 
-    private Long id;
+    @Size(min = 4)
+    @NotNull(message = "Product Name is required")
     private String name;
+
     private String brand;
+
     private String description;
+
+    @NotNull(message = "Expiry Date is required")
     private LocalDate expiryDate;
-
-    public Long getId() {
-        return id;
-    }
-
-    public ProductViewDTO setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public String getName() {
         return name;
     }
 
-    public ProductViewDTO setName(String name) {
+    public ProductAddDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -32,7 +31,7 @@ public class ProductViewDTO {
         return brand;
     }
 
-    public ProductViewDTO setBrand(String brand) {
+    public ProductAddDTO setBrand(String brand) {
         this.brand = brand;
         return this;
     }
@@ -41,7 +40,7 @@ public class ProductViewDTO {
         return description;
     }
 
-    public ProductViewDTO setDescription(String description) {
+    public ProductAddDTO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -50,7 +49,7 @@ public class ProductViewDTO {
         return expiryDate;
     }
 
-    public ProductViewDTO setExpiryDate(LocalDate expiryDate) {
+    public ProductAddDTO setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
         return this;
     }

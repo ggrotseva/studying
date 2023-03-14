@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/head}"/>
+
+    <title>Add Recipe</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="~{fragments/navigation}"/>
+</header>
+
+<main>
+
+    <h2 class="text-center text-white p-3">Add Recipe</h2>
+
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-12">
+
+                <form th:action="@{/recipes/add}" th:method="POST" th:object="${recipeAddDTO}"
+                      class="main-form mx-auto col-lg-12 d-flex flex-column justify-content-center">
+                    <!-- enctype="multipart/form-data" -->
+
+                    <div class="row">
+                        <div class="form-group col-lg-6 mb-3">
+                            <label for="name" class="text-white font-weight-bold">Name</label>
+                            <input id="name" name="name" th:value="*{name}" type="text" class="form-control"
+                                   placeholder="Recipe name"/>
+                            <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                   class="errors alert alert-danger">
+                                Name is required.
+                            </small>
+                        </div>
+                        <div class="form-group col-lg-6 mb-3">
+                            <label for="imageUrl" class="text-white font-weight-bold">Set image URL
+                                (optional)</label>
+                            <input id="imageUrl" name="imageUrl" th:value="*{imageUrl}" type="url" class="form-control"
+                                   placeholder="Image URL"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-lg-12 mb-3">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <label class="text-white font-weight-bold">Recipe Type: </label>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="type"
+                                                id="sweet" value="SWEET">
+                                        <label class="form-check-label text-white" for="sweet">Sweet</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="type"
+                                               id="savory" value="SAVORY">
+                                        <label class="form-check-label text-white" for="savory">Savory</label>
+                                    </div>
+                                    <small th:if="${#fields.hasErrors('type')}" th:errors="*{type}"
+                                           class="errors alert alert-danger">
+                                        Recipe Type is required.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-6 mb-3">
+                            <label for="ingredientsDescription" class="text-white font-weight-bold">Ingredients
+                                description</label>
+                            <textarea id="ingredientsDescription" name="ingredientsDescription"
+                                      th:value="*{ingredientsDescription}"
+                                      rows="10" class="form-control" onkeyup="formatInputWithBullets(event)"
+                                      placeholder="Ingredients"></textarea>
+                            <small th:if="${#fields.hasErrors('ingredientsDescription')}"
+                                   th:errors="*{ingredientsDescription}"
+                                   class="errors alert alert-danger">
+                                Ingredient description is required.
+                            </small>
+                        </div>
+
+                        <div class="form-group col-lg-6 mb-3">
+                            <label for="preparation" class="text-white font-weight-bold">How to prepare?</label>
+                            <textarea id="preparation" name="preparation" th:value="*{preparation}" rows="10"
+                                      class="form-control" placeholder="Preparation description"></textarea>
+                            <small th:if="${#fields.hasErrors('preparation')}" th:errors="*{preparation}"
+                                   class="errors alert alert-danger">
+                                Preparation description is required.
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="row my-3">
+                        <div class="col col-md-4">
+                            <div class="d-flex">
+                                <input type="submit" class="btn my-btn" value="Add Recipe"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{/fragments/footer}"/>
+
+<script src="/js/functions.js"></script>
+
+</body>
+
+</html>

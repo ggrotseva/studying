@@ -1,3 +1,5 @@
+// NO EVENT LISTENERS HERE!!! formatInputWithBullets won't work!
+
 function fillTableRow() {
     let table = document.getElementById('#table-content');
     let row = document.createElement('tr');
@@ -30,10 +32,6 @@ function fillTableRow() {
 
     table.appendChild(row);
 }
-
-let addButton = document.getElementById("addButton");
-
-addButton.addEventListener("submit", fillTableRow);
 
 
 function sortTable(n) {

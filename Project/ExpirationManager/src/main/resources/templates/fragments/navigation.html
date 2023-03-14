@@ -21,18 +21,24 @@
             <li sec:authorize="!isAuthenticated()" class="nav-item">
                 <a class="nav-link" th:href="@{/users/register}">Register</a>
             </li>
-            <li sec:authorize="hasRole('USER')" class="nav-item">
-                <a class="nav-link" th:href="@{/recipes}">Recipes</a>
+            <li sec:authorize="hasRole('USER')" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" th:href="@{/recipes}" id="recipeDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recipes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="recipeDropdown">
+                    <a class="dropdown-item" th:href="@{/recipes}">All Recipes</a>
+                    <a class="dropdown-item" th:href="@{/recipes/add}">Add Recipe</a>
+                </div>
             </li>
             <li sec:authorize="hasRole('USER')" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" th:href="@{/categories}" id="navbarDropdown" role="button"
+                <a class="nav-link dropdown-toggle" th:href="@{/categories}" id="categoryDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Categories
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action1</a>
-                    <a class="dropdown-item" href="#">Action2</a>
-                    <a class="dropdown-item" href="#">Action3</a>
+                <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                    <a class="dropdown-item" th:href="@{/categories}">My Categories</a>
+                    <a class="dropdown-item" th:href="@{/categories/add}">Add Category</a>
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">

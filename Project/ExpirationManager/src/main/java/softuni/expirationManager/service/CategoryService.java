@@ -3,6 +3,7 @@ package softuni.expirationManager.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import softuni.expirationManager.model.dtos.CategoryAddDTO;
+import softuni.expirationManager.model.dtos.CategoryNameIdDTO;
 import softuni.expirationManager.model.dtos.CategoryViewDTO;
 import softuni.expirationManager.model.entities.CategoryEntity;
 import softuni.expirationManager.model.entities.UserEntity;
@@ -39,8 +40,8 @@ public class CategoryService {
 
 
     public void initStartCategories(UserEntity userEntity) throws IOException {
-            FileInputStream fis = new FileInputStream("src/main/resources/static/images/jar-of-jam.png");
-            byte[] iconBytes = fis.readAllBytes();
+        FileInputStream fis = new FileInputStream("src/main/resources/static/images/jar-of-jam.png");
+        byte[] iconBytes = fis.readAllBytes();
 
         List<CategoryEntity> categories = INITIAL_CATEGORIES.entrySet().stream().map(e ->
                         new CategoryEntity()
@@ -77,8 +78,15 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
+    public CategoryNameIdDTO getCategoryNameIdDTO(Long id) {
+        CategoryEntity category = this.categoryRepository.findById(id).orElseThrow();
+
+        return this.mapper.map(category, CategoryNameIdDTO.class);
+    }
+
     public void deleteById(Long id) {
-        // TODO: won't work
+        // TODO: won't work - maybe should delete first from UserEntity?
         this.categoryRepository.deleteById(id);
     }
+
 }

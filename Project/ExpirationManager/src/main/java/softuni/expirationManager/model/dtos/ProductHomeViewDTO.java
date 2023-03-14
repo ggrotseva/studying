@@ -2,19 +2,19 @@ package softuni.expirationManager.model.dtos;
 
 import java.time.LocalDate;
 
-public class ProductViewDTO {
+public class ProductHomeViewDTO {
 
     private Long id;
     private String name;
     private String brand;
-    private String description;
     private LocalDate expiryDate;
+    private Long categoryId;
 
     public Long getId() {
         return id;
     }
 
-    public ProductViewDTO setId(Long id) {
+    public ProductHomeViewDTO setId(Long id) {
         this.id = id;
         return this;
     }
@@ -23,7 +23,7 @@ public class ProductViewDTO {
         return name;
     }
 
-    public ProductViewDTO setName(String name) {
+    public ProductHomeViewDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -32,17 +32,8 @@ public class ProductViewDTO {
         return brand;
     }
 
-    public ProductViewDTO setBrand(String brand) {
+    public ProductHomeViewDTO setBrand(String brand) {
         this.brand = brand;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductViewDTO setDescription(String description) {
-        this.description = description;
         return this;
     }
 
@@ -50,8 +41,17 @@ public class ProductViewDTO {
         return expiryDate;
     }
 
-    public ProductViewDTO setExpiryDate(LocalDate expiryDate) {
+    public ProductHomeViewDTO setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public ProductHomeViewDTO setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
         return this;
     }
 }

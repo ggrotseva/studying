@@ -33,25 +33,21 @@
                                 </div>
 
                                 <div class="box-content px-3 pt-3">
-                                    <table class="table table-striped table-sm">
+                                    <table th:each="product : ${expiredProducts}" th:object="${product}"
+                                           class="table table-striped table-sm">
                                         <thead>
                                         <tr>
                                             <th style="width: 60%;"><b>Product</b></th>
                                             <th style="width: 40%;"><b>Expiry Date</b></th>
                                         </tr>
                                         </thead>
+
                                         <tbody>
                                         <tr>
-                                            <td>Name - Brand</td>
-                                            <td>Expiry Date</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Name - Brand</td>
-                                            <td>Expiry Date</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Name - Brand</td>
-                                            <td>Expiry Date</td>
+                                            <td th:text="*{name} + ' - ' + *{brand}">Name - Brand</td>
+                                            <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
+                                                Date
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -68,21 +64,21 @@
                                 </div>
 
                                 <div class="box-content px-3 pt-3">
-                                    <table class="table table-striped table-sm">
+                                    <table th:each="product : ${closeToExpiryProducts}" th:object="${product}"
+                                           class="table table-striped table-sm">
                                         <thead>
                                         <tr>
                                             <th style="width: 60%;"><b>Product</b></th>
                                             <th style="width: 40%;"><b>Expiry Date</b></th>
                                         </tr>
                                         </thead>
+
                                         <tbody>
                                         <tr>
-                                            <td>Name - Brand</td>
-                                            <td>Expiry Date</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Name - Brand</td>
-                                            <td>Expiry Date</td>
+                                            <td th:text="*{name} + ' - ' + *{brand}">Name - Brand</td>
+                                            <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
+                                                Date
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -106,18 +102,20 @@
 
                                 <div class="box-recipes px-3">
                                     <div class="row">
-                                        <div class="card col-sm-6 col-md-4 pt-3">
-                                            <a href="/recipes/{id}"><img class="card-img-top"
-                                                                         src="../static/images/egg-toast.jpg" alt="Recipe image"></a>
-
+                                        <div class="card col-sm-6 col-md-4 pt-3"
+                                             th:each="recipe : ${recipes}" th:object="${recipe}">
+                                            <a th:href="@{/recipes/{id}(id=*{id})}">
+                                                <img class="card-img-top"
+                                                     th:src="*{imageUrl}"
+                                                     alt="Recipe image"></a>
                                             <div class="card-body">
                                                 <p class="card-text">
-                                                    <a href="/recipes/{id}" class="badge badge-light">
-                                                        <span class="h4">Recipe Name</span>
+                                                    <a th:href="@{/recipes/{id}(id=*{id})}" class="badge badge-light">
+                                                        <span class="h4" th:text="*{name}">Recipe Name</span>
                                                     </a>
                                                 </p>
                                                 <p>
-                                                    <b>Type: </b>Sweet/Savory
+                                                    <b>Type: </b><span th:text="*{type}"></span>
                                                 </p>
                                                 <p>
                                                     <b>Includes: </b>your product
@@ -130,7 +128,7 @@
 
                                 <div class="row justify-content-center p-3">
                                     <div class="col">
-                                        <form action="/recipes">
+                                        <form th:action="@{/recipes}">
                                             <button class="btn my-btn" type="submit">All Recipes</button>
                                         </form>
                                     </div>

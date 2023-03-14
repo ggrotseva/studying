@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import softuni.expirationManager.model.enums.RecipeType;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "recipes")
@@ -118,5 +119,18 @@ public class RecipeEntity {
     public RecipeEntity setModified(LocalDateTime modified) {
         this.modified = modified;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeEntity that = (RecipeEntity) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
