@@ -4,10 +4,20 @@ import java.time.LocalDateTime;
 
 public class CommentDTO {
 
+    private Long id;
     private boolean approved;
     private LocalDateTime created;
     private String textContent;
     private String authorUsername;
+
+    public Long getId() {
+        return id;
+    }
+
+    public CommentDTO setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public boolean isApproved() {
         return approved;

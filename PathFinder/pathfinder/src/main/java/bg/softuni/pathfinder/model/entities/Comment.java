@@ -25,54 +25,57 @@ public class Comment {
     @ManyToOne
     private Route route;
 
-    public Comment() {
-    }
-
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Comment setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public boolean isApproved() {
         return approved;
     }
 
-    public void setApproved(boolean approved) {
+    public Comment setApproved(boolean approved) {
         this.approved = approved;
+        return this;
     }
 
     public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public Comment setCreated(LocalDateTime created) {
         this.created = created;
+        return this;
     }
 
     public String getTextContent() {
         return textContent;
     }
 
-    public void setTextContent(String textContent) {
+    public Comment setTextContent(String textContent) {
         this.textContent = textContent;
+        return this;
     }
 
     public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserEntity author) {
+    public Comment setAuthor(UserEntity author) {
         this.author = author;
+        return this;
     }
 
     public Route getRoute() {
         return route;
     }
 
-    public void setRoute(Route route) {
+    public Comment setRoute(Route route) {
         this.route = route;
+        return this;
     }
 }
