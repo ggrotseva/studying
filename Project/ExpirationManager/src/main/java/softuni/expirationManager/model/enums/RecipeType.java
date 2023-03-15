@@ -4,7 +4,7 @@ public enum RecipeType {
     SWEET("/images/pancakes.jpg"),
     SAVORY("/images/egg-toast.jpg");
 
-    String defaultImageUrl;
+    private final String defaultImageUrl;
 
     RecipeType(String defaultImageUrl) {
         this.defaultImageUrl = defaultImageUrl;
