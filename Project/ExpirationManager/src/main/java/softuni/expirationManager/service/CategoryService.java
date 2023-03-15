@@ -85,8 +85,7 @@ public class CategoryService {
     }
 
     public void deleteById(Long id) {
-        // TODO: won't work - maybe should delete first from UserEntity?
-        this.categoryRepository.deleteById(id);
+            this.categoryRepository.deleteById(id);
     }
 
 }

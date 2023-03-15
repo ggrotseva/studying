@@ -54,6 +54,26 @@ footer {
      border-color: #c99b10;
 }
 
+.green-link:hover,
+.green-link:focus,
+.green-link:active {
+     text-decoration: none;
+     color: #67746b;
+}
+
+.recipe-link {
+     display: inline-block;
+     background-color: #f9faf8;
+}
+
+.recipe-link:hover,
+.recipe-link:focus,
+.recipe-link:active {
+     text-decoration: none;
+     color: black;
+     background-color: #f1f2f0;
+}
+
 .box {
      border-radius: 10px;
 }
@@ -64,13 +84,6 @@ footer {
      border-top-left-radius: 10px;
      border-top-right-radius: 10px;
      padding: 10px;
-}
-
-.box-head a:hover,
-.box-head a:focus,
-.box-head a:active {
-     text-decoration: none;
-     color: #67746b;
 }
 
 .box-content {

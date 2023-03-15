@@ -2,9 +2,7 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.model.dtos.ProductHomeViewDTO;
-import softuni.expirationManager.model.dtos.RecipeAddDTO;
-import softuni.expirationManager.model.dtos.RecipeHomeViewDTO;
+import softuni.expirationManager.model.dtos.*;
 import softuni.expirationManager.model.entities.RecipeEntity;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.repository.RecipeRepository;
@@ -59,7 +57,6 @@ public class RecipeService {
                         .map(ProductHomeViewDTO::getName)
                         .collect(Collectors.joining("|"));
 
-                // TODO: repository method doesn't work?
                 recipes = this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
                         .orElseThrow();
             }
@@ -75,5 +72,21 @@ public class RecipeService {
         return recipes.stream()
                 .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<RecipeBriefDTO> getAllBriefs() {
+        return this.recipeRepository.findAll()
+                .stream().map(r -> this.mapper.map(r, RecipeBriefDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public RecipeDTO getById(Long id) {
+        RecipeDTO recipe = this.mapper.map(this.recipeRepository.findById(id).orElseThrow(), RecipeDTO.class);
+
+        String htmlFormattedIngredients = recipe.getIngredientsDescription().replace("\r\n", "<br/>");
+
+        recipe.setIngredientsDescription(htmlFormattedIngredients);
+
+        return recipe;
     }
 }

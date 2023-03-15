@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping("/categories/{id}/addproduct")
-    public String postProductAdd(@Valid ProductAddDTO productAddDTO,
+    public String postAddProduct(@Valid ProductAddDTO productAddDTO,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
                                  @PathVariable Long id) {

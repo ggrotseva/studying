@@ -11,6 +11,7 @@ import java.util.Set;
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
+    // Unfortunately MatchesRegexp/REGEXP keywords are not supported in this Spring version/JPQL => Exception
 //    @Query("SELECT r FROM RecipeEntity r WHERE r.ingredientsDescription REGEXP :productsNames")
     @Query(value = "SELECT * FROM recipes r WHERE r.ingredients_description REGEXP :productsNames", nativeQuery = true)
     Optional<Set<RecipeEntity>> findByIngredientsDescriptionMatchesRegex(String productsNames);

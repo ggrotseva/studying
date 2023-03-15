@@ -30,7 +30,7 @@ public class UserEntity {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
+    @JoinTable(name = "users_user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_role_id", referencedColumnName = "id"))
     private List<UserRoleEntity> userRoles;
@@ -38,8 +38,7 @@ public class UserEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     private List<CategoryEntity> categories;
 
     public UserEntity() {

@@ -23,18 +23,10 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String getIndex() {
-
-        return "index";
-    }
-
-    @GetMapping("/about")
-    public String getAbout() {
-        return "about";
-    }
-
-    @GetMapping("/home")
-    public String getHome(Principal principal, Model model) {
+    public String getIndex(Principal principal, Model model) {
+        if (principal == null) {
+            return "index";
+        }
 
         List<ProductHomeViewDTO> expiredProducts = this.productService.getExpiredProducts(principal.getName());
         List<ProductHomeViewDTO> closeToExpiryProducts = this.productService.getCloseToExpiryProducts(principal.getName());
@@ -46,5 +38,10 @@ public class HomeController {
                 .addAttribute("recipes", recipes);
 
         return "home";
+    }
+
+    @GetMapping("/about")
+    public String getAbout() {
+        return "about";
     }
 }

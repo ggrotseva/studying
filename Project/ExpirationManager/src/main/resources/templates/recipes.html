@@ -39,127 +39,37 @@
                                     <div class="px-3 pt-3">
                                         <div class="row">
                                             <div class="col">
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <div class="row"
-                                                            style="height: 200px; overflow: hidden; text-overflow: ellipsis;">
-                                                            <div class="col">
-                                                                <a href="/recipes/{id}" class="badge badge-light">
-                                                                    <h4>Recipe name</h4>
-                                                                </a>
-                                                                <br /><br />
-                                                                <p>Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.</p>
+                                                <div th:each="recipe : ${recipes}" th:object="${recipe}">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <div class="row"
+                                                                 style="height: 210px; overflow: hidden; text-overflow: ellipsis;">
+                                                                <div class="col">
+                                                                    <a th:href="@{/recipes/{id}(id=*{id})}" class="h4 recipe-link px-1">
+                                                                        <h4 th:text="*{name}">Recipe name</h4>
+                                                                    </a>
+                                                                    <p th:text="'by '+ *{authorUsername}">by username</p>
+                                                                    <p>Published: <span th:text="${#temporals.format(recipe.created, 'dd/MM/yyyy')}"></span></p>
+                                                                    <p th:text="*{preparation}">Put the flour, eggs, milk, sunflower or vegetable
+                                                                        oil
+                                                                        and a pinch of salt into a bowl or large jug,
+                                                                        then
+                                                                        whisk to a smooth batter. Set aside for 30 mins
+                                                                        to
+                                                                        rest if you have time, or start cooking straight
+                                                                        away.</p>
+                                                                </div>
                                                             </div>
+
                                                         </div>
-
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <img src="../static/images/egg-toast.jpg" class="img-thumbnail">
-                                                    </div>
-                                                </div>
-
-                                                <div class="dropdown-divider"></div>
-
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <div class="row"
-                                                            style="height: 200px; overflow: hidden; text-overflow: ellipsis;">
-                                                            <div class="col">
-                                                                <a href="/recipes/{id}" class="badge badge-light">
-                                                                    <h4>Recipe name</h4>
-                                                                </a>
-                                                                <br /><br />
-                                                                <p>Put the flour, eggs, milk, sunflower or vegetable oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.
-                                                                    Put the flour, eggs, milk, sunflower or vegetable
-                                                                    oil
-                                                                    and a pinch of salt into a bowl or large jug, then
-                                                                    whisk to a smooth batter. Set aside for 30 mins to
-                                                                    rest if you have time, or start cooking straight
-                                                                    away.</p>
-                                                            </div>
+                                                        <div class="col-md-3">
+                                                            <img th:src="*{imageUrl}"
+                                                                 class="img-thumbnail">
                                                         </div>
+                                                    </div>
 
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <img src="../static/images/pancakes.jpg" class="img-thumbnail">
-                                                    </div>
+                                                    <div class="dropdown-divider"></div>
                                                 </div>
-
-                                                <div class="dropdown-divider"></div>
 
                                             </div>
                                         </div>

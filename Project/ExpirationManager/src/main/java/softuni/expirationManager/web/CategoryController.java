@@ -60,18 +60,7 @@ public class CategoryController {
         return "categories";
     }
 
-//    @GetMapping("/{id}")
-//    public String getCategory(@PathVariable Long id, Model model) {
-//        model.addAttribute("categoryName" ,this.categoryService.getCategoryName(id));
-//
-//        List<ProductViewDTO> products = this.productService.findByCategory(id);
-//
-//        model.addAttribute("products", products);
-//
-//        return "category";
-//    }
-
-    @DeleteMapping("/categories/{id}/delete")
+    @DeleteMapping("/categories/{id}")
     public String deleteCategory(@PathVariable Long id) {
         this.categoryService.deleteById(id);
 
