@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import softuni.expirationManager.model.dtos.ProductAddDTO;
-import softuni.expirationManager.model.dtos.ProductViewDTO;
+import softuni.expirationManager.model.dtos.product.ProductAddDTO;
+import softuni.expirationManager.model.dtos.product.ProductViewDTO;
 import softuni.expirationManager.service.CategoryService;
 import softuni.expirationManager.service.ProductService;
 
@@ -50,12 +50,12 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("productAddDTO", productAddDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productAddDTO", bindingResult);
 
-            return "redirect:/categories/{id}";
+            return "redirect:/categories/" + id;
         }
 
         this.productService.addProduct(productAddDTO, id);
 
-        return "redirect:/categories/{id}";
+        return "redirect:/categories/" + id;
     }
 
     @DeleteMapping("/categories/{id}/delproduct/{productId}")

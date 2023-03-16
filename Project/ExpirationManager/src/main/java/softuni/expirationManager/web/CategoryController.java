@@ -6,8 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import softuni.expirationManager.model.dtos.CategoryAddDTO;
-import softuni.expirationManager.model.dtos.CategoryViewDTO;
+import softuni.expirationManager.model.dtos.category.CategoryAddDTO;
+import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
+import softuni.expirationManager.model.dtos.category.CategoryViewDTO;
 import softuni.expirationManager.service.CategoryService;
 
 import java.io.IOException;
@@ -23,13 +24,22 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @ModelAttribute
-    public CategoryAddDTO initCategoryAddDTO() {
-        return new CategoryAddDTO();
+    @GetMapping("/categories")
+    public String getCategories(Principal principal, Model model) {
+        List<CategoryViewDTO> categories = this.categoryService.findAllByUserUsername(principal.getName());
+
+        model.addAttribute("categories", categories);
+
+        return "categories";
     }
 
     @GetMapping("/categories/add")
-    public String getAddCategory() {
+    public String getAddCategory(Model model) {
+
+        if (!model.containsAttribute("categoryAddDTO")) {
+            model.addAttribute("categoryAddDTO", new CategoryAddDTO());
+        }
+
         return "category-add";
     }
 
@@ -51,13 +61,31 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @GetMapping("/categories")
-    public String getCategories(Principal principal, Model model) {
-        List<CategoryViewDTO> categories = this.categoryService.findByOwnerUsername(principal.getName());
+    @GetMapping("/categories/{id}/edit")
+    public String getEditCategory(@PathVariable Long id, Model model) {
 
-        model.addAttribute("categories", categories);
+        if (!model.containsAttribute("categoryEditDTO")) {
+            model.addAttribute("categoryEditDTO", this.categoryService.getCategoryEditDtoById(id));
+        }
 
-        return "categories";
+        return "category-edit";
+    }
+
+    @PutMapping("/categories/{id}/edit")
+    public String putEditCategory(@Valid CategoryEditDTO categoryEditDTO,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("categoryEditDTO", categoryEditDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryEditDTO", bindingResult);
+
+            return "redirect:/categories/" + categoryEditDTO.getId() + "/edit";
+        }
+
+        this.categoryService.editCategory(categoryEditDTO);
+
+        return "redirect:/categories";
     }
 
     @DeleteMapping("/categories/{id}")

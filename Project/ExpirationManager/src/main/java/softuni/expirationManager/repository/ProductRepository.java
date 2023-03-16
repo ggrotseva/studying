@@ -11,12 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    // homepage
-    Optional<List<ProductEntity>> findByCategoryUserUsername(String username);
+    Optional<List<ProductEntity>> findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate date, String username);
 
-    // homepage
-    Optional<List<ProductEntity>> findByExpiryDateBeforeAndCategoryUserUsername(LocalDate date, String username);
-
-    // table page
-    Optional<List<ProductEntity>> findByCategoryId(Long id);
+    Optional<List<ProductEntity>> findAllByCategoryId(Long id);
 }

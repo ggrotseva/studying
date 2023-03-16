@@ -3,7 +3,7 @@ package softuni.expirationManager.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.model.dtos.UserRegisterDTO;
+import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.model.entities.UserRoleEntity;
 import softuni.expirationManager.model.enums.UserRoleEnum;

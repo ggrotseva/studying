@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import softuni.expirationManager.model.entities.RecipeEntity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
+
+    Optional<List<RecipeEntity>> findAllByOrderByCreatedDesc();
 
     // Unfortunately MatchesRegexp/REGEXP keywords are not supported in this Spring version/JPQL => Exception
 //    @Query("SELECT r FROM RecipeEntity r WHERE r.ingredientsDescription REGEXP :productsNames")

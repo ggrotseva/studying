@@ -1,4 +1,4 @@
-package softuni.expirationManager.model.dtos;
+package softuni.expirationManager.model.dtos.category;
 
 public class CategoryViewDTO {
 

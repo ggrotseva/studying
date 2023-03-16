@@ -12,7 +12,6 @@
         <div th:replace="~{fragments/navigation}"/>
     </header>
 
-
     <main class="container pb-5">
         <div class="row">
             <div class="col-lg-12 pb-8">
@@ -57,7 +56,7 @@
                                                 <div class="col">
                                                     <div class="dropdown-divider"></div>
 
-                                                    <p th:text="*{preparation}">Put the flour, eggs, milk, sunflower or vegetable oil
+                                                    <p th:utext="*{preparation}">Put the flour, eggs, milk, sunflower or vegetable oil
                                                         and a pinch of salt into a bowl or large jug, then
                                                         whisk to a smooth batter. Set aside for 30 mins to
                                                         rest if you have time, or start cooking straight
@@ -72,7 +71,7 @@
                                             <button class="btn my-btn" type="submit">Edit</button>
                                         </form>
                                         <div class="col-sm-auto"></div>
-                                        <form th:action="@{/recipes/{id}(id=*{id})}" method="delete">
+                                        <form th:action="@{/recipes/{id}(id=*{id})}" th:method="DELETE">
                                             <button class="btn my-btn" type="submit">Delete</button>
                                         </form>
                                     </div>

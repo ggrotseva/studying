@@ -4,13 +4,12 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import softuni.expirationManager.model.dtos.RecipeAddDTO;
-import softuni.expirationManager.model.dtos.RecipeBriefDTO;
-import softuni.expirationManager.model.dtos.RecipeDTO;
+import softuni.expirationManager.model.dtos.recipe.RecipeAddDTO;
+import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
+import softuni.expirationManager.model.dtos.recipe.RecipeDTO;
+import softuni.expirationManager.model.dtos.recipe.RecipeEditDTO;
 import softuni.expirationManager.service.RecipeService;
 
 import java.security.Principal;
@@ -27,7 +26,7 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     public String getAllRecipes(Model model) {
-        List<RecipeBriefDTO> allRecipes = this.recipeService.getAllBriefs();
+        List<RecipeBriefDTO> allRecipes = this.recipeService.getAllRecipeBriefs();
 
         model.addAttribute("recipes", allRecipes);
 
@@ -36,7 +35,7 @@ public class RecipeController {
 
     @GetMapping("/recipes/{id}")
     public String getRecipeDetails(@PathVariable Long id, Model model) {
-        RecipeDTO recipe = this.recipeService.getById(id);
+        RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
 
@@ -69,4 +68,37 @@ public class RecipeController {
         return "redirect:/recipes";
     }
 
+    @GetMapping("/recipes/{id}/edit")
+    public String getEditRecipe(@PathVariable Long id, Model model) {
+
+        if (!model.containsAttribute("recipeEditDTO")) {
+            model.addAttribute("recipeEditDTO", this.recipeService.getRecipeEditDtoById(id));
+        }
+
+        return "recipe-edit";
+    }
+
+    @PutMapping("/recipes/{id}/edit")
+    public String putEditRecipe(@Valid RecipeEditDTO recipeEditDTO,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("recipeEditDTO", recipeEditDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.recipeEditDTO", bindingResult);
+
+            return "redirect:/recipes/" + recipeEditDTO.getId() + "/edit";
+        }
+
+        this.recipeService.editRecipe(recipeEditDTO);
+
+        return "redirect:/recipes/" + recipeEditDTO.getId();
+    }
+
+    @DeleteMapping("/recipes/{id}")
+    public String deleteRecipe(@PathVariable Long id) {
+        this.recipeService.deleteById(id);
+
+        return "redirect:/recipes";
+    }
 }

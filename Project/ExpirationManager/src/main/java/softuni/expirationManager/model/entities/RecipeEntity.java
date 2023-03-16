@@ -14,7 +14,7 @@ public class RecipeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -24,10 +24,10 @@ public class RecipeEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "ingredients_description", columnDefinition = "TEXT")
+    @Column(name = "ingredients_description", columnDefinition = "TEXT", nullable = false)
     private String ingredientsDescription;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String preparation;
 
     @ManyToOne

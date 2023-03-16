@@ -2,6 +2,8 @@ package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 public class CategoryEntity {
@@ -23,6 +25,9 @@ public class CategoryEntity {
     @ManyToOne
     @JoinColumn(nullable = false)
     private UserEntity user;
+
+//    @OneToMany(mappedBy = "category")
+//    private List<ProductEntity> products;
 
     public Long getId() {
         return id;
@@ -68,4 +73,13 @@ public class CategoryEntity {
         this.user = user;
         return this;
     }
+
+//    public List<ProductEntity> getProducts() {
+//        return products;
+//    }
+//
+//    public CategoryEntity setProducts(List<ProductEntity> products) {
+//        this.products = products;
+//        return this;
+//    }
 }

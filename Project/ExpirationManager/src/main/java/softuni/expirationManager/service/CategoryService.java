@@ -2,9 +2,10 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.model.dtos.CategoryAddDTO;
-import softuni.expirationManager.model.dtos.CategoryNameIdDTO;
-import softuni.expirationManager.model.dtos.CategoryViewDTO;
+import softuni.expirationManager.model.dtos.category.CategoryAddDTO;
+import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
+import softuni.expirationManager.model.dtos.category.CategoryNameIdDTO;
+import softuni.expirationManager.model.dtos.category.CategoryViewDTO;
 import softuni.expirationManager.model.entities.CategoryEntity;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.repository.CategoryRepository;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
+
+    private static final String DEAFAULT_ICON_PATH = "src/main/resources/static/images/jar-of-jam.png";
 
     private final static Map<String, String> INITIAL_CATEGORIES = Map.of(
             "grains", "pasta, flours, oats, rice, etc.",
@@ -38,9 +41,8 @@ public class CategoryService {
         this.mapper = mapper;
     }
 
-
     public void initStartCategories(UserEntity userEntity) throws IOException {
-        FileInputStream fis = new FileInputStream("src/main/resources/static/images/jar-of-jam.png");
+        FileInputStream fis = new FileInputStream(DEAFAULT_ICON_PATH);
         byte[] iconBytes = fis.readAllBytes();
 
         List<CategoryEntity> categories = INITIAL_CATEGORIES.entrySet().stream().map(e ->
@@ -66,8 +68,8 @@ public class CategoryService {
         this.categoryRepository.saveAndFlush(newCategory);
     }
 
-    public List<CategoryViewDTO> findByOwnerUsername(String name) {
-        return this.categoryRepository.findByUserUsername(name).orElseThrow()
+    public List<CategoryViewDTO> findAllByUserUsername(String name) {
+        return this.categoryRepository.findAllByUserUsername(name).orElseThrow()
                 .stream().map(c -> this.mapper.map(c, CategoryViewDTO.class))
                 .map(c -> {
                     if (c.getIcon() != null || c.getIcon().length == 0) {
@@ -85,7 +87,23 @@ public class CategoryService {
     }
 
     public void deleteById(Long id) {
-            this.categoryRepository.deleteById(id);
+        this.categoryRepository.deleteById(id);
     }
 
+    public CategoryEditDTO getCategoryEditDtoById(Long id) {
+        return this.mapper.map(this.categoryRepository.findById(id).orElseThrow(), CategoryEditDTO.class);
+    }
+
+    public void editCategory(CategoryEditDTO categoryEditDTO) throws IOException {
+        CategoryEntity category = this.categoryRepository.findById(categoryEditDTO.getId()).orElseThrow();
+
+        category.setName(categoryEditDTO.getName())
+                .setDescription(categoryEditDTO.getDescription());
+
+        if (!categoryEditDTO.getIcon().isEmpty()) {
+            category.setIcon(categoryEditDTO.getIcon().getBytes());
+        }
+
+        this.categoryRepository.saveAndFlush(category);
+    }
 }

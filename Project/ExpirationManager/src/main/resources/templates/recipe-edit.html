@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>Add Recipe</title>
+    <title>Edit Recipe</title>
 </head>
 
 <body>
@@ -14,13 +14,13 @@
 
 <main>
 
-    <h2 class="text-center text-white p-3">Add Recipe</h2>
+    <h2 class="text-center text-white p-3">Edit Recipe</h2>
 
     <div class="container pb-5">
         <div class="row">
             <div class="col-12">
 
-                <form th:action="@{/recipes/add}" th:method="POST" th:object="${recipeAddDTO}"
+                <form th:object="${recipeEditDTO}" th:action="@{/recipes/{id}/edit(id=*{id})}" th:method="PUT"
                       class="main-form mx-auto col-lg-12 d-flex flex-column justify-content-center">
                     <!-- enctype="multipart/form-data" -->
 
@@ -30,7 +30,7 @@
                             <input id="name" name="name" th:field="*{name}" type="text" class="form-control"
                                    placeholder="Recipe name"/>
                             <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                                   class="alert alert-danger">
+                                 class="alert alert-danger">
                                 Name is required.
                             </div>
                         </div>
@@ -51,19 +51,21 @@
                                 <div class="col-lg-10">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="type"
-                                               id="sweet" value="SWEET">
+                                               id="sweet" value="SWEET"
+                                               th:checked="*{type.name()} == 'SWEET'">
                                         <label class="form-check-label text-white" for="sweet">Sweet</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="type"
-                                               id="savory" value="SAVORY">
+                                               id="savory" value="SAVORY"
+                                               th:checked="*{type.name()} == 'SAVORY'">
                                         <label class="form-check-label text-white" for="savory">Savory</label>
                                     </div>
 
                                 </div>
                             </div>
                             <div th:if="${#fields.hasErrors('type')}" th:errors="*{type}"
-                                   class="alert alert-danger">
+                                 class="alert alert-danger">
                                 Recipe Type is required.
                             </div>
                         </div>
@@ -78,8 +80,8 @@
                                       rows="10" class="form-control" onkeyup="formatInputWithBullets(event)"
                                       placeholder="Ingredients"></textarea>
                             <div th:if="${#fields.hasErrors('ingredientsDescription')}"
-                                   th:errors="*{ingredientsDescription}"
-                                   class="alert alert-danger">
+                                 th:errors="*{ingredientsDescription}"
+                                 class="alert alert-danger">
                                 Ingredient description is required.
                             </div>
                         </div>
@@ -89,7 +91,7 @@
                             <textarea id="preparation" name="preparation" th:field="*{preparation}" rows="10"
                                       class="form-control" placeholder="Preparation description"></textarea>
                             <div th:if="${#fields.hasErrors('preparation')}" th:errors="*{preparation}"
-                                   class="alert alert-danger">
+                                 class="alert alert-danger">
                                 Preparation description is required.
                             </div>
                         </div>
@@ -101,7 +103,7 @@
                     <div class="row my-3">
                         <div class="col col-md-4">
                             <div class="d-flex">
-                                <input type="submit" class="btn my-btn" value="Add Recipe"/>
+                                <input type="submit" class="btn my-btn" value="Submit"/>
                             </div>
                         </div>
                     </div>

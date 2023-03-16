@@ -3,8 +3,8 @@ package softuni.expirationManager.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import softuni.expirationManager.model.dtos.ProductHomeViewDTO;
-import softuni.expirationManager.model.dtos.RecipeHomeViewDTO;
+import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
+import softuni.expirationManager.model.dtos.recipe.RecipeHomeViewDTO;
 import softuni.expirationManager.service.ProductService;
 import softuni.expirationManager.service.RecipeService;
 

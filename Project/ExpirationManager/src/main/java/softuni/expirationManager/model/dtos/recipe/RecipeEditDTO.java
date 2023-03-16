@@ -1,10 +1,12 @@
-package softuni.expirationManager.model.dtos;
+package softuni.expirationManager.model.dtos.recipe;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import softuni.expirationManager.model.enums.RecipeType;
 
-public class RecipeAddDTO {
+public class RecipeEditDTO {
+
+    private Long id;
 
     @NotBlank(message = "Recipe Name is required")
     private String name;
@@ -20,11 +22,20 @@ public class RecipeAddDTO {
     @NotBlank(message = "Preparation description is required")
     private String preparation;
 
+    public Long getId() {
+        return id;
+    }
+
+    public RecipeEditDTO setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
 
-    public RecipeAddDTO setName(String name) {
+    public RecipeEditDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -33,7 +44,7 @@ public class RecipeAddDTO {
         return type;
     }
 
-    public RecipeAddDTO setType(RecipeType type) {
+    public RecipeEditDTO setType(RecipeType type) {
         this.type = type;
         return this;
     }
@@ -42,7 +53,7 @@ public class RecipeAddDTO {
         return imageUrl;
     }
 
-    public RecipeAddDTO setImageUrl(String imageUrl) {
+    public RecipeEditDTO setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
@@ -51,7 +62,7 @@ public class RecipeAddDTO {
         return ingredientsDescription;
     }
 
-    public RecipeAddDTO setIngredientsDescription(String ingredientsDescription) {
+    public RecipeEditDTO setIngredientsDescription(String ingredientsDescription) {
         this.ingredientsDescription = ingredientsDescription;
         return this;
     }
@@ -60,7 +71,7 @@ public class RecipeAddDTO {
         return preparation;
     }
 
-    public RecipeAddDTO setPreparation(String preparation) {
+    public RecipeEditDTO setPreparation(String preparation) {
         this.preparation = preparation;
         return this;
     }

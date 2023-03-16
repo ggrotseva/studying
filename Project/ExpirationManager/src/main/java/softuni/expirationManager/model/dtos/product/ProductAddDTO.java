@@ -1,4 +1,4 @@
-package softuni.expirationManager.model.dtos;
+package softuni.expirationManager.model.dtos.product;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -1,12 +1,14 @@
 package softuni.expirationManager;
 
 import softuni.expirationManager.model.entities.CategoryEntity;
+import softuni.expirationManager.model.entities.ProductEntity;
 import softuni.expirationManager.repository.CategoryRepository;
 import softuni.expirationManager.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -28,16 +30,12 @@ public class TestingClass implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // testing fetching through UserId and CategoryId
 
-//        Scanner scan = new Scanner(System.in);
-//
-//        Long id = Long.parseLong(scan.nextLine());
-//        List<ProductEntity> list = this.productRepository.findByExpiryDateBeforeAndCategoryUserId(LocalDate.now(), id).get();
-//
-//        for (ProductEntity product : list) {
-//            System.out.println(product.getName() + product.getBrand());
-//        }
+        CategoryEntity category = this.categoryRepository.findById(3L).orElseThrow();
 
-//        List<CategoryEntity> categories = this.categoryRepository.findByUserId(1L).get();
-//        System.out.println(categories.get(2).getIcon());
+        ProductEntity product = new ProductEntity().setName("шоколадови капки")
+                .setExpiryDate(LocalDate.of(2024, 8, 20))
+                .setCategory(category);
+
+
     }
 }

@@ -1,4 +1,4 @@
-package softuni.expirationManager.model.dtos;
+package softuni.expirationManager.model.dtos.recipe;
 
 import softuni.expirationManager.model.enums.RecipeType;
 

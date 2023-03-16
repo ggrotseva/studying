@@ -1,4 +1,4 @@
-package softuni.expirationManager.model.dtos;
+package softuni.expirationManager.model.dtos.product;
 
 import java.time.LocalDate;
 

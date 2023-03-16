@@ -1,4 +1,4 @@
-package softuni.expirationManager.model.dtos;
+package softuni.expirationManager.model.dtos.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
