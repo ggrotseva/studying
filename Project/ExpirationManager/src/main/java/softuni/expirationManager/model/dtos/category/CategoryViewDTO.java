@@ -5,17 +5,8 @@ public class CategoryViewDTO {
     private Long id;
     private String name;
     private String description;
-    private byte[] icon;
-    private String iconBase64;
-
-    public String getIconBase64() {
-        return iconBase64;
-    }
-
-    public CategoryViewDTO setIconBase64(String iconBase64) {
-        this.iconBase64 = iconBase64;
-        return this;
-    }
+    private String icon;
+    private Integer productsCount;
 
     public Long getId() {
         return id;
@@ -44,12 +35,21 @@ public class CategoryViewDTO {
         return this;
     }
 
-    public byte[] getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public CategoryViewDTO setIcon(byte[] icon) {
+    public CategoryViewDTO setIcon(String icon) {
         this.icon = icon;
+        return this;
+    }
+
+    public Integer getProductsCount() {
+        return productsCount;
+    }
+
+    public CategoryViewDTO setProductsCount(Integer productsCount) {
+        this.productsCount = productsCount;
         return this;
     }
 }

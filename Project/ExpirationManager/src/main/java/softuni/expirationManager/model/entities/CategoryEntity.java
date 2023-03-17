@@ -2,6 +2,8 @@ package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -19,15 +21,19 @@ public class CategoryEntity {
     private String description;
 
     @Lob
-    @Column(columnDefinition = "BLOB")
+    @Column
     private byte[] icon;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private UserEntity user;
 
-//    @OneToMany(mappedBy = "category")
-//    private List<ProductEntity> products;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<ProductEntity> products;
+
+    public CategoryEntity() {
+        this.products = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -74,12 +80,20 @@ public class CategoryEntity {
         return this;
     }
 
-//    public List<ProductEntity> getProducts() {
-//        return products;
-//    }
-//
-//    public CategoryEntity setProducts(List<ProductEntity> products) {
-//        this.products = products;
-//        return this;
-//    }
+    public List<ProductEntity> getProducts() {
+        return Collections.unmodifiableList(products);
+    }
+
+    public CategoryEntity setProducts(List<ProductEntity> products) {
+        this.products = products;
+        return this;
+    }
+
+    public void addProduct(ProductEntity product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(ProductEntity product) {
+        this.products.remove(product);
+    }
 }

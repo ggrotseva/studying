@@ -33,7 +33,7 @@ public class ProductController {
     public String getProductsByCategory(@PathVariable Long id, Model model) {
         model.addAttribute("category", this.categoryService.getCategoryNameIdDTO(id));
 
-        List<ProductViewDTO> products = this.productService.findByCategory(id);
+        List<ProductViewDTO> products = this.productService.findAllByCategoryId(id);
 
         model.addAttribute("products", products);
 

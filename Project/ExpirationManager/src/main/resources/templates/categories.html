@@ -26,7 +26,7 @@
                 <div class="col">
                     <div class="row justify-content-center">
 
-                        <div class="col-sm-6 col-lg-3 d-flex align-items-stretch pt-4"
+                        <div class="col-sm-6 col-lg-3 pt-4"
                              th:each="category : ${categories}" th:object="${category}">
                             <section class="bg-white box">
                                 <div class="box-head">
@@ -35,14 +35,14 @@
                                 <div class="box-category px-3 pt-3">
                                     <div class="text-center">
                                         <a th:href="@{/categories/{id}(id=*{id})}">
-                                            <img th:src="'data:image/jpeg;charset=utf-8;base64,' + *{iconBase64}" alt="icon" width="50">
+                                            <img th:src="'data:image/jpeg;charset=utf-8;base64,' + *{icon}" alt="icon" width="50">
 <!--                                            <img th:src="/images/jar-of-jam.png" width="50">-->
                                         </a>
                                     </div>
 
                                     <div class="text-center mt-3">
                                         <p th:text="*{description}">Description</p>
-                                        <p>Number of products: <span>num</span></p>
+                                        <p><span th:text="*{productsCount}">num</span> products</p>
                                     </div>
 
                                     <div class="row justify-content-center p-3 box-bottom">

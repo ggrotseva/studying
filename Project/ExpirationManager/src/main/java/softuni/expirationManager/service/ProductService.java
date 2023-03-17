@@ -29,9 +29,23 @@ public class ProductService {
         this.mapper = mapper;
     }
 
-    public List<ProductViewDTO> findByCategory(Long id) {
+    public List<ProductViewDTO> findAllByCategoryId(Long id) {
         return this.productRepository.findAllByCategoryId(id).orElseThrow()
                 .stream().map(p -> this.mapper.map(p, ProductViewDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductHomeViewDTO> getExpiredProducts(String username) {
+        return this.productRepository.findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate.now(), username)
+                .orElse(new ArrayList<>())
+                .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductHomeViewDTO> getCloseToExpiryProducts(String username) {
+        return this.productRepository.findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate.now().plusMonths(1), username)
+                .orElse(new ArrayList<>())
+                .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -47,17 +61,4 @@ public class ProductService {
         this.productRepository.deleteById(productId);
     }
 
-    public List<ProductHomeViewDTO> getExpiredProducts(String username) {
-        return this.productRepository.findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate.now(), username)
-                .orElse(new ArrayList<>())
-                        .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
-                        .collect(Collectors.toList());
-    }
-
-    public List<ProductHomeViewDTO> getCloseToExpiryProducts(String username) {
-       return this.productRepository.findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate.now().plusMonths(1), username)
-                .orElse(new ArrayList<>())
-                        .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
-                        .collect(Collectors.toList());
-    }
 }

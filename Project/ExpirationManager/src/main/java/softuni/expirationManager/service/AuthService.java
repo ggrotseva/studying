@@ -46,6 +46,6 @@ public class AuthService {
 
         this.userRepository.saveAndFlush(newUser);
 
-        this.categoryService.initStartCategories(newUser);
+        this.categoryService.initStartCategoriesForUser(newUser);
     }
 }

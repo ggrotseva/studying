@@ -91,7 +91,7 @@
                                                     <input id="name" name="name" th:field="*{name}" type="text"
                                                            class="form-control" placeholder="Product Name" />
                                                     <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                                                           class="bg-danger text-white">
+                                                           class="alert alert-danger p-1">
                                                         Name is required.
                                                     </small>
                                                 </div>
@@ -100,7 +100,7 @@
                                                     <input id="expiryDate" name="expiryDate" th:field="*{expiryDate}" type="date"
                                                            class="form-control" placeholder="Expiry date" />
                                                     <small  th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}"
-                                                            class="bg-danger text-white">
+                                                            class="alert alert-danger p-1">
                                                         Expiry date is required.
                                                     </small>
                                                 </div>

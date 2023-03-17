@@ -2,6 +2,7 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import softuni.expirationManager.model.dtos.category.CategoryAddDTO;
 import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
 import softuni.expirationManager.model.dtos.category.CategoryNameIdDTO;
@@ -41,7 +42,7 @@ public class CategoryService {
         this.mapper = mapper;
     }
 
-    public void initStartCategories(UserEntity userEntity) throws IOException {
+    public void initStartCategoriesForUser(UserEntity userEntity) throws IOException {
         FileInputStream fis = new FileInputStream(DEAFAULT_ICON_PATH);
         byte[] iconBytes = fis.readAllBytes();
 
@@ -68,15 +69,11 @@ public class CategoryService {
         this.categoryRepository.saveAndFlush(newCategory);
     }
 
+    @Transactional
     public List<CategoryViewDTO> findAllByUserUsername(String name) {
         return this.categoryRepository.findAllByUserUsername(name).orElseThrow()
-                .stream().map(c -> this.mapper.map(c, CategoryViewDTO.class))
-                .map(c -> {
-                    if (c.getIcon() != null || c.getIcon().length == 0) {
-                        return c.setIconBase64(Base64.getEncoder().encodeToString(c.getIcon()));
-                    }
-                    return c;
-                })
+                .stream()
+                .map(c -> this.mapper.map(c, CategoryViewDTO.class))
                 .collect(Collectors.toList());
     }
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -38,12 +39,12 @@ public class UserEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @OneToMany(mappedBy = "user")
-    private List<CategoryEntity> categories;
+//    @OneToMany(mappedBy = "user")
+//    private List<CategoryEntity> categories;
 
     public UserEntity() {
         this.userRoles = new ArrayList<>();
-        this.categories = new ArrayList<>();
+//        this.categories = new ArrayList<>();
     }
 
     public Long getId() {
@@ -101,7 +102,7 @@ public class UserEntity {
     }
 
     public List<UserRoleEntity> getUserRoles() {
-        return userRoles;
+        return Collections.unmodifiableList(userRoles);
     }
 
     public UserEntity setUserRoles(List<UserRoleEntity> userRoles) {
@@ -118,12 +119,20 @@ public class UserEntity {
         return this;
     }
 
-    public List<CategoryEntity> getCategories() {
-        return categories;
+//    public List<CategoryEntity> getCategories() {
+//        return categories;
+//    }
+//
+//    public UserEntity setCategories(List<CategoryEntity> categories) {
+//        this.categories = categories;
+//        return this;
+//    }
+
+    public void addRole(UserRoleEntity userRole) {
+        this.userRoles.add(userRole);
     }
 
-    public UserEntity setCategories(List<CategoryEntity> categories) {
-        this.categories = categories;
-        return this;
+    public void removeRole(UserRoleEntity userRole) {
+        this.userRoles.remove(userRole);
     }
 }
