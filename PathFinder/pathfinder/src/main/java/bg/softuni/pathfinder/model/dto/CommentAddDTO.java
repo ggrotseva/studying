@@ -1,15 +1,20 @@
 package bg.softuni.pathfinder.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class CommentAddDTO {
 
-    private String textContent;
+//    @Size(min = 10)
+//    @NotBlank
+    private String message;
 
-    public String getTextContent() {
-        return textContent;
+    public String getMessage() {
+        return message;
     }
 
-    public CommentAddDTO setTextContent(String textContent) {
-        this.textContent = textContent;
+    public CommentAddDTO setMessage(String message) {
+        this.message = message;
         return this;
     }
 }

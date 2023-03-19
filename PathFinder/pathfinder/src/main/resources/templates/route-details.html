@@ -4,14 +4,19 @@
 <head>
     <title>Route Details</title>
     <th:block th:insert="~{fragments/head}"/>
+    <meta
+            id="csrf"
+            type="hidden"
+            th:name="${_csrf.headerName}"
+            th:value="${_csrf.token}"/>
 </head>
 
 <body>
-<div class="wrapper">
+<div class="wrapper" th:object="${route}">
     <th:block th:insert="~{fragments/navigation}"/>
 
-    <input type="hidden" name="routeId" id="routeId">   
-    <div class="details-main" th:object="${route}">
+    <input type="hidden" name="routeId" id="routeId" th:value="*{id}">
+    <div class="details-main">
         <section class="route-info text-center">
             <h4 id="track-name" th:text="*{name}"></h4>
             <p>Total distance: <span id="totalDistance">1000 (hard coded)</span> km</p>
@@ -21,14 +26,14 @@
                 <p th:each="i : ${#numbers.sequence(0, route.level.ordinal())}">
                     <img class="level-img" src="/images/difficulty-level.png" alt="">
                 </p>
-<!--                <p><img th:if="*{level.ordinal() + 1} > 0" class="level-img" src="/images/difficulty-level.png" alt=""></p>-->
-<!--                <p><img th:if="*{level.ordinal() + 1} > 1" class="level-img" src="/images/difficulty-level.png" alt=""></p>-->
-<!--                <p><img th:if="*{level.ordinal() + 1} > 2" class="level-img" src="/images/difficulty-level.png" alt=""></p>-->
+                <!--                <p><img th:if="*{level.ordinal() + 1} > 0" class="level-img" src="/images/difficulty-level.png" alt=""></p>-->
+                <!--                <p><img th:if="*{level.ordinal() + 1} > 1" class="level-img" src="/images/difficulty-level.png" alt=""></p>-->
+                <!--                <p><img th:if="*{level.ordinal() + 1} > 2" class="level-img" src="/images/difficulty-level.png" alt=""></p>-->
             </div>
             <div>
                 <h4>Choose picture</h4>
                 <form action="/" method="POST" enctype="multipart/form-data">
-                    <input  type="hidden" id="id" name="routeId">
+                    <input type="hidden" id="id" name="routeId">
                     <div class="form-group">
                         <label>
                             <input type="text" name="title">
@@ -57,7 +62,7 @@
         </section>
         <section class="gallery">
             <img th:each="picture : *{pictures}" class="rounded" th:src="${picture.url}" height="100%" alt="">
-<!--            <img class="rounded" src="/images/pic1.jpg" height="100%" alt="">-->
+            <!--            <img class="rounded" src="/images/pic1.jpg" height="100%" alt="">-->
         </section>
         <section class="comments">
             <h1>Comments</h1>
@@ -99,11 +104,11 @@
         </section>
         <p style="visibility: hidden">GPX Download: <a id="gpxDownload"></a></p>
     </div>
-	<!-- Scripts: track and comments 
+    <!-- Scripts: track and comments
     <script th:src="@{/js/track.js}"></script> -->
     <script th:src="@{/js/comments.js}"></script>
 
 </div>
-<th:block th:insert="~{/fragments/footer}" />
+<th:block th:insert="~{/fragments/footer}"/>
 </body>
 </html>

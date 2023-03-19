@@ -1,7 +1,6 @@
 package bg.softuni.pathfinder.model.config;
 
 import bg.softuni.pathfinder.model.enums.UserRole;
-import bg.softuni.pathfinder.service.AuthService;
 import bg.softuni.pathfinder.service.PathfinderUserDetailsService;
 import bg.softuni.pathfinder.service.UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+import static bg.softuni.pathfinder.model.enums.UserRole.*;
+
 @Service
 public class AuthService {
 
@@ -39,4 +41,9 @@ public class AuthService {
         this.userRepository.save(newUser);
     }
 
+    public boolean authorizePrincipal(String username) {
+        UserEntity user = this.userRepository.findByUsername(username).orElseThrow();
+
+        return user.getRoles().stream().anyMatch(r -> r.getName() == ADMIN || r.getName() == MODERATOR);
+    }
 }

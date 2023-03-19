@@ -37,16 +37,22 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    public CommentDTO getCommentDtoById(Long id) {
+        return this.mapper.map(this.commentRepository.findById(id).orElseThrow(), CommentDTO.class);
+    }
+
     public CommentDTO createComment(CommentAddDTO commentAddDTO, Long routeId, String username) {
 
         Comment comment = new Comment()
-                .setTextContent(commentAddDTO.getTextContent())
+                .setTextContent(commentAddDTO.getMessage())
                 .setRoute(this.routeRepository.findById(routeId).orElseThrow())
                 .setAuthor(this.userRepository.findByUsername(username).orElseThrow())
                 .setCreated(LocalDateTime.now())
                 .setApproved(true);
 
-        return this.mapper.map(comment, CommentDTO.class);
+        Comment savedComment = this.commentRepository.save(comment);
+
+        return this.mapper.map(savedComment, CommentDTO.class);
     }
 
     public void deleteById(Long id) {

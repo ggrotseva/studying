@@ -267,7 +267,7 @@ footer {
 .comments {
     grid-column: 1/4;
     grid-row: 4;
-
+    margin: 10px;
 }
 
 #add-route-form {
