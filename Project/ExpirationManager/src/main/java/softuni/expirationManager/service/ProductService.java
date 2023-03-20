@@ -49,16 +49,19 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public void addProduct(ProductAddDTO productAddDTO, Long id) {
+    public ProductViewDTO addProduct(ProductAddDTO productAddDTO, Long categoryId) {
         ProductEntity product = this.mapper.map(productAddDTO, ProductEntity.class);
 
-        product.setCategory(this.categoryRepository.findById(id).orElseThrow());
+        product.setCategory(this.categoryRepository.findById(categoryId).orElseThrow());
 
-        this.productRepository.saveAndFlush(product);
+        return this.mapper.map(this.productRepository.saveAndFlush(product), ProductViewDTO.class);
     }
 
     public void deleteById(Long productId) {
         this.productRepository.deleteById(productId);
     }
 
+    public ProductViewDTO findById(Long productId) {
+        return this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
+    }
 }

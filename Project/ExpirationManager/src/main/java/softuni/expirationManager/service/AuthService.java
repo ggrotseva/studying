@@ -13,6 +13,8 @@ import softuni.expirationManager.repository.UserRoleRepository;
 import java.io.IOException;
 import java.util.List;
 
+import static softuni.expirationManager.model.enums.UserRoleEnum.*;
+
 @Service
 public class AuthService {
 
@@ -47,5 +49,11 @@ public class AuthService {
         this.userRepository.saveAndFlush(newUser);
 
         this.categoryService.initStartCategoriesForUser(newUser);
+    }
+
+    public boolean authorizePrincipal(String username) {
+        UserEntity user = this.userRepository.findByUsername(username).orElseThrow();
+
+        return user.getUserRoles().stream().anyMatch(r -> r.getRole() == ADMIN || r.getRole() == MODERATOR);
     }
 }

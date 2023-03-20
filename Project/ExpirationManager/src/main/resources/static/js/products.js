@@ -16,7 +16,7 @@ fetch(`${backendLocation}/categories/${categoryId}/products`)
 function fillTableRow(product) {
     let productHtml = `<tr id="product${product.id}">\n`;
     productHtml += '<td>' + product.name + '</td>\n';
-    productHtml += '<td>' + product.expiryDate + '</td>\n';
+    productHtml += '<td>' + formatDate(product.expiryDate) + '</td>\n';
     productHtml += '<td>' + product.brand + '</td>\n';
     productHtml += '<td>' + product.description + '</td>\n';
     productHtml += `<td>\n
@@ -36,12 +36,12 @@ const csrfHeaderValue = document.getElementById('csrf').getAttribute('value');
 // delete product
 function deleteProduct(productId) {
     fetch(`${backendLocation}/categories/${categoryId}/products/${productId}`, {
-    method: 'DELETE',
-         headers: {
+        method: 'DELETE',
+        headers: {
             [csrfHeaderName]: csrfHeaderValue
-         }
+        }
     })
-    .then(document.getElementById("product" + productId).remove());
+        .then(document.getElementById("product" + productId).remove());
 }
 
 // add product form element
@@ -82,3 +82,16 @@ productForm.addEventListener("submit", (event) => {
     })
 })
 
+// format date
+function formatDate(dateString) {
+    let date = new Date(dateString);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    day < 10 && (day = `0${day}`)
+    month < 10 && (month = `0${month}`)
+
+    return `${day}/${month}/${year}`
+}

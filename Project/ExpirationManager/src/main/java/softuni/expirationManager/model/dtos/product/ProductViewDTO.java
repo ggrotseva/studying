@@ -9,6 +9,7 @@ public class ProductViewDTO {
     private String brand;
     private String description;
     private LocalDate expiryDate;
+    private String categoryUserUsername;
 
     public Long getId() {
         return id;
@@ -52,6 +53,15 @@ public class ProductViewDTO {
 
     public ProductViewDTO setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public String getCategoryUserUsername() {
+        return categoryUserUsername;
+    }
+
+    public ProductViewDTO setCategoryUserUsername(String categoryUserUsername) {
+        this.categoryUserUsername = categoryUserUsername;
         return this;
     }
 }

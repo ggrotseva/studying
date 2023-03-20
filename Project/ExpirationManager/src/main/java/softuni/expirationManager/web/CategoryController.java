@@ -94,4 +94,11 @@ public class CategoryController {
 
         return "redirect:/categories";
     }
+
+    @GetMapping("/categories/{id}")
+    public String getProductsByCategory(@PathVariable Long id, Model model) {
+        model.addAttribute("category", this.categoryService.getCategoryNameIdDTO(id));
+
+        return "category";
+    }
 }

@@ -22,13 +22,27 @@ function sortTable(n) {
             /* Check if the two rows should switch place,
             based on the direction, asc or desc: */
             if (dir == "asc") {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (/^(\d{2}\/\d{2}\/\d{4})$/.test(x.innerHTML)) {
+                    let dateX = Date.parse(x.innerHTML);
+                    let dateY = Date.parse(y.innerHTML);
+                    if (dateX > dateY) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                     // If so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
                 }
             } else if (dir == "desc") {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (/^(\d{2}\/\d{2}\/\d{4})$/.test(x.innerHTML)) {
+                    let dateX = Date.parse(x.innerHTML);
+                    let dateY = Date.parse(y.innerHTML);
+                    if (dateX < dateY) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                     // If so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
