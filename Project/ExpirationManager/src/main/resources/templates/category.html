@@ -13,6 +13,8 @@
 </header>
 
 <main class="container d-flex pb-5">
+    <input type="hidden" name="categoryId" id="categoryId" th:value="${category.id}">
+
     <div class="row">
         <div class="col-lg-12 pb-8">
 
@@ -61,7 +63,7 @@
                                             </tr>
                                             </thead>
 
-                                            <tbody id="table-content">
+                                            <tbody id="tableContent">
                                             <tr th:each="product : ${products}" th:object="${product}">
                                                 <td th:text="*{name}">chocolate drops</td>
                                                 <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">10/01/2024</td>
@@ -84,7 +86,9 @@
                                 <div class="row">
                                     <div class="col">
                                         <form class="mx-auto col-sm-12 d-flex flex-column justify-content-center"
-                                            th:action="@{/categories/{id}/addproduct(id=${category.id})}" th:method="POST" th:object="${productAddDTO}">
+                                            th:action="@{/categories/{id}/addproduct(id=${category.id})}"
+                                              th:method="POST"
+                                              th:object="${productAddDTO}">
                                             <div class="form-row py-3">
                                                 <div class="col-md-3 py-1">
                                                     <label for="name" class="d-none">Product Name</label>
