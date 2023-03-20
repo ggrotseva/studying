@@ -2,7 +2,7 @@ package bg.softuni.mobilelele.config;
 
 import bg.softuni.mobilelele.model.enums.UserRoleEnum;
 import bg.softuni.mobilelele.repository.UserRepository;
-import bg.softuni.mobilelele.service.ApplicationUserDetails;
+import bg.softuni.mobilelele.service.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +46,7 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return new ApplicationUserDetails(userRepository);
+        return new ApplicationUserDetailsService(userRepository);
     }
 
     @Bean

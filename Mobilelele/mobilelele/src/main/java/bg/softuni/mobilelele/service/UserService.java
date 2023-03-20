@@ -19,14 +19,14 @@ public class UserService implements DatabaseInitService {
     private static final String USER_ROLE = "USER";
 
     private final UserRepository userRepository;
-    private final UserRoleService userRoleService;
+//    private final UserRoleService userRoleService;
     private final ModelMapper mapper;
 
     public UserService(UserRepository userRepository,
-                       UserRoleService userRoleService,
+//                       UserRoleService userRoleService,
                        ModelMapper mapper) {
         this.userRepository = userRepository;
-        this.userRoleService = userRoleService;
+//        this.userRoleService = userRoleService;
         this.mapper = mapper;
     }
 
@@ -45,9 +45,10 @@ public class UserService implements DatabaseInitService {
         UserEntity newUser = mapper.map(userRegisterDTO, UserEntity.class)
                 .setActive(true)
                 .setCreated(LocalDateTime.now())
-                .setUserRoles(this.userRepository.count() == 0 ?
-                        this.userRoleService.getRoles() :
-                        List.of(this.userRoleService.findByRole(USER_ROLE)));
+//                .setUserRoles(this.userRepository.count() == 0 ?
+//                        this.userRoleService.getRoles() :
+//                        List.of(this.userRoleService.findByRole(USER_ROLE)))
+                ;
 
         userRepository.save(newUser);
     }

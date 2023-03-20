@@ -13,17 +13,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ApplicationUserDetails implements UserDetailsService {
+public class ApplicationUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public ApplicationUserDetails(UserRepository userRepository) {
+    public ApplicationUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.userRepository.findByUsername(username).map(this::map).orElseThrow();
+        return this.userRepository.findByUsername(username).map(this::map)
+                .orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not found"));
     }
 
     private UserDetails map(UserEntity user) {
