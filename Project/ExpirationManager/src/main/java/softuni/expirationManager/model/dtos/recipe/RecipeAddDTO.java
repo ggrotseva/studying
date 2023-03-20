@@ -3,10 +3,12 @@ package softuni.expirationManager.model.dtos.recipe;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import softuni.expirationManager.model.enums.RecipeType;
+import softuni.expirationManager.model.validations.UniqueRecipeName;
 
 public class RecipeAddDTO {
 
     @NotBlank(message = "Recipe Name is required")
+    @UniqueRecipeName
     private String name;
 
     @NotNull(message = "Recipe Type is required")

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import softuni.expirationManager.model.validations.FieldMatch;
+import softuni.expirationManager.model.validations.UniqueEmail;
+import softuni.expirationManager.model.validations.UniqueUsername;
 
 @FieldMatch(first = "password",
         second = "confirmPassword",
@@ -21,10 +23,12 @@ public class UserRegisterDTO {
 
     @Size(min = 4, max = 50, message = "Username should be between 4 and 50 characters long.")
     @NotNull(message = "Username is required")
+    @UniqueUsername
     private String username;
 
     @Email(message = "Please enter a valid email address.")
-    @NotNull(message = "Email is required")
+    @NotBlank(message = "Email is required")
+    @UniqueEmail
     private String email;
 
     @Size(min = 6, max = 50, message = "Password should be between 6 and 50 characters long.")
