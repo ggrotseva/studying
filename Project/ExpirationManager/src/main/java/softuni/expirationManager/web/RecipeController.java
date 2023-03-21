@@ -1,10 +1,12 @@
 package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.expirationManager.model.dtos.recipe.RecipeAddDTO;
 import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
@@ -100,5 +102,15 @@ public class RecipeController {
         this.recipeService.deleteById(id);
 
         return "redirect:/recipes";
+    }
+
+
+    @ExceptionHandler(FileSizeLimitExceededException.class)
+    public ModelAndView handleFileSizeLimitExceeded() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("error");
+        mav.addObject("errorMessage", "File you uploaded exceeds maximum size");
+
+        return mav;
     }
 }

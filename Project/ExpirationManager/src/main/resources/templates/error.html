@@ -15,7 +15,7 @@
     <main>
         <section class="text-white container-fluid">
             <h1 class="text-center py-4">Oops!</h1>
-            <h5 class="text-center mb-5">Something went wrong</h5>
+            <h5 class="text-center mb-5" th:text="${errorMessage} ?: 'Something went wrong'">Something went wrong</h5>
         </section>
     </main>
 

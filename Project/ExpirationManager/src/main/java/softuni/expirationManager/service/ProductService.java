@@ -43,7 +43,8 @@ public class ProductService {
     }
 
     public List<ProductHomeViewDTO> getCloseToExpiryProducts(String username) {
-        return this.productRepository.findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate.now().plusMonths(1), username)
+        return this.productRepository.findAllByExpiryDateBeforeAndExpiryDateAfterAndCategoryUserUsername(
+                        LocalDate.now().plusMonths(1), LocalDate.now(), username)
                 .orElse(new ArrayList<>())
                 .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
                 .collect(Collectors.toList());

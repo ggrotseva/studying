@@ -3,6 +3,7 @@ package softuni.expirationManager.model.dtos.category;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
+import softuni.expirationManager.model.validations.FileSizeValidator;
 
 public class CategoryAddDTO {
 
@@ -13,6 +14,7 @@ public class CategoryAddDTO {
     @Size(max = 255, message = "Description should be less than 255 characters")
     private String description;
 
+    @FileSizeValidator(maxSizeInKilobytes = "64")
     private MultipartFile icon;
 
     public String getName() {

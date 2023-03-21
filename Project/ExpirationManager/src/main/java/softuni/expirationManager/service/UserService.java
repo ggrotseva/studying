@@ -19,4 +19,8 @@ public class UserService {
     public UserProfileDTO getUserInfoByName(String username) {
         return this.mapper.map(this.userRepository.findByUsername(username).orElseThrow(), UserProfileDTO.class);
     }
+
+    public UserProfileDTO getUserInfoById(Long id) {
+        return this.mapper.map(this.userRepository.findById(id).orElseThrow(), UserProfileDTO.class);
+    }
 }

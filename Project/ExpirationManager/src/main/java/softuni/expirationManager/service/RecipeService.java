@@ -18,19 +18,20 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
+    private final ImageCloudService imageCloudService;
     private final ModelMapper mapper;
 
-    public RecipeService(RecipeRepository recipeRepository, UserRepository userRepository, ModelMapper mapper) {
+    public RecipeService(RecipeRepository recipeRepository,
+                         UserRepository userRepository,
+                         ImageCloudService imageCloudService,
+                         ModelMapper mapper) {
         this.recipeRepository = recipeRepository;
         this.userRepository = userRepository;
+        this.imageCloudService = imageCloudService;
         this.mapper = mapper;
     }
 
     public void createRecipe(RecipeAddDTO recipeAddDTO, String username) {
-
-        if (recipeAddDTO.getImageUrl() == null || recipeAddDTO.getImageUrl().isEmpty()) {
-            recipeAddDTO.setImageUrl(recipeAddDTO.getType().getDefaultImageUrl());
-        }
 
         RecipeEntity recipe = this.mapper.map(recipeAddDTO, RecipeEntity.class);
 
@@ -39,6 +40,13 @@ public class RecipeService {
         recipe.setAuthor(author)
                 .setCreated(LocalDateTime.now())
                 .setModified(LocalDateTime.now());
+
+        if (recipeAddDTO.getImage() == null || recipeAddDTO.getImage().isEmpty()) {
+            recipe.setImageUrl(recipeAddDTO.getType().getDefaultImageUrl());
+        } else {
+            String imageUrl = this.imageCloudService.saveImage(recipeAddDTO.getImage());
+            recipe.setImageUrl(imageUrl);
+        }
 
         this.recipeRepository.saveAndFlush(recipe);
     }
@@ -99,13 +107,7 @@ public class RecipeService {
     }
 
     public RecipeEditDTO getRecipeEditDtoById(Long id) {
-        RecipeEditDTO recipeEditDTO = this.mapper.map(this.recipeRepository.findById(id).orElseThrow(), RecipeEditDTO.class);
-
-        if (recipeEditDTO.getImageUrl().equals(recipeEditDTO.getType().getDefaultImageUrl())) {
-            recipeEditDTO.setImageUrl("");
-        }
-
-        return recipeEditDTO;
+        return this.mapper.map(this.recipeRepository.findById(id).orElseThrow(), RecipeEditDTO.class);
     }
 
     public void editRecipe(RecipeEditDTO recipeEditDTO) {
@@ -128,16 +130,18 @@ public class RecipeService {
     }
 
     private void handleImageUrlEdit(RecipeEntity recipe, RecipeEditDTO recipeEditDTO) {
-        if (!recipeEditDTO.getType().equals(recipe.getRecipeType())) {
-            if (recipeEditDTO.getImageUrl() == null || recipeEditDTO.getImageUrl().isEmpty()) {
+        // if user doesn't upload an image
+        if (recipeEditDTO.getImage() == null || recipeEditDTO.getImage().isEmpty()) {
+            // only if existing recipe has the default imageUrl and RecipeType is changed, imageUrl is changed too
+            if (recipe.getRecipeType().getDefaultImageUrl().equals(recipe.getImageUrl())
+                    && recipe.getRecipeType() != recipeEditDTO.getType()) {
+
                 recipe.setImageUrl(recipeEditDTO.getType().getDefaultImageUrl());
-            } else {
-                recipe.setImageUrl(recipeEditDTO.getImageUrl());
-            }
+            } // else nothing changes
         } else {
-            if (recipeEditDTO.getImageUrl() != null && !recipeEditDTO.getImageUrl().isEmpty()) {
-                recipe.setImageUrl(recipeEditDTO.getImageUrl());
-            }
+            // if user uploads new image
+            String imageUrl = this.imageCloudService.saveImage(recipeEditDTO.getImage());
+            recipe.setImageUrl(imageUrl);
         }
     }
 }

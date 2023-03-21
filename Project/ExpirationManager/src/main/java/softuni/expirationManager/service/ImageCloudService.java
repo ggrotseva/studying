@@ -47,11 +47,11 @@ public class ImageCloudService {
             throw new NoSuchElementException(e);
         }
 
-        return "http://res.cloudinary.com/dh0d7odiu/image/upload/v1679044082/"
+        return "https://res.cloudinary.com/dh0d7odiu/image/upload/w_500,h_500,c_fill/v1679387387/"
                 + imageId + "." + getFileExtension(multipartFile.getOriginalFilename());
     }
 
     private String getFileExtension(String filename) {
-        return filename.substring(filename.lastIndexOf('.' + 1));
+        return filename.substring(filename.lastIndexOf('.') + 1);
     }
 }

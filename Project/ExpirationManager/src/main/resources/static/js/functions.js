@@ -23,8 +23,10 @@ function sortTable(n) {
             based on the direction, asc or desc: */
             if (dir == "asc") {
                 if (/^(\d{2}\/\d{2}\/\d{4})$/.test(x.innerHTML)) {
-                    let dateX = Date.parse(x.innerHTML);
-                    let dateY = Date.parse(y.innerHTML);
+                    let matchX = x.innerHTML.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+                    let matchY = y.innerHTML.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+                    let dateX = Date.parse(`${matchX[2]}/${matchX[1]}/${matchX[3]}`);
+                    let dateY = Date.parse(`${matchY[2]}/${matchY[1]}/${matchY[3]}`);
                     if (dateX > dateY) {
                         shouldSwitch = true;
                         break;
@@ -36,8 +38,10 @@ function sortTable(n) {
                 }
             } else if (dir == "desc") {
                 if (/^(\d{2}\/\d{2}\/\d{4})$/.test(x.innerHTML)) {
-                    let dateX = Date.parse(x.innerHTML);
-                    let dateY = Date.parse(y.innerHTML);
+                    let matchX = x.innerHTML.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+                    let matchY = y.innerHTML.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+                    let dateX = Date.parse(`${matchX[2]}/${matchX[1]}/${matchX[3]}`);
+                    let dateY = Date.parse(`${matchY[2]}/${matchY[1]}/${matchY[3]}`);
                     if (dateX < dateY) {
                         shouldSwitch = true;
                         break;

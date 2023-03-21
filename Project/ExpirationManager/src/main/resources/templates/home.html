@@ -33,7 +33,7 @@
                                 </div>
 
                                 <div class="box-content px-3 pt-3">
-                                    <table th:each="product : ${expiredProducts}" th:object="${product}"
+                                    <table
                                            class="table table-striped table-sm">
                                         <thead>
                                         <tr>
@@ -43,7 +43,7 @@
                                         </thead>
 
                                         <tbody>
-                                        <tr>
+                                        <tr th:each="product : ${expiredProducts}" th:object="${product}">
                                             <td th:text="*{name} + ' - ' + *{brand}">Name - Brand</td>
                                             <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
                                                 Date
@@ -64,8 +64,7 @@
                                 </div>
 
                                 <div class="box-content px-3 pt-3">
-                                    <table th:each="product : ${closeToExpiryProducts}" th:object="${product}"
-                                           class="table table-striped table-sm">
+                                    <table class="table table-striped table-sm">
                                         <thead>
                                         <tr>
                                             <th style="width: 60%;"><b>Product</b></th>
@@ -74,7 +73,7 @@
                                         </thead>
 
                                         <tbody>
-                                        <tr>
+                                        <tr th:each="product : ${closeToExpiryProducts}" th:object="${product}">
                                             <td th:text="*{name} + ' - ' + *{brand}">Name - Brand</td>
                                             <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
                                                 Date

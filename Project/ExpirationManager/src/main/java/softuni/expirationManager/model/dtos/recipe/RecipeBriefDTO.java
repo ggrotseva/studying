@@ -11,8 +11,10 @@ public class RecipeBriefDTO {
     private RecipeType type;
     private String imageUrl;
     private String preparation;
-    private String authorUsername;
     private LocalDateTime created;
+
+    private String authorUsername;
+    private Long authorId;
 
     public Long getId() {
         return id;
@@ -59,6 +61,15 @@ public class RecipeBriefDTO {
         return this;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public RecipeBriefDTO setCreated(LocalDateTime created) {
+        this.created = created;
+        return this;
+    }
+
     public String getAuthorUsername() {
         return authorUsername;
     }
@@ -68,12 +79,12 @@ public class RecipeBriefDTO {
         return this;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
+    public Long getAuthorId() {
+        return authorId;
     }
 
-    public RecipeBriefDTO setCreated(LocalDateTime created) {
-        this.created = created;
+    public RecipeBriefDTO setAuthorId(Long authorId) {
+        this.authorId = authorId;
         return this;
     }
 }

@@ -2,21 +2,24 @@ package softuni.expirationManager.model.dtos.recipe;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 import softuni.expirationManager.model.enums.RecipeType;
-import softuni.expirationManager.model.validations.UniqueRecipeName;
+import softuni.expirationManager.model.validations.FileSizeValidator;
 
 public class RecipeEditDTO {
 
     private Long id;
 
     @NotBlank(message = "Recipe Name is required")
-    @UniqueRecipeName
     private String name;
 
     @NotNull(message = "Recipe Type is required")
     private RecipeType type;
 
     private String imageUrl;
+
+    @FileSizeValidator(maxSizeInKilobytes = "2048")
+    private MultipartFile image;
 
     @NotBlank(message = "Recipe ingredients are required")
     private String ingredientsDescription;
@@ -57,6 +60,15 @@ public class RecipeEditDTO {
 
     public RecipeEditDTO setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public RecipeEditDTO setImage(MultipartFile image) {
+        this.image = image;
         return this;
     }
 

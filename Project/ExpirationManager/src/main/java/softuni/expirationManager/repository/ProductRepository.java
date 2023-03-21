@@ -13,5 +13,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     Optional<List<ProductEntity>> findAllByExpiryDateBeforeAndCategoryUserUsername(LocalDate date, String username);
 
+    Optional<List<ProductEntity>> findAllByExpiryDateBeforeAndExpiryDateAfterAndCategoryUserUsername(LocalDate before, LocalDate after, String username);
+
     Optional<List<ProductEntity>> findAllByCategoryId(Long id);
 }

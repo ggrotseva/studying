@@ -90,8 +90,8 @@ function formatDate(dateString) {
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
 
-    day < 10 && (day = `0${day}`)
-    month < 10 && (month = `0${month}`)
+    day < 10 && (day = `0${day}`);
+    month < 10 && (month = `0${month}`);
 
-    return `${day}/${month}/${year}`
+    return `${day}/${month}/${year}`;
 }

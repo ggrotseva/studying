@@ -21,8 +21,8 @@
             <div class="col-12">
 
                 <form th:object="${recipeEditDTO}" th:action="@{/recipes/{id}/edit(id=*{id})}" th:method="PUT"
-                      class="main-form mx-auto col-lg-12 d-flex flex-column justify-content-center">
-                    <!-- enctype="multipart/form-data" -->
+                      class="main-form mx-auto col-lg-12 d-flex flex-column justify-content-center"
+                      enctype="multipart/form-data">
 
                     <div class="row">
                         <div class="form-group col-lg-6 mb-3">
@@ -35,10 +35,14 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-6 mb-3">
-                            <label for="imageUrl" class="text-white font-weight-bold">Set image URL
-                                (optional)</label>
-                            <input id="imageUrl" name="imageUrl" th:field="*{imageUrl}" type="url" class="form-control"
-                                   placeholder="Image URL"/>
+                            <label for="image" class="text-white font-weight-bold">Upload image if you want to change
+                                current one (up to 1 MB)</label>
+                            <input id="image" name="image" th:field="*{image}"
+                                   type="file" accept="image" class="form-control-file"/>
+                            <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}"
+                                 class="alert alert-danger">
+                                File is too big.
+                            </div>
                         </div>
                     </div>
 
