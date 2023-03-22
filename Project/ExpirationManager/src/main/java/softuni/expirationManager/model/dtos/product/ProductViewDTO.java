@@ -9,7 +9,7 @@ public class ProductViewDTO {
     private String brand;
     private String description;
     private LocalDate expiryDate;
-    private String categoryUserUsername;
+    private Long categoryUserId;
 
     public Long getId() {
         return id;
@@ -56,12 +56,12 @@ public class ProductViewDTO {
         return this;
     }
 
-    public String getCategoryUserUsername() {
-        return categoryUserUsername;
+    public Long getCategoryUserId() {
+        return categoryUserId;
     }
 
-    public ProductViewDTO setCategoryUserUsername(String categoryUserUsername) {
-        this.categoryUserUsername = categoryUserUsername;
+    public ProductViewDTO setCategoryUserId(Long categoryUserId) {
+        this.categoryUserId = categoryUserId;
         return this;
     }
 }

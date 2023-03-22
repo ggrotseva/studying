@@ -109,7 +109,7 @@ public class CategoryController {
     public ModelAndView handleFileSizeLimitExceeded() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error");
-        mav.addObject("errorMessage", "File you uploaded exceeds maximum size");
+        mav.addObject("errorMessage", "File you uploaded exceeds maximum allowed size");
 
         return mav;
     }

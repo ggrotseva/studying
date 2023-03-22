@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.expirationManager.model.enums.RecipeType;
-import softuni.expirationManager.model.validations.FileSizeValidator;
+import softuni.expirationManager.model.validations.FileSize;
 
 public class RecipeAddDTO {
 
@@ -14,7 +14,7 @@ public class RecipeAddDTO {
     @NotNull(message = "Recipe Type is required")
     private RecipeType type;
 
-    @FileSizeValidator(maxSizeInKilobytes = "2048")
+    @FileSize(maxSizeInKilobytes = "2048")
     private MultipartFile image;
 
     @NotBlank(message = "Recipe ingredients are required")

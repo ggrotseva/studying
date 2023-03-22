@@ -1,5 +1,6 @@
 package softuni.expirationManager.service;
 
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.model.entities.UserRoleEntity;
 import softuni.expirationManager.repository.UserRepository;
@@ -26,9 +27,10 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails map(UserEntity userEntity) {
-        return new User(userEntity.getUsername(),
+        return new MyUserDetails(userEntity.getUsername(),
                 userEntity.getPassword(),
-                extractGrantedAuthorities(userEntity));
+                extractGrantedAuthorities(userEntity))
+                .setId(userEntity.getId());
     }
 
     private List<GrantedAuthority> extractGrantedAuthorities(UserEntity userEntity) {

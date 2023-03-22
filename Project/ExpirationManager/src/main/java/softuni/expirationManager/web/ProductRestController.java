@@ -1,27 +1,33 @@
 package softuni.expirationManager.web;
 
+import jakarta.validation.Valid;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductAddDTO;
 import softuni.expirationManager.model.dtos.product.ProductViewDTO;
-import softuni.expirationManager.service.AuthService;
 import softuni.expirationManager.service.ProductService;
 
 import java.net.URI;
-import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/categories/{id}")
 public class ProductRestController {
 
     private final ProductService productService;
-    private final AuthService authService;
 
-    public ProductRestController(ProductService productService, AuthService authService) {
+    public ProductRestController(ProductService productService) {
         this.productService = productService;
-        this.authService = authService;
     }
 
     @GetMapping("/products")
@@ -40,7 +46,7 @@ public class ProductRestController {
 
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("id") Long categoryId,
-                                                      @RequestBody ProductAddDTO productAddDTO) {
+                                                      @RequestBody @Valid ProductAddDTO productAddDTO) {
 
         ProductViewDTO product = this.productService.addProduct(productAddDTO, categoryId);
 
@@ -50,11 +56,11 @@ public class ProductRestController {
 
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> deleteComment(@PathVariable("productId") Long productId,
-                                                        Principal principal) {
+                                                        @AuthenticationPrincipal MyUserDetails userDetails) {
 
         ProductViewDTO productForDelete = this.productService.findById(productId);
 
-        if (authorizeDelete(principal.getName(), productForDelete)) {
+        if (authorizeDelete(userDetails, productForDelete)) {
 
             this.productService.deleteById(productId);
             return ResponseEntity.ok(productForDelete);
@@ -63,15 +69,24 @@ public class ProductRestController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-    private boolean authorizeDelete(String username, ProductViewDTO productForDelete) {
-        return this.authService.authorizePrincipal(username) ||
-                productForDelete.getCategoryUserUsername().equals(username);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+//        List<String> errorMessages = fieldErrors.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+
+        Map<String, String> fieldsErrors = new HashMap<>();
+
+        fieldErrors.forEach(err -> fieldsErrors.put(err.getField(), err.getDefaultMessage()));
+
+        return ResponseEntity.badRequest().body(fieldsErrors);
     }
 
-//    private boolean authorizeCreate(String username, ProductViewDTO productForDelete) {
-//        return this.authService.authorizePrincipal(username) ||
-//                productForDelete.getCategoryUserUsername().equals(username);
-//    }
-
+    private boolean authorizeDelete(MyUserDetails userDetails, ProductViewDTO productForDelete) {
+        return userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
+                productForDelete.getCategoryUserId().equals(userDetails.getId());
+    }
 
 }

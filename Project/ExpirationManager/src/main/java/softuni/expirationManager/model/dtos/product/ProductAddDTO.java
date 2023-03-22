@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class ProductAddDTO {
 
-    @Size(min = 4)
+    @Size(min = 3, message = "Product name must be at least 3 characters long")
     @NotNull(message = "Product Name is required")
     private String name;
 

@@ -1,23 +1,37 @@
 package softuni.expirationManager.model.validations;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class FileSizeValidator implements ConstraintValidator<FileSize, MultipartFile> {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@Constraint(validatedBy = MultipartFileValidator.class)
-public @interface FileSizeValidator {
+    private Long maxBytes;
+    private String message;
 
-    String maxSizeInKilobytes();
+    @Override
+    public void initialize(FileSize constraintAnnotation) {
+        this.maxBytes = Long.parseLong(constraintAnnotation.maxSizeInKilobytes()+"000");
+        this.message = constraintAnnotation.message() + String.format("Max file size is %s kB.", constraintAnnotation.maxSizeInKilobytes());
+    }
 
-    String message() default "File is too big.";
+    @Override
+    public boolean isValid(MultipartFile multipartFile, ConstraintValidatorContext context) {
 
-    Class<?>[] groups() default {};
+        if (multipartFile == null) {
+            return true;
+        }
 
-    Class<? extends Payload>[] payload() default {};
+        long fileSize = multipartFile.getSize();
+
+        boolean isValid = fileSize <= maxBytes;
+
+        if (!isValid) {
+            context.buildConstraintViolationWithTemplate(this.message)
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+        }
+
+        return isValid;
+    }
 }

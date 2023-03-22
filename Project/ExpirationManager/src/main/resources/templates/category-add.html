@@ -26,7 +26,7 @@
                 <input id="name" th:field="*{name}" type="text" class="form-control"
                        placeholder="Category name"/>
                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                       class="errors alert alert-danger">
+                       class="alert alert-danger">
                     Name is required.
                 </small>
             </div>
@@ -35,7 +35,7 @@
                 <input id="description" th:field="*{description}" type="text" class="form-control"
                        placeholder="Description"/>
                 <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                       class="errors alert alert-danger">
+                       class="alert alert-danger">
                     Description is too long
                 </small>
             </div>
@@ -49,6 +49,10 @@
                     </p>
                     <label for="icon" class="text-white font-weight-bold">Icon (optional)</label>
                     <input id="icon" th:field="*{icon}" type="file" accept="image/png" class="form-control-file"/>
+                    <div th:if="${#fields.hasErrors('icon')}" th:errors="*{icon}"
+                         class="alert alert-danger">
+                        File is too big.
+                    </div>
                 </div>
             </div>
 

@@ -126,3 +126,8 @@ form.main-form {
 th img {
      cursor: pointer;
 }
+
+.table-striped #tableContent tr:target {
+     background-color: #e3e9dc;
+}
+

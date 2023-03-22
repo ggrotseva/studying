@@ -44,7 +44,10 @@
 
                                         <tbody>
                                         <tr th:each="product : ${expiredProducts}" th:object="${product}">
-                                            <td th:text="*{name} + ' - ' + *{brand}">Name - Brand</td>
+                                            <td>
+                                                <a th:href="@{'/categories/' + *{categoryId} + '#product' + *{id}}"
+                                                class="text-dark green-link" th:text="*{name} + ' - ' + *{brand}">Name - Brand</a>
+                                            </td>
                                             <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
                                                 Date
                                             </td>
@@ -74,7 +77,10 @@
 
                                         <tbody>
                                         <tr th:each="product : ${closeToExpiryProducts}" th:object="${product}">
-                                            <td th:text="*{name} + ' - ' + *{brand}">Name - Brand</td>
+                                            <td>
+                                                <a th:href="@{'/categories/' + *{categoryId} + '#product' + *{id}}"
+                                                   class="text-dark green-link" th:text="*{name} + ' - ' + *{brand}">Name - Brand</a>
+                                            </td>
                                             <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
                                                 Date
                                             </td>
