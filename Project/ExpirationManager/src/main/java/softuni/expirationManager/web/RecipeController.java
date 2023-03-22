@@ -2,6 +2,9 @@ package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +30,10 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes")
-    public String getAllRecipes(Model model) {
-        List<RecipeBriefDTO> allRecipes = this.recipeService.getAllRecipeBriefs();
+    public String getAllRecipes(Model model, @PageableDefault(
+            sort = "created", direction = Sort.Direction.DESC, size = 5
+    ) Pageable pageable) {
+        List<RecipeBriefDTO> allRecipes = this.recipeService.getAllRecipeBriefs(pageable);
 
         model.addAttribute("recipes", allRecipes);
 
