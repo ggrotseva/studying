@@ -1,14 +1,13 @@
 package softuni.expirationManager.model.dtos.product;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 public class ProductAddDTO {
 
-    @Size(min = 3, message = "Product name must be at least 3 characters long")
-    @NotNull(message = "Product Name is required")
+    @NotBlank(message = "Product Name is required")
     private String name;
 
     private String brand;

@@ -1,5 +1,6 @@
 package softuni.expirationManager.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,9 +15,7 @@ import java.util.Set;
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
-    Optional<RecipeEntity> findByName(String name);
-
-    Optional<List<RecipeEntity>> findAllByOrderByCreatedDesc(Pageable pageable);
+    Page<RecipeEntity> findAllByOrderByCreatedDesc(Pageable pageable);
 
     // Unfortunately MatchesRegexp/REGEXP keywords are not supported in this Spring version/JPQL => Exception
     // so I have to do it with native query

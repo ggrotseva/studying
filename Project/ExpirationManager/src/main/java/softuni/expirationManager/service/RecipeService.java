@@ -1,6 +1,7 @@
 package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
@@ -89,10 +90,9 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public List<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
-        return this.recipeRepository.findAllByOrderByCreatedDesc(pageable).orElseThrow()
-                .stream().map(r -> this.mapper.map(r, RecipeBriefDTO.class))
-                .collect(Collectors.toList());
+    public Page<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
+        return this.recipeRepository.findAllByOrderByCreatedDesc(pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
     }
 
     public RecipeDTO getRecipeDtoById(Long id) {

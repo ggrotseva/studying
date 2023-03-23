@@ -14,7 +14,6 @@ import softuni.expirationManager.repository.UserRepository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -102,5 +101,9 @@ public class CategoryService {
         }
 
         this.categoryRepository.saveAndFlush(category);
+    }
+
+    public boolean isNotOwner(Long userId, Long categoryId) {
+        return !userId.equals(this.categoryRepository.findById(categoryId).orElseThrow().getUser().getId());
     }
 }

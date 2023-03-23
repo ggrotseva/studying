@@ -2,6 +2,7 @@ package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -30,12 +31,11 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes")
-    public String getAllRecipes(Model model, @PageableDefault(
-            sort = "created", direction = Sort.Direction.DESC, size = 5
-    ) Pageable pageable) {
-        List<RecipeBriefDTO> allRecipes = this.recipeService.getAllRecipeBriefs(pageable);
+    public String getAllRecipes(Model model, @PageableDefault(size = 3) Pageable pageable) {
 
-        model.addAttribute("recipes", allRecipes);
+        Page<RecipeBriefDTO> allRecipesPage = this.recipeService.getAllRecipeBriefs(pageable);
+
+        model.addAttribute("recipes", allRecipesPage);
 
         return "recipes";
     }
@@ -45,6 +45,8 @@ public class RecipeController {
         RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
+
+        // TODO: pass boolean for viewing buttons Edit and Delete
 
         return "recipe-details";
     }
@@ -78,6 +80,8 @@ public class RecipeController {
     @GetMapping("/recipes/{id}/edit")
     public String getEditRecipe(@PathVariable Long id, Model model) {
 
+        // TODO authorize GET edit
+
         if (!model.containsAttribute("recipeEditDTO")) {
             model.addAttribute("recipeEditDTO", this.recipeService.getRecipeEditDtoById(id));
         }
@@ -89,6 +93,7 @@ public class RecipeController {
     public String putEditRecipe(@Valid RecipeEditDTO recipeEditDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
+        // TODO authorize PUT + AccessDeniedException ?
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeEditDTO", recipeEditDTO);
@@ -104,6 +109,8 @@ public class RecipeController {
 
     @DeleteMapping("/recipes/{id}")
     public String deleteRecipe(@PathVariable Long id) {
+        // TODO authorize delete
+
         this.recipeService.deleteById(id);
 
         return "redirect:/recipes";

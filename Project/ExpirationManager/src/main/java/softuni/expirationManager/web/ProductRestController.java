@@ -1,8 +1,6 @@
 package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,13 +13,12 @@ import softuni.expirationManager.model.dtos.product.ProductViewDTO;
 import softuni.expirationManager.service.ProductService;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/categories/{id}")
+@RequestMapping("/categories/{categoryId}")
 public class ProductRestController {
 
     private final ProductService productService;
@@ -31,23 +28,23 @@ public class ProductRestController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductViewDTO>> getProductsOfCategory(@PathVariable("id") Long categoryId) {
-
+    public ResponseEntity<List<ProductViewDTO>> getProductsOfCategory(@PathVariable("categoryId") Long categoryId) {
+// TODO authorize GET + AccessDeniedException ?
         return ResponseEntity.
                 ok(this.productService.findAllByCategoryId(categoryId));
     }
 
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable("productId") Long productId) {
-
+// TODO authorize GET + AccessDeniedException ?
         return ResponseEntity.
                 ok(this.productService.findById(productId));
     }
 
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("id") Long categoryId,
+    public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("categoryId") Long categoryId,
                                                       @RequestBody @Valid ProductAddDTO productAddDTO) {
-
+// TODO authorize POST + AccessDeniedException ?
         ProductViewDTO product = this.productService.addProduct(productAddDTO, categoryId);
 
         return ResponseEntity.created(URI.create(String.format("/categories/%d/products/%d", categoryId, product.getId())))
@@ -60,6 +57,7 @@ public class ProductRestController {
 
         ProductViewDTO productForDelete = this.productService.findById(productId);
 
+        // TODO authorize delete better
         if (authorizeDelete(userDetails, productForDelete)) {
 
             this.productService.deleteById(productId);
@@ -88,5 +86,4 @@ public class ProductRestController {
         return userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
                 productForDelete.getCategoryUserId().equals(userDetails.getId());
     }
-
 }
