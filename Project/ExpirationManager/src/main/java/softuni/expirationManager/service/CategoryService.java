@@ -3,6 +3,7 @@ package softuni.expirationManager.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.category.CategoryAddDTO;
 import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
 import softuni.expirationManager.model.dtos.category.CategoryNameIdDTO;
@@ -39,6 +40,14 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.mapper = mapper;
+    }
+
+    public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long categoryId) {
+        Long categoryUserId = this.categoryRepository.findById(categoryId).orElseThrow()
+                .getUser().getId();
+
+        return userDetails.getId().equals(categoryUserId)
+                || userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     public void initStartCategoriesForUser(UserEntity userEntity) throws IOException {

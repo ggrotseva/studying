@@ -3,6 +3,7 @@ package softuni.expirationManager.web;
 import jakarta.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,12 +67,13 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #id)")
     @GetMapping("/categories/{id}/edit")
     public String getEditCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
-        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
-            throw new AccessDeniedException("Access denied");
-        }
+//        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
+//            throw new AccessDeniedException("Access denied");
+//        }
 
         if (!model.containsAttribute("categoryEditDTO")) {
             model.addAttribute("categoryEditDTO", this.categoryService.getCategoryEditDtoById(id));
@@ -80,15 +82,16 @@ public class CategoryController {
         return "category-edit";
     }
 
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #categoryEditDTO.getId())")
     @PutMapping("/categories/{id}/edit")
     public String putEditCategory(@Valid CategoryEditDTO categoryEditDTO,
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes,
                                   @AuthenticationPrincipal MyUserDetails userDetails) throws IOException {
 
-        if (isNotAuthorized(userDetails)) {
-            throw new AccessDeniedException("Access denied");
-        }
+//        if (isNotAuthorized(userDetails)) {
+//            throw new AccessDeniedException("Access denied");
+//        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryEditDTO", categoryEditDTO);
@@ -102,30 +105,31 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #id)")
     @DeleteMapping("/categories/{id}")
     public String deleteCategory(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails userDetails) {
 
-        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
-            throw new AccessDeniedException("Access denied");
-        }
+//        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
+//            throw new AccessDeniedException("Access denied");
+//        }
 
         this.categoryService.deleteById(id);
 
         return "redirect:/categories";
     }
 
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #id)")
     @GetMapping("/categories/{id}")
     public String getProductsByCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
-        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
-            throw new AccessDeniedException("Access denied");
-        }
+//        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
+//            throw new AccessDeniedException("Access denied");
+//        }
 
         model.addAttribute("category", this.categoryService.getCategoryNameIdDTO(id));
 
         return "category";
     }
-
 
     @ExceptionHandler(FileSizeLimitExceededException.class)
     public ModelAndView handleFileSizeLimitExceeded() {
@@ -136,7 +140,7 @@ public class CategoryController {
         return mav;
     }
 
-    private boolean isNotAuthorized(MyUserDetails userDetails) {
-        return userDetails.getAuthorities().stream().noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
-    }
+//    private boolean isNotAuthorized(MyUserDetails userDetails) {
+//        return userDetails.getAuthorities().stream().noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+//    }
 }

@@ -2,6 +2,7 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductAddDTO;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
 import softuni.expirationManager.model.dtos.product.ProductViewDTO;
@@ -27,6 +28,14 @@ public class ProductService {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.mapper = mapper;
+    }
+
+    public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long categoryId) {
+        Long categoryUserId = this.categoryRepository.findById(categoryId).orElseThrow()
+                .getUser().getId();
+
+        return userDetails.getId().equals(categoryUserId)
+                || userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     public List<ProductViewDTO> findAllByCategoryId(Long id) {
@@ -65,4 +74,5 @@ public class ProductService {
     public ProductViewDTO findById(Long productId) {
         return this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
     }
+
 }

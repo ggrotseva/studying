@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
 import softuni.expirationManager.model.dtos.recipe.*;
 import softuni.expirationManager.model.entities.RecipeEntity;
@@ -31,6 +32,14 @@ public class RecipeService {
         this.userRepository = userRepository;
         this.imageCloudService = imageCloudService;
         this.mapper = mapper;
+    }
+
+    public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long recipeId) {
+        Long categoryUserId = this.recipeRepository.findById(recipeId).orElseThrow()
+                .getAuthor().getId();
+
+        return userDetails.getId().equals(categoryUserId)
+                || userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     public void createRecipe(RecipeAddDTO recipeAddDTO, String username) {
