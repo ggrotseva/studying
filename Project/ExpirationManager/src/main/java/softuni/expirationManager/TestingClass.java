@@ -1,24 +1,21 @@
 package softuni.expirationManager;
 
-import jakarta.transaction.Transactional;
-import softuni.expirationManager.model.entities.CategoryEntity;
-import softuni.expirationManager.model.entities.ProductEntity;
 import softuni.expirationManager.repository.CategoryRepository;
 import softuni.expirationManager.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.util.List;
+import softuni.expirationManager.service.CategoryService;
 
 //@Component
 public class TestingClass implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final ProductRepository productRepository;
 
-    public TestingClass(CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public TestingClass(CategoryRepository categoryRepository, CategoryService categoryService, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
         this.productRepository = productRepository;
     }
 
@@ -34,5 +31,6 @@ public class TestingClass implements CommandLineRunner {
 //                .setCategory(category);
 //
 //        this.productRepository.save(product);
+
     }
 }

@@ -17,11 +17,11 @@
     <div th:replace="~{fragments/navigation}"/>
 </header>
 
-<main class="container d-flex pb-5">
+<main class="container pb-5">
     <input type="hidden" name="categoryId" id="categoryId" th:value="${category.id}">
 
     <div class="row">
-        <div class="col-lg-12 pb-8">
+        <div class="col pb-8">
 
             <div class="row pt-4">
                 <div class="col text-center text-white">
@@ -85,7 +85,7 @@
                                             <div class="form-row py-3">
                                                 <div class="col-md-3 py-1">
                                                     <label for="name" class="d-none">Product Name</label>
-                                                    <input id="name" name="name" type="text" required
+                                                    <input id="name" name="name" type="text"
                                                            class="form-control" placeholder="Product Name"/>
 <!--                                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"-->
 <!--                                                           class="alert alert-danger p-1">-->
@@ -94,7 +94,7 @@
                                                 </div>
                                                 <div class="col-md-2 py-1">
                                                     <label for="expiryDate" class="d-none">Expiry Date</label>
-                                                    <input id="expiryDate" name="expiryDate" type="date" required
+                                                    <input id="expiryDate" name="expiryDate" type="date"
                                                            class="form-control" placeholder="Expiry date"/>
 <!--                                                    <small th:if="${#fields.hasErrors('expiryDate')}"-->
 <!--                                                           th:errors="*{expiryDate}"-->

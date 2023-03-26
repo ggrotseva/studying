@@ -1,5 +1,6 @@
 package softuni.expirationManager.config;
 
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import softuni.expirationManager.repository.UserRepository;
 import softuni.expirationManager.service.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -22,8 +24,7 @@ public class SecurityConfiguration {
                 authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
-//                .requestMatchers("/pages/moderator").hasRole(UserRoleEnum.MODERATOR.name())
-//                .requestMatchers("/pages/admin").hasRole(UserRoleEnum.ADMIN.name())
+//                .requestMatchers("/admin").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/users/login")

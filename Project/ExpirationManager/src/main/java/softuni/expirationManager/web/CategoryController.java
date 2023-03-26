@@ -71,10 +71,6 @@ public class CategoryController {
     @GetMapping("/categories/{id}/edit")
     public String getEditCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
-//        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
-//            throw new AccessDeniedException("Access denied");
-//        }
-
         if (!model.containsAttribute("categoryEditDTO")) {
             model.addAttribute("categoryEditDTO", this.categoryService.getCategoryEditDtoById(id));
         }
@@ -88,10 +84,6 @@ public class CategoryController {
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes,
                                   @AuthenticationPrincipal MyUserDetails userDetails) throws IOException {
-
-//        if (isNotAuthorized(userDetails)) {
-//            throw new AccessDeniedException("Access denied");
-//        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryEditDTO", categoryEditDTO);
@@ -109,10 +101,6 @@ public class CategoryController {
     @DeleteMapping("/categories/{id}")
     public String deleteCategory(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails userDetails) {
 
-//        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
-//            throw new AccessDeniedException("Access denied");
-//        }
-
         this.categoryService.deleteById(id);
 
         return "redirect:/categories";
@@ -121,10 +109,6 @@ public class CategoryController {
     @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #id)")
     @GetMapping("/categories/{id}")
     public String getProductsByCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
-
-//        if (isNotAuthorized(userDetails) && this.categoryService.isNotOwner(userDetails.getId(), id)) {
-//            throw new AccessDeniedException("Access denied");
-//        }
 
         model.addAttribute("category", this.categoryService.getCategoryNameIdDTO(id));
 
@@ -140,7 +124,4 @@ public class CategoryController {
         return mav;
     }
 
-//    private boolean isNotAuthorized(MyUserDetails userDetails) {
-//        return userDetails.getAuthorities().stream().noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
-//    }
 }

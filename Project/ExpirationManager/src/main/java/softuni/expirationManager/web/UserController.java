@@ -10,11 +10,11 @@ import softuni.expirationManager.service.UserService;
 import java.security.Principal;
 
 @Controller
-public class ProfileController {
+public class UserController {
 
     private final UserService userService;
 
-    public ProfileController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

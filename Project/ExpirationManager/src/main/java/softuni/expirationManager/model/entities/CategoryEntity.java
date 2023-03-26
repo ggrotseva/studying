@@ -21,7 +21,7 @@ public class CategoryEntity {
     private String description;
 
     @Lob
-    @Column
+    @Column(columnDefinition = "BLOB")
     private byte[] icon;
 
     @ManyToOne

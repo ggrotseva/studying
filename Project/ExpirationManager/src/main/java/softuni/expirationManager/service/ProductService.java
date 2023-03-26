@@ -67,8 +67,13 @@ public class ProductService {
         return this.mapper.map(this.productRepository.saveAndFlush(product), ProductViewDTO.class);
     }
 
-    public void deleteById(Long productId) {
+    public ProductViewDTO deleteById(Long productId) {
+        ProductViewDTO productToDelete =
+                this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
+
         this.productRepository.deleteById(productId);
+
+        return productToDelete;
     }
 
     public ProductViewDTO findById(Long productId) {

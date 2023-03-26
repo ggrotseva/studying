@@ -94,7 +94,7 @@
                                                     </a>
                                                 </li>
 
-                                                <li class="page-item"><span th:text="${recipes.getNumber() + 1}" class="page-link text-dark">1</span></li>
+                                                <li class="page-item disabled"><span th:text="${recipes.getNumber() + 1}" class="page-link text-dark">1</span></li>
 
                                                 <li class="page-item" th:classappend="${recipes.isLast() ? 'disabled' : ''}">
                                                     <a class="page-link text-dark" th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}" aria-label="Next">

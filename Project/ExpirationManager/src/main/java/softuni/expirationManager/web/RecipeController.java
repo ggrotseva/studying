@@ -6,12 +6,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.recipe.RecipeAddDTO;
 import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
 import softuni.expirationManager.model.dtos.recipe.RecipeDTO;
@@ -41,12 +44,11 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{id}")
-    public String getRecipeDetails(@PathVariable Long id, Model model) {
+    public String getRecipeDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
         RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
-
-        // TODO: pass boolean for viewing buttons Edit and Delete
+        model.addAttribute("isAuthenticated", this.recipeService.isOwnerOrAdmin(userDetails, id));
 
         return "recipe-details";
     }
@@ -63,7 +65,7 @@ public class RecipeController {
     public String postAddRecipe(@Valid RecipeAddDTO recipeAddDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
-                                Principal principal) {
+                                @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeAddDTO", recipeAddDTO);
@@ -72,15 +74,14 @@ public class RecipeController {
             return "redirect:/recipes/add";
         }
 
-        this.recipeService.createRecipe(recipeAddDTO, principal.getName());
+        this.recipeService.createRecipe(recipeAddDTO, userDetails.getUsername());
 
         return "redirect:/recipes";
     }
 
+    @PreAuthorize("@recipeService.isOwnerOrAdmin(#userDetails, #id)")
     @GetMapping("/recipes/{id}/edit")
-    public String getEditRecipe(@PathVariable Long id, Model model) {
-
-        // TODO authorize GET edit
+    public String getEditRecipe(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (!model.containsAttribute("recipeEditDTO")) {
             model.addAttribute("recipeEditDTO", this.recipeService.getRecipeEditDtoById(id));
@@ -89,11 +90,12 @@ public class RecipeController {
         return "recipe-edit";
     }
 
+    @PreAuthorize("@recipeService.isOwnerOrAdmin(#userDetails, #recipeEditDTO.getId())")
     @PutMapping("/recipes/{id}/edit")
     public String putEditRecipe(@Valid RecipeEditDTO recipeEditDTO,
                                 BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
-        // TODO authorize PUT + AccessDeniedException ?
+                                RedirectAttributes redirectAttributes,
+                                @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeEditDTO", recipeEditDTO);
@@ -107,9 +109,9 @@ public class RecipeController {
         return "redirect:/recipes/" + recipeEditDTO.getId();
     }
 
+    @PreAuthorize("@recipeService.isOwnerOrAdmin(#userDetails, #id)")
     @DeleteMapping("/recipes/{id}")
-    public String deleteRecipe(@PathVariable Long id) {
-        // TODO authorize delete
+    public String deleteRecipe(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         this.recipeService.deleteById(id);
 
