@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,9 +19,6 @@ import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
 import softuni.expirationManager.model.dtos.recipe.RecipeDTO;
 import softuni.expirationManager.model.dtos.recipe.RecipeEditDTO;
 import softuni.expirationManager.service.RecipeService;
-
-import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class RecipeController {
@@ -44,11 +40,11 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{id}")
-    public String getRecipeDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
+    public String getRecipeDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
         RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
-        model.addAttribute("isAuthenticated", this.recipeService.isOwnerOrAdmin(userDetails, id));
+        model.addAttribute("isAuthenticated", this.recipeService.isOwnerOrAdmin(principal, id));
 
         return "recipe-details";
     }
@@ -65,7 +61,7 @@ public class RecipeController {
     public String postAddRecipe(@Valid RecipeAddDTO recipeAddDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
-                                @AuthenticationPrincipal MyUserDetails userDetails) {
+                                @AuthenticationPrincipal MyUserDetails principal) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeAddDTO", recipeAddDTO);
@@ -74,14 +70,14 @@ public class RecipeController {
             return "redirect:/recipes/add";
         }
 
-        this.recipeService.createRecipe(recipeAddDTO, userDetails.getUsername());
+        this.recipeService.addRecipe(recipeAddDTO, principal.getUsername());
 
         return "redirect:/recipes";
     }
 
-    @PreAuthorize("@recipeService.isOwnerOrAdmin(#userDetails, #id)")
+    @PreAuthorize("@recipeService.isOwnerOrAdmin(#principal, #id)")
     @GetMapping("/recipes/{id}/edit")
-    public String getEditRecipe(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
+    public String getEditRecipe(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
 
         if (!model.containsAttribute("recipeEditDTO")) {
             model.addAttribute("recipeEditDTO", this.recipeService.getRecipeEditDtoById(id));
@@ -90,12 +86,12 @@ public class RecipeController {
         return "recipe-edit";
     }
 
-    @PreAuthorize("@recipeService.isOwnerOrAdmin(#userDetails, #recipeEditDTO.getId())")
+    @PreAuthorize("@recipeService.isOwnerOrAdmin(#principal, #recipeEditDTO.getId())")
     @PutMapping("/recipes/{id}/edit")
     public String putEditRecipe(@Valid RecipeEditDTO recipeEditDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
-                                @AuthenticationPrincipal MyUserDetails userDetails) {
+                                @AuthenticationPrincipal MyUserDetails principal) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeEditDTO", recipeEditDTO);
@@ -109,9 +105,9 @@ public class RecipeController {
         return "redirect:/recipes/" + recipeEditDTO.getId();
     }
 
-    @PreAuthorize("@recipeService.isOwnerOrAdmin(#userDetails, #id)")
+    @PreAuthorize("@recipeService.isOwnerOrAdmin(#principal, #id)")
     @DeleteMapping("/recipes/{id}")
-    public String deleteRecipe(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails userDetails) {
+    public String deleteRecipe(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails principal) {
 
         this.recipeService.deleteById(id);
 

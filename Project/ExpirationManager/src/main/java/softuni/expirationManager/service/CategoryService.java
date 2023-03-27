@@ -77,6 +77,23 @@ public class CategoryService {
         this.categoryRepository.saveAndFlush(newCategory);
     }
 
+    public void editCategory(CategoryEditDTO categoryEditDTO) throws IOException {
+        CategoryEntity category = this.categoryRepository.findById(categoryEditDTO.getId()).orElseThrow();
+
+        category.setName(categoryEditDTO.getName())
+                .setDescription(categoryEditDTO.getDescription());
+
+        if (!categoryEditDTO.getIcon().isEmpty()) {
+            category.setIcon(categoryEditDTO.getIcon().getBytes());
+        }
+
+        this.categoryRepository.saveAndFlush(category);
+    }
+
+    public void deleteById(Long id) {
+        this.categoryRepository.deleteById(id);
+    }
+
     @Transactional
     public List<CategoryViewDTO> findAllByUserUsername(String name) {
         return this.categoryRepository.findAllByUserUsername(name).orElseThrow()
@@ -91,28 +108,8 @@ public class CategoryService {
         return this.mapper.map(category, CategoryNameIdDTO.class);
     }
 
-    public void deleteById(Long id) {
-        this.categoryRepository.deleteById(id);
-    }
-
     public CategoryEditDTO getCategoryEditDtoById(Long id) {
         return this.mapper.map(this.categoryRepository.findById(id).orElseThrow(), CategoryEditDTO.class);
     }
 
-    public void editCategory(CategoryEditDTO categoryEditDTO) throws IOException {
-        CategoryEntity category = this.categoryRepository.findById(categoryEditDTO.getId()).orElseThrow();
-
-        category.setName(categoryEditDTO.getName())
-                .setDescription(categoryEditDTO.getDescription());
-
-        if (!categoryEditDTO.getIcon().isEmpty()) {
-            category.setIcon(categoryEditDTO.getIcon().getBytes());
-        }
-
-        this.categoryRepository.saveAndFlush(category);
-    }
-
-    public boolean isNotOwner(Long userId, Long categoryId) {
-        return !userId.equals(this.categoryRepository.findById(categoryId).orElseThrow().getUser().getId());
-    }
 }

@@ -30,43 +30,43 @@ public class ProductRestController {
         this.productService = productService;
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #categoryId)")
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
     @GetMapping("/products")
     public ResponseEntity<List<ProductViewDTO>> getProductsOfCategory(@PathVariable("categoryId") Long categoryId,
-                                                                      @AuthenticationPrincipal MyUserDetails userDetails) {
+                                                                      @AuthenticationPrincipal MyUserDetails principal) {
 
         return ResponseEntity.
                 ok(this.productService.findAllByCategoryId(categoryId));
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #categoryId)")
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable("categoryId") Long categoryId,
                                                      @PathVariable("productId") Long productId,
-                                                     @AuthenticationPrincipal MyUserDetails userDetails) {
+                                                     @AuthenticationPrincipal MyUserDetails principal) {
 
         return ResponseEntity.
                 ok(this.productService.findById(productId));
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #categoryId)")
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("categoryId") Long categoryId,
                                                       @RequestBody @Valid ProductAddDTO productAddDTO,
-                                                      @AuthenticationPrincipal MyUserDetails userDetails) {
+                                                      @AuthenticationPrincipal MyUserDetails principal) {
         // TODO: better validation?
 
-        ProductViewDTO product = this.productService.addProduct(productAddDTO, categoryId);
+        Long productId = this.productService.addProduct(productAddDTO, categoryId);
 
-        return ResponseEntity.created(URI.create(String.format("/categories/%d/products/%d", categoryId, product.getId())))
-                .body(product);
+        return ResponseEntity.created(URI.create(String.format("/categories/%d/products/%d", categoryId, productId)))
+                .build();
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#userDetails, #categoryId)")
+    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> deleteComment(@PathVariable("categoryId") Long categoryId,
                                                         @PathVariable("productId") Long productId,
-                                                        @AuthenticationPrincipal MyUserDetails userDetails) {
+                                                        @AuthenticationPrincipal MyUserDetails principal) {
 
         return ResponseEntity.ok(this.productService.deleteById(productId));
     }

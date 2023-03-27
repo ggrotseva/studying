@@ -1,9 +1,11 @@
 package softuni.expirationManager.web;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.user.UserProfileDTO;
 import softuni.expirationManager.service.UserService;
 
@@ -19,8 +21,8 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getProfile(Principal principal, Model model) {
-        UserProfileDTO userProfileDTO = this.userService.getUserInfoByName(principal.getName());
+    public String getProfile(Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
+        UserProfileDTO userProfileDTO = this.userService.getUserInfoById(userDetails.getId());
 
         model.addAttribute("userProfileDTO", userProfileDTO);
 

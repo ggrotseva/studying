@@ -14,11 +14,9 @@ import java.util.List;
 public class UserRoleService {
 
     private final UserRoleRepository userRoleRepository;
-    private final ModelMapper mapper;
 
-    public UserRoleService(UserRoleRepository userRoleRepository, ModelMapper mapper) {
+    public UserRoleService(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
-        this.mapper = mapper;
     }
 
     @PostConstruct
@@ -33,12 +31,5 @@ public class UserRoleService {
             );
         }
     }
-
-    public List<UserRoleEntity> getRoles() {
-        return this.userRoleRepository.findAll().stream()
-//                .map(role -> this.mapper.map(role, UserRoleViewDTO.class))
-                .toList();
-    }
-
 
 }

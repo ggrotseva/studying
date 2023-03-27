@@ -26,13 +26,15 @@ public class SecurityConfiguration {
                 .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
 //                .requestMatchers("/admin").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()
-                .and()
+             .and()
                 .formLogin().loginPage("/users/login")
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                 .defaultSuccessUrl("/")
                 .failureForwardUrl("/users/login-error")
-                .and()
+             .and()
+                .rememberMe().key("rememberMeKey")
+             .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 
         return httpSecurity.build();

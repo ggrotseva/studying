@@ -39,12 +39,8 @@ public class UserEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<CategoryEntity> categories;
-
     public UserEntity() {
         this.userRoles = new ArrayList<>();
-//        this.categories = new ArrayList<>();
     }
 
     public Long getId() {
@@ -118,15 +114,6 @@ public class UserEntity {
         isDeleted = deleted;
         return this;
     }
-
-//    public List<CategoryEntity> getCategories() {
-//        return categories;
-//    }
-//
-//    public UserEntity setCategories(List<CategoryEntity> categories) {
-//        this.categories = categories;
-//        return this;
-//    }
 
     public void addRole(UserRoleEntity userRole) {
         this.userRoles.add(userRole);

@@ -30,12 +30,27 @@ public class ProductService {
         this.mapper = mapper;
     }
 
-    public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long categoryId) {
-        Long categoryUserId = this.categoryRepository.findById(categoryId).orElseThrow()
-                .getUser().getId();
+    public Long addProduct(ProductAddDTO productAddDTO, Long categoryId) {
+        ProductEntity product = this.mapper.map(productAddDTO, ProductEntity.class);
 
-        return userDetails.getId().equals(categoryUserId)
-                || userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        product.setCategory(this.categoryRepository.findById(categoryId).orElseThrow());
+
+        ProductEntity savedProduct = this.productRepository.saveAndFlush(product);
+
+        return savedProduct.getId();
+    }
+
+    public ProductViewDTO deleteById(Long productId) {
+        ProductViewDTO productToDelete =
+                this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
+
+        this.productRepository.deleteById(productId);
+
+        return productToDelete;
+    }
+
+    public ProductViewDTO findById(Long productId) {
+        return this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
     }
 
     public List<ProductViewDTO> findAllByCategoryId(Long id) {
@@ -57,27 +72,6 @@ public class ProductService {
                 .orElse(new ArrayList<>())
                 .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
                 .collect(Collectors.toList());
-    }
-
-    public ProductViewDTO addProduct(ProductAddDTO productAddDTO, Long categoryId) {
-        ProductEntity product = this.mapper.map(productAddDTO, ProductEntity.class);
-
-        product.setCategory(this.categoryRepository.findById(categoryId).orElseThrow());
-
-        return this.mapper.map(this.productRepository.saveAndFlush(product), ProductViewDTO.class);
-    }
-
-    public ProductViewDTO deleteById(Long productId) {
-        ProductViewDTO productToDelete =
-                this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
-
-        this.productRepository.deleteById(productId);
-
-        return productToDelete;
-    }
-
-    public ProductViewDTO findById(Long productId) {
-        return this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
     }
 
 }

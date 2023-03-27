@@ -51,9 +51,4 @@ public class AuthService {
         this.categoryService.initStartCategoriesForUser(newUser);
     }
 
-    public boolean authorizePrincipal(Long userId) {
-        UserEntity user = this.userRepository.findById(userId).orElseThrow();
-
-        return user.getUserRoles().stream().anyMatch(r -> r.getRole() == ADMIN || r.getRole() == MODERATOR);
-    }
 }
