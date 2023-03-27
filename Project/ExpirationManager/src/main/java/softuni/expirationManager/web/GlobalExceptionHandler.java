@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     public ModelAndView handleNoSuchElement() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error");
-        mav.addObject("errorMessage", "Sorry, we couldn't find what you're looking for");
+        mav.addObject("errorMessage", "Page not found!");
 
         return mav;
     }
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     public ModelAndView handleMethodArgumentTypeMismatch() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error");
-        mav.addObject("errorMessage", "Something's wrong with your URL");
+        mav.addObject("errorMessage", "Something's wrong with the URL");
 
         return mav;
     }
