@@ -2,7 +2,8 @@ package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.category.CategoryAddDTO;
 import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
@@ -26,6 +28,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    @Autowired
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
@@ -115,11 +118,12 @@ public class CategoryController {
         return "category";
     }
 
+    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
     @ExceptionHandler(FileSizeLimitExceededException.class)
     public ModelAndView handleFileSizeLimitExceeded() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error");
-        mav.addObject("errorMessage", "File you uploaded exceeds maximum allowed size");
+        mav.addObject("errorMessage", Constants.REQUEST_SIZE_EXCEEDED);
 
         return mav;
     }

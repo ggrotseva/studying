@@ -1,8 +1,10 @@
 package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.category.CategoryAddDTO;
 import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
@@ -17,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +37,7 @@ public class CategoryService {
     private final UserRepository userRepository;
     private final ModelMapper mapper;
 
+    @Autowired
     public CategoryService(CategoryRepository categoryRepository,
                            UserRepository userRepository,
                            ModelMapper mapper) {
@@ -42,8 +46,10 @@ public class CategoryService {
         this.mapper = mapper;
     }
 
+    // TODO: make better solution
     public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long categoryId) {
-        Long categoryUserId = this.categoryRepository.findById(categoryId).orElseThrow()
+        Long categoryUserId = this.categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND))
                 .getUser().getId();
 
         return userDetails.getId().equals(categoryUserId)
@@ -51,14 +57,15 @@ public class CategoryService {
     }
 
     public void initStartCategoriesForUser(UserEntity userEntity) throws IOException {
+
         FileInputStream fis = new FileInputStream(DEAFAULT_ICON_PATH);
-        byte[] iconBytes = fis.readAllBytes();
+        byte[] defaultIcon = fis.readAllBytes();
 
         List<CategoryEntity> categories = INITIAL_CATEGORIES.entrySet().stream().map(e ->
                         new CategoryEntity()
                                 .setName(e.getKey())
                                 .setDescription(e.getValue())
-                                .setIcon(iconBytes)
+                                .setIcon(defaultIcon)
                                 .setUser(userEntity))
                 .collect(Collectors.toList());
 
@@ -78,7 +85,8 @@ public class CategoryService {
     }
 
     public void editCategory(CategoryEditDTO categoryEditDTO) throws IOException {
-        CategoryEntity category = this.categoryRepository.findById(categoryEditDTO.getId()).orElseThrow();
+        CategoryEntity category = this.categoryRepository.findById(categoryEditDTO.getId())
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
 
         category.setName(categoryEditDTO.getName())
                 .setDescription(categoryEditDTO.getDescription());
@@ -96,20 +104,23 @@ public class CategoryService {
 
     @Transactional
     public List<CategoryViewDTO> findAllByUserUsername(String name) {
-        return this.categoryRepository.findAllByUserUsername(name).orElseThrow()
+        return this.categoryRepository.findAllByUserUsername(name)
+                    .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND))
                 .stream()
                 .map(c -> this.mapper.map(c, CategoryViewDTO.class))
                 .collect(Collectors.toList());
     }
 
     public CategoryNameIdDTO getCategoryNameIdDTO(Long id) {
-        CategoryEntity category = this.categoryRepository.findById(id).orElseThrow();
+        CategoryEntity category = this.categoryRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
 
         return this.mapper.map(category, CategoryNameIdDTO.class);
     }
 
     public CategoryEditDTO getCategoryEditDtoById(Long id) {
-        return this.mapper.map(this.categoryRepository.findById(id).orElseThrow(), CategoryEditDTO.class);
+        return this.mapper.map(this.categoryRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND)), CategoryEditDTO.class);
     }
 
 }

@@ -1,6 +1,7 @@
 package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
@@ -24,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
 
+    @Autowired
     public AuthService(UserRoleRepository userRoleRepository,
                        UserRepository userRepository,
                        CategoryService categoryService,

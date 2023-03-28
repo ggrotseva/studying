@@ -30,13 +30,18 @@
                              th:each="category : ${categories}" th:object="${category}">
                             <section class="bg-white box">
                                 <div class="box-head">
-                                    <a th:href="@{/categories/{id}(id=*{id})}" class="h5 green-link" th:text="*{name}">Category name</a>
+                                    <a th:href="@{/categories/{id}(id=*{id})}" class="h5 green-link" th:text="*{name}">Category
+                                        name</a>
                                 </div>
                                 <div class="box-category px-3 pt-3">
                                     <div class="text-center">
                                         <a th:href="@{/categories/{id}(id=*{id})}">
-                                            <img th:src="'data:image/jpeg;charset=utf-8;base64,' + *{icon}" alt="icon" width="50">
-<!--                                            <img th:src="/images/jar-of-jam.png" width="50">-->
+                                            <th:block th:if="*{icon}">
+                                                <img th:src="'data:image/jpeg;charset=utf-8;base64,' + *{icon}" alt="icon" width="50">
+                                            </th:block>
+                                            <th:block th:unless="*{icon}">
+                                                 <img th:src="@{/images/jar-of-jam.png}" alt="icon" width="50">
+                                            </th:block>
                                         </a>
                                     </div>
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.expirationManager.utils.Constants;
 
 import java.util.NoSuchElementException;
 
@@ -15,30 +16,27 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
-    public ModelAndView handleNoSuchElement() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("error");
-        mav.addObject("errorMessage", "Page not found!");
-
-        return mav;
+    public ModelAndView handleNoSuchElement(NoSuchElementException ex) {
+        return setUpErrorPage(ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ModelAndView handleMethodArgumentTypeMismatch() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("error");
-        mav.addObject("errorMessage", "Something's wrong with the URL");
-
-        return mav;
+        return setUpErrorPage(Constants.PAGE_NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
-    public ModelAndView handleAccessDenied(AccessDeniedException ex) {
+    public ModelAndView handleAccessDenied() {
+        return setUpErrorPage(Constants.ACCESS_DENIED);
+    }
+
+
+    private ModelAndView setUpErrorPage(String errorMessage) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error");
-        mav.addObject("errorMessage", ex.getMessage());
+        mav.addObject("errorMessage", errorMessage);
 
         return mav;
     }

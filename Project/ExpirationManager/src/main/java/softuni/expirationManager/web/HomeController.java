@@ -1,5 +1,6 @@
 package softuni.expirationManager.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ public class HomeController {
     private final RecipeService recipeService;
     private final ProductService productService;
 
+    @Autowired
     public HomeController(RecipeService recipeService, ProductService productService) {
         this.recipeService = recipeService;
         this.productService = productService;

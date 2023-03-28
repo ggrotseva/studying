@@ -2,9 +2,11 @@ package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.recipe.RecipeAddDTO;
 import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
@@ -25,6 +28,7 @@ public class RecipeController {
 
     private final RecipeService recipeService;
 
+    @Autowired
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
@@ -115,11 +119,12 @@ public class RecipeController {
     }
 
 
+    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
     @ExceptionHandler(FileSizeLimitExceededException.class)
     public ModelAndView handleFileSizeLimitExceeded() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error");
-        mav.addObject("errorMessage", "File you uploaded exceeds maximum allowed size");
+        mav.addObject("errorMessage", Constants.REQUEST_SIZE_EXCEEDED);
 
         return mav;
     }

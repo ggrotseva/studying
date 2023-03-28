@@ -1,5 +1,6 @@
 package softuni.expirationManager.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.model.entities.UserRoleEntity;
@@ -17,6 +18,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    @Autowired
     public ApplicationUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

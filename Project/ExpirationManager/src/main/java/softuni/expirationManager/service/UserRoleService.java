@@ -1,5 +1,6 @@
 package softuni.expirationManager.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import softuni.expirationManager.model.entities.UserRoleEntity;
 import softuni.expirationManager.model.enums.UserRoleEnum;
 import softuni.expirationManager.repository.UserRoleRepository;
@@ -15,6 +16,7 @@ public class UserRoleService {
 
     private final UserRoleRepository userRoleRepository;
 
+    @Autowired
     public UserRoleService(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
     }

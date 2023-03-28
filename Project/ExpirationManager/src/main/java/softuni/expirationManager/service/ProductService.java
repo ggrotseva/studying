@@ -1,8 +1,9 @@
 package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.model.MyUserDetails;
+import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.dtos.product.ProductAddDTO;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
 import softuni.expirationManager.model.dtos.product.ProductViewDTO;
@@ -13,6 +14,7 @@ import softuni.expirationManager.repository.ProductRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper mapper;
 
+    @Autowired
     public ProductService(ProductRepository productRepository,
                           CategoryRepository categoryRepository,
                           ModelMapper mapper) {
@@ -42,7 +45,8 @@ public class ProductService {
 
     public ProductViewDTO deleteById(Long productId) {
         ProductViewDTO productToDelete =
-                this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
+                this.mapper.map(this.productRepository.findById(productId).orElseThrow(
+                        () -> new NoSuchElementException(Constants.NO_PRODUCT_FOUND)), ProductViewDTO.class);
 
         this.productRepository.deleteById(productId);
 
@@ -50,11 +54,13 @@ public class ProductService {
     }
 
     public ProductViewDTO findById(Long productId) {
-        return this.mapper.map(this.productRepository.findById(productId).orElseThrow(), ProductViewDTO.class);
+        return this.mapper.map(this.productRepository.findById(productId).orElseThrow(
+                () -> new NoSuchElementException(Constants.NO_PRODUCT_FOUND)), ProductViewDTO.class);
     }
 
     public List<ProductViewDTO> findAllByCategoryId(Long id) {
-        return this.productRepository.findAllByCategoryId(id).orElseThrow()
+        return this.productRepository.findAllByCategoryId(id)
+                    .orElseThrow(() -> new NoSuchElementException(Constants.NO_PRODUCT_FOUND))
                 .stream().map(p -> this.mapper.map(p, ProductViewDTO.class))
                 .collect(Collectors.toList());
     }

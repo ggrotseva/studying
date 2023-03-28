@@ -37,7 +37,7 @@ public class Config {
 
         Converter<byte[], String> encodeToBase64 = new AbstractConverter<>() {
             protected String convert(byte[] icon) {
-                if (Objects.requireNonNull(icon).length > 0) {
+                if (icon != null) {
                     return Base64.getEncoder().encodeToString(icon);
                 }
                 return null;

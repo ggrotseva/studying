@@ -1,10 +1,17 @@
 package softuni.expirationManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import softuni.expirationManager.utils.Constants;
+import softuni.expirationManager.model.dtos.product.ProductViewDTO;
+import softuni.expirationManager.model.entities.CategoryEntity;
 import softuni.expirationManager.repository.CategoryRepository;
 import softuni.expirationManager.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 import softuni.expirationManager.service.CategoryService;
+import softuni.expirationManager.service.ProductService;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 //@Component
 public class TestingClass implements CommandLineRunner {
@@ -12,11 +19,14 @@ public class TestingClass implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
     private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public TestingClass(CategoryRepository categoryRepository, CategoryService categoryService, ProductRepository productRepository) {
+    @Autowired
+    public TestingClass(CategoryRepository categoryRepository, CategoryService categoryService, ProductRepository productRepository, ProductService productService) {
         this.categoryRepository = categoryRepository;
         this.categoryService = categoryService;
         this.productRepository = productRepository;
+        this.productService = productService;
     }
 
 //    @Transactional
@@ -31,6 +41,11 @@ public class TestingClass implements CommandLineRunner {
 //                .setCategory(category);
 //
 //        this.productRepository.save(product);
+
+        List<ProductViewDTO> cat10 = this.productService.findAllByCategoryId(30L);
+
+        CategoryEntity categoryEntity = this.categoryRepository.findById(30L)
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
 
     }
 }

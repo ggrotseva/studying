@@ -1,9 +1,11 @@
 package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
 import softuni.expirationManager.model.dtos.recipe.*;
@@ -24,6 +26,7 @@ public class RecipeService {
     private final ImageCloudService imageCloudService;
     private final ModelMapper mapper;
 
+    @Autowired
     public RecipeService(RecipeRepository recipeRepository,
                          UserRepository userRepository,
                          ImageCloudService imageCloudService,
@@ -34,8 +37,10 @@ public class RecipeService {
         this.mapper = mapper;
     }
 
+    // TODO: make better solution
     public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long recipeId) {
-        Long categoryUserId = this.recipeRepository.findById(recipeId).orElseThrow()
+        Long categoryUserId = this.recipeRepository.findById(recipeId)
+                    .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
                 .getAuthor().getId();
 
         return userDetails.getId().equals(categoryUserId)
@@ -46,7 +51,8 @@ public class RecipeService {
 
         RecipeEntity recipe = this.mapper.map(recipeAddDTO, RecipeEntity.class);
 
-        UserEntity author = this.userRepository.findByUsername(username).orElseThrow();
+        UserEntity author = this.userRepository.findByUsername(username).orElseThrow(
+                () -> new NoSuchElementException(Constants.NO_USER_FOUND));
 
         recipe.setAuthor(author)
                 .setCreated(LocalDateTime.now())
@@ -64,7 +70,8 @@ public class RecipeService {
 
     public void editRecipe(RecipeEditDTO recipeEditDTO) {
 
-        RecipeEntity recipe = this.recipeRepository.findById(recipeEditDTO.getId()).orElseThrow();
+        RecipeEntity recipe = this.recipeRepository.findById(recipeEditDTO.getId())
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND));
 
         handleImageUrlEdit(recipe, recipeEditDTO);
 
@@ -82,11 +89,13 @@ public class RecipeService {
     }
 
     public RecipeEditDTO getRecipeEditDtoById(Long id) {
-        return this.mapper.map(this.recipeRepository.findById(id).orElseThrow(), RecipeEditDTO.class);
+        return this.mapper.map(this.recipeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND)), RecipeEditDTO.class);
     }
 
     public RecipeDTO getRecipeDtoById(Long id) {
-        RecipeDTO recipe = this.mapper.map(this.recipeRepository.findById(id).orElseThrow(), RecipeDTO.class);
+        RecipeDTO recipe = this.mapper.map(this.recipeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND)), RecipeDTO.class);
 
         String htmlFormattedIngredients = recipe.getIngredientsDescription().replace(System.lineSeparator(), "<br/>");
         String htmlFormattedPreparation = recipe.getPreparation().replace(System.lineSeparator(), "<br/>");

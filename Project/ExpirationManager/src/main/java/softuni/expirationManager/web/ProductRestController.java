@@ -1,6 +1,7 @@
 package softuni.expirationManager.web;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ public class ProductRestController {
 
     private final ProductService productService;
 
+    @Autowired
     public ProductRestController(ProductService productService) {
         this.productService = productService;
     }
@@ -74,7 +76,7 @@ public class ProductRestController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-
+        // TODO: make it return custom Error class
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
         Map<String, String> fieldsErrors = new HashMap<>();
