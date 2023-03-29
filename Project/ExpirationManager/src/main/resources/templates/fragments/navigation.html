@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/"><img alt="" src="/images/jar-of-jam.png"
+    <a class="navbar-brand" th:href="@{/}"><img alt="" th:src="@{/images/jar-of-jam.png}"
                                           class="logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,19 +11,15 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto col-12 justify-content-end">
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">Home</a>
-            </li>
+        <ul class="navbar-nav mr-auto col justify-content-end">
+
             <li sec:authorize="!isAuthenticated()" class="nav-item">
                 <a class="nav-link" th:text="#{navbar_login}" th:href="@{/users/login}">Login</a>
             </li>
             <li sec:authorize="!isAuthenticated()" class="nav-item">
                 <a class="nav-link" th:text="#{navbar_register}" th:href="@{/users/register}">Register</a>
             </li>
-            <li sec:authorize="hasRole('USER')" class="nav-item">
-                <a class="nav-link" th:text="#{navbar_categories}" th:href="@{/categories}">My Categories</a>
-            </li>
+
             <li sec:authorize="hasRole('USER')" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" th:text="#{navbar_recipes}" th:href="@{/recipes}" id="recipeDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,14 +33,24 @@
             <li class="nav-item">
                 <a class="nav-link" th:text="#{navbar_about}" th:href="@{/about}">About</a>
             </li>
-            <li sec:authorize="isAuthenticated()" class="nav-item">
-                <form th:method="post" th:action="@{/logout}">
-                    <button th:text="#{navbar_logout}" class="nav-link btn btn-link" type="submit">Logout</button>
-                </form>
+
+            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" th:href="@{/profile}" id="profileDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img style="max-height: 25px" alt="profile" th:src="@{/images/profile.png}">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="recipeDropdown">
+                    <a class="dropdown-item" th:text="#{navbar_profile}" th:href="@{/profile}">Profile</a>
+                    <a class="dropdown-item" th:text="#{navbar_categories}" th:href="@{/categories}">My Categories</a>
+                    <form th:method="post" th:action="@{/logout}">
+                        <button th:text="#{navbar_logout}" class="btn dropdown-item" type="submit">Logout</button>
+                    </form>
+                </div>
             </li>
+
             <li class="nav-item">
-                <form>
-                    <label th:text="#{navbar_lang}" for="lang"></label><br/>
+                <form class="nav-link pl-4">
+                    <label class="d-none" for="lang"></label>
                     <select id="lang" name="lang" onchange="this.form.submit()">
                         <option value="en_US" th:selected="${#locale.toString()} == en_US">English</option>
                         <option value="bg_BG" th:selected="${#locale.toString()} == bg_BG">Български</option>

@@ -13,10 +13,7 @@ public class I18NConfig {
 
     @Bean
     public LocaleResolver localeResolver() {
-        CookieLocaleResolver langCookie = new CookieLocaleResolver();
-        langCookie.setCookieName("lang");
-
-        return langCookie;
+        return new CookieLocaleResolver("lang");
     }
 
     @Bean
