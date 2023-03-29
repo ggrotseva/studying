@@ -95,3 +95,35 @@ function formatDate(dateString) {
 
     return `${day}/${month}/${year}`;
 }
+
+// example function for error messages with REST controllers
+
+// function checkTitle(event) {
+//     let recipeTitle = event.target.value;
+
+//     if (recipeTitle.length > 2) {
+
+//         let titleErrorElement = document.getElementById("title-error");
+
+//         titleErrorElement.replaceChildren();
+
+//         fetch(`/api/recipes/isAvailable/${recipeTitle}`)
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error(`HTTP error! Status: ${response.status}`);
+//                 }
+//                 return response.json()
+//             })
+//             .then(isAvailable => {
+//                 if (isAvailable === false) {
+//                     let smallElement = document.createElement("small");
+//                     smallElement.className = "error-text";
+//                     smallElement.innerText = "You already have recipe with the same title.";
+//                     titleErrorElement.appendChild(smallElement);
+//                 }
+//             })
+//             .catch(error => console.log(error));
+//     }
+// }
+
+// document.getElementById("title-input").addEventListener("change", checkTitle);
