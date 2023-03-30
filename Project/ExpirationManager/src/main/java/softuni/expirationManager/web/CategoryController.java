@@ -70,7 +70,7 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #id)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #id)")
     @GetMapping("/categories/{id}/edit")
     public String getEditCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
 
@@ -81,7 +81,7 @@ public class CategoryController {
         return "category-edit";
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryEditDTO.getId())")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryEditDTO.getId())")
     @PutMapping("/categories/{id}/edit")
     public String putEditCategory(@Valid CategoryEditDTO categoryEditDTO,
                                   BindingResult bindingResult,
@@ -100,7 +100,7 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #id)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #id)")
     @DeleteMapping("/categories/{id}")
     public String deleteCategory(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails principal) {
 
@@ -109,7 +109,7 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #id)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #id)")
     @GetMapping("/categories/{id}")
     public String getProductsByCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
 

@@ -15,12 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import softuni.expirationManager.model.dtos.recipe.*;
 import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
-import softuni.expirationManager.model.dtos.recipe.RecipeAddDTO;
-import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
-import softuni.expirationManager.model.dtos.recipe.RecipeDTO;
-import softuni.expirationManager.model.dtos.recipe.RecipeEditDTO;
 import softuni.expirationManager.service.RecipeService;
 
 @Controller
@@ -36,7 +33,21 @@ public class RecipeController {
     @GetMapping("/recipes")
     public String getAllRecipes(Model model, @PageableDefault(size = 3) Pageable pageable) {
 
+        if (!model.containsAttribute("recipeSearchDTO")) {
+           model.addAttribute("recipeSearchDTO", new RecipeSearchDTO());
+        }
+
         Page<RecipeBriefDTO> allRecipesPage = this.recipeService.getAllRecipeBriefs(pageable);
+
+        model.addAttribute("recipes", allRecipesPage);
+
+        return "recipes";
+    }
+
+    @GetMapping("/recipes/search")
+    public String getSearchRecipes(RecipeSearchDTO recipeSearchDTO, Model model, @PageableDefault(size = 3) Pageable pageable) {
+
+        Page<RecipeBriefDTO> allRecipesPage = this.recipeService.searchRecipes(recipeSearchDTO, pageable);
 
         model.addAttribute("recipes", allRecipesPage);
 
@@ -48,7 +59,7 @@ public class RecipeController {
         RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
-        model.addAttribute("isAuthenticated", this.recipeService.isOwnerOrAdmin(principal, id));
+        model.addAttribute("isAuthenticated", this.recipeService.authorizeActions(principal, id));
 
         return "recipe-details";
     }
@@ -79,7 +90,7 @@ public class RecipeController {
         return "redirect:/recipes";
     }
 
-    @PreAuthorize("@recipeService.isOwnerOrAdmin(#principal, #id)")
+    @PreAuthorize("@recipeService.authorizeActions(#principal, #id)")
     @GetMapping("/recipes/{id}/edit")
     public String getEditRecipe(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
 
@@ -90,7 +101,7 @@ public class RecipeController {
         return "recipe-edit";
     }
 
-    @PreAuthorize("@recipeService.isOwnerOrAdmin(#principal, #recipeEditDTO.getId())")
+    @PreAuthorize("@recipeService.authorizeActions(#principal, #recipeEditDTO.getId())")
     @PutMapping("/recipes/{id}/edit")
     public String putEditRecipe(@Valid RecipeEditDTO recipeEditDTO,
                                 BindingResult bindingResult,
@@ -109,7 +120,7 @@ public class RecipeController {
         return "redirect:/recipes/" + recipeEditDTO.getId();
     }
 
-    @PreAuthorize("@recipeService.isOwnerOrAdmin(#principal, #id)")
+    @PreAuthorize("@recipeService.authorizeActions(#principal, #id)")
     @DeleteMapping("/recipes/{id}")
     public String deleteRecipe(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails principal) {
 

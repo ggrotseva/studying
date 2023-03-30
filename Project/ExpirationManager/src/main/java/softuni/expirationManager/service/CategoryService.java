@@ -46,8 +46,7 @@ public class CategoryService {
         this.mapper = mapper;
     }
 
-    // TODO: make better solution
-    public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long categoryId) {
+    public boolean authorizeActions(MyUserDetails userDetails, Long categoryId) {
         Long categoryUserId = this.categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND))
                 .getUser().getId();

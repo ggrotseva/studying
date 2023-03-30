@@ -32,7 +32,7 @@ public class ProductRestController {
         this.productService = productService;
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
     @GetMapping("/products")
     public ResponseEntity<List<ProductViewDTO>> getProductsOfCategory(@PathVariable("categoryId") Long categoryId,
                                                                       @AuthenticationPrincipal MyUserDetails principal) {
@@ -41,7 +41,7 @@ public class ProductRestController {
                 ok(this.productService.findAllByCategoryId(categoryId));
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable("categoryId") Long categoryId,
                                                      @PathVariable("productId") Long productId,
@@ -51,7 +51,7 @@ public class ProductRestController {
                 ok(this.productService.findById(productId));
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("categoryId") Long categoryId,
                                                       @RequestBody @Valid ProductAddDTO productAddDTO,
@@ -64,7 +64,7 @@ public class ProductRestController {
                 .build();
     }
 
-    @PreAuthorize("@categoryService.isOwnerOrAdmin(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> deleteComment(@PathVariable("categoryId") Long categoryId,
                                                         @PathVariable("productId") Long productId,

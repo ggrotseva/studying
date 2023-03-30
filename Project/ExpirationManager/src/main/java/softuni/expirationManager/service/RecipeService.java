@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.repository.RecipeSpecification;
 import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
@@ -37,8 +38,7 @@ public class RecipeService {
         this.mapper = mapper;
     }
 
-    // TODO: make better solution
-    public boolean isOwnerOrAdmin(MyUserDetails userDetails, Long recipeId) {
+    public boolean authorizeActions(MyUserDetails userDetails, Long recipeId) {
         Long categoryUserId = this.recipeRepository.findById(recipeId)
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
                 .getAuthor().getId();
@@ -161,6 +161,11 @@ public class RecipeService {
 
     public Page<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
         return this.recipeRepository.findAllByOrderByCreatedDesc(pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+    }
+
+    public Page<RecipeBriefDTO> searchRecipes(RecipeSearchDTO recipeSearchDTO, Pageable pageable) {
+        return this.recipeRepository.findAll(new RecipeSpecification(recipeSearchDTO), pageable)
                 .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
     }
 }

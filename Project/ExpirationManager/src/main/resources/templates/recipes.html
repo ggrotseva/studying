@@ -8,121 +8,156 @@
 </head>
 
 <body>
-    <header>
-        <div th:replace="~{fragments/navigation}"/>
-    </header>
+<header>
+    <div th:replace="~{fragments/navigation}"/>
+</header>
 
 
-    <main class="container pb-5">
-        <div class="row">
-            <div class="col-lg-12 pb-8">
+<main class="container pb-5">
+    <div class="row">
+        <div class="col-lg-12 pb-8">
 
-                <div class="row pt-4">
-                    <div class="col text-center text-white">
-                        <h2>Recipes</h2>
-                    </div>
+            <div class="row pt-4">
+                <div class="col text-center text-white">
+                    <h2>Recipes</h2>
                 </div>
+            </div>
 
-                <div class="row pt-4">
-                    <div class="col">
-                        <div class="row">
-                            <article class="col-md-12">
-                                <section class="bg-white box">
+            <div class="row pt-4">
+                <div class="col">
+                    <div class="row">
+                        <article class="col-md-12">
+                            <section class="bg-white box">
 
-                                    <div class="box-head">
-                                        <p class="h4">Filter:
-                                            <button class="btn btn-light" type="button" value="SWEET">Sweet</button>
-                                            <button class="btn btn-light" type="button" value="SAVORY">Savory</button>
-                                        </p>
-                                    </div>
+                                <div class="box-head">
+                                    <form class="form-inline justify-content-center"
+                                          th:action="@{/recipes/search}" th:method="GET" th:object="${recipeSearchDTO}">
 
-                                    <div class="px-3 pt-3">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div th:each="recipe : ${recipes.getContent()}"
-                                                     th:object="${recipe}">
-                                                    <div class="row">
-                                                        <div class="col-md-9">
-                                                            <div class="row"
-                                                                 style="height: 200px; overflow: hidden; text-overflow: ellipsis;">
-                                                                <div class="col">
-                                                                    <a th:href="@{/recipes/{id}(id=*{id})}" class="h4 recipe-link px-1">
-                                                                        <h4 th:text="*{name}">Recipe name</h4>
-                                                                    </a>
-                                                                    <p>by
-                                                                        <a th:href="@{/profile/{id}(id=*{authorId})}" class="text-dark"
-                                                                             th:text="*{authorUsername}">username</a>
-                                                                    </p>
-                                                                    <p>Published: <span th:text="${#temporals.format(recipe.created, 'dd/MM/yyyy')}"></span></p>
-                                                                    <p th:text="*{preparation}">Put the flour, eggs, milk, sunflower or vegetable
-                                                                        oil
-                                                                        and a pinch of salt into a bowl or large jug,
-                                                                        then
-                                                                        whisk to a smooth batter. Set aside for 30 mins
-                                                                        to
-                                                                        rest if you have time, or start cooking straight
-                                                                        away.</p>
-                                                                </div>
-                                                            </div>
+                                        <input class="form-control p-1" type="search" placeholder="Search"
+                                               aria-label="Search" th:field="*{search}">
 
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <img th:src="*{imageUrl}"
-                                                                 class="img-thumbnail">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="dropdown-divider"></div>
-                                                </div>
-
+                                        <div class="input-group mx-3">
+                                            <div class="form-check mt-2 mt-sm-0 mx-1">
+                                                <input class="form-check-input type-input mx-1" type="checkbox"
+                                                       name="type" id="sweet" value="SWEET">
+                                                <label class="btn btn-light type-label mx-1" for="sweet">Sweet</label>
+                                            </div>
+                                            <div class="form-check mt-2 mt-sm-0 mx-1">
+                                                <input class="form-check-input type-input mx-1" type="checkbox"
+                                                       name="type" id="savory" value="SAVORY">
+                                                <label class="btn btn-light type-label mx-1" for="savory">Savory</label>
                                             </div>
                                         </div>
+
+                                        <button class="btn my-btn m-1" type="submit">Search</button>
+                                    </form>
+                                </div>
+
+                                <div class="px-3 pt-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div th:each="recipe : ${recipes.getContent()}"
+                                                 th:object="${recipe}">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <div class="row"
+                                                             style="height: 200px; overflow: hidden; text-overflow: ellipsis;">
+                                                            <div class="col">
+                                                                <a th:href="@{/recipes/{id}(id=*{id})}"
+                                                                   class="h4 recipe-link px-1">
+                                                                    <h4 th:text="*{name}">Recipe name</h4>
+                                                                </a>
+                                                                <p>by
+                                                                    <a th:href="@{/profile/{id}(id=*{authorId})}"
+                                                                       class="text-dark"
+                                                                       th:text="*{authorUsername}">username</a>
+                                                                </p>
+                                                                <p>Published: <span
+                                                                        th:text="${#temporals.format(recipe.created, 'dd/MM/yyyy')}"></span>
+                                                                </p>
+                                                                <p th:text="*{preparation}">Put the flour, eggs, milk,
+                                                                    sunflower or vegetable
+                                                                    oil
+                                                                    and a pinch of salt into a bowl or large jug,
+                                                                    then
+                                                                    whisk to a smooth batter. Set aside for 30 mins
+                                                                    to
+                                                                    rest if you have time, or start cooking straight
+                                                                    away.</p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img th:src="*{imageUrl}"
+                                                             class="img-thumbnail">
+                                                    </div>
+                                                </div>
+
+                                                <div class="dropdown-divider"></div>
+                                            </div>
+
+                                        </div>
                                     </div>
+                                </div>
 
-                                    <div class="row justify-content-center p-3">
+                                <div class="row justify-content-center p-3">
 
-                                        <nav aria-label="Page navigation">
-                                            <ul class="pagination">
-                                                <li class="page-item" th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
-                                                    <a th:unless="${recipes.isFirst()}" class="page-link text-dark" th:href="@{/recipes(size=${recipes.getSize()}, page=${0})}">First</a>
-                                                    <a th:if="${recipes.isFirst()}" class="page-link text-dark" href="#">First</a>
-                                                </li>
-                                                <li class="page-item" th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
-                                                    <a class="page-link text-dark" th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() - 1})}" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <li class="page-item"
+                                                th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
+                                                <a th:unless="${recipes.isFirst()}" class="page-link text-dark"
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${0})}">First</a>
+                                                <a th:if="${recipes.isFirst()}" class="page-link text-dark" href="#">First</a>
+                                            </li>
+                                            <li class="page-item"
+                                                th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
+                                                <a class="page-link text-dark"
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() - 1})}"
+                                                   aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
 
-                                                <li class="page-item disabled"><span th:text="${recipes.getNumber() + 1}" class="page-link text-dark">1</span></li>
+                                            <li class="page-item disabled"><span th:text="${recipes.getNumber() + 1}"
+                                                                                 class="page-link text-dark">1</span>
+                                            </li>
 
-                                                <li class="page-item" th:classappend="${recipes.isLast() ? 'disabled' : ''}">
-                                                    <a class="page-link text-dark" th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item" th:classappend="${recipes.isLast() ? 'disabled' : ''}">
-                                                    <a th:unless="${recipes.isLast()}" class="page-link text-dark" th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getTotalPages() - 1})}">Last</a>
-                                                    <a th:if="${recipes.isLast()}" class="page-link text-dark" href="#">Last</a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                            <li class="page-item"
+                                                th:classappend="${recipes.isLast() ? 'disabled' : ''}">
+                                                <a class="page-link text-dark"
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}"
+                                                   aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"
+                                                th:classappend="${recipes.isLast() ? 'disabled' : ''}">
+                                                <a th:unless="${recipes.isLast()}" class="page-link text-dark"
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getTotalPages() - 1})}">Last</a>
+                                                <a th:if="${recipes.isLast()}" class="page-link text-dark"
+                                                   href="#">Last</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
 
-                                </section>
-                            </article>
-                        </div>
+                            </section>
+                        </article>
                     </div>
                 </div>
-
             </div>
+
         </div>
+    </div>
 
 
-    </main>
+</main>
 
-    <footer th:replace="~{fragments/footer}"/>
+<footer th:replace="~{fragments/footer}"/>
 </body>
 
 </html>
