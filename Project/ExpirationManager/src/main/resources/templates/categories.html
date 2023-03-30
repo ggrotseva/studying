@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>My Categories</title>
+    <title th:text="#{navbar_categories}">My Categories</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 
             <div class="row pt-4">
                 <div class="col text-center text-white">
-                    <h2>My Categories</h2>
+                    <h2 th:text="#{navbar_categories}">My Categories</h2>
                 </div>
             </div>
 
@@ -47,16 +47,16 @@
 
                                     <div class="text-center mt-3">
                                         <p th:text="*{description}">Description</p>
-                                        <p><span th:text="*{productsCount}">num</span> products</p>
+                                        <p><span th:text="*{productsCount}">num</span> <span th:text="#{products}">products</span></p>
                                     </div>
 
                                     <div class="row justify-content-center p-3 box-bottom">
                                         <form th:action="@{/categories/{id}/edit(id=*{id})}">
-                                            <button type="submit">Edit</button>
+                                            <button type="submit" th:text="#{edit}">Edit</button>
                                         </form>
                                         <div class="col-auto"></div>
                                         <form th:action="@{/categories/{id}(id=*{id})}" th:method="DELETE">
-                                            <button type="submit">Delete</button>
+                                            <button type="submit" th:text="#{delete}">Delete</button>
                                         </form>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                     </div>
 
                                     <div class="text-center mt-4">
-                                        <p class="h5">Add new Category</p>
+                                        <p class="h5" th:text="#{category_add}">Add New Category</p>
                                     </div>
                                 </div>
 

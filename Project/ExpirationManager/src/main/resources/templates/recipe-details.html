@@ -67,7 +67,7 @@
                                     </div>
 
                                     <div class="row justify-content-center p-3"
-                                    th:if="${isAuthenticated}">
+                                    th:if="${isAuthorized}">
                                         <form th:action="@{/recipes/{id}/edit(id=*{id})}">
                                             <button class="btn my-btn" type="submit">Edit</button>
                                         </form>

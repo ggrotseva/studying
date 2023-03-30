@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>Products of Category</title>
+    <title th:text="${category.name}">Category name</title>
     <meta id="csrf"
           type="hidden"
           th:name="${_csrf.headerName}"
@@ -25,7 +25,7 @@
 
             <div class="row pt-4">
                 <div class="col text-center text-white">
-                    <h2>Products of Category</h2>
+                    <h2 th:text="#{products_of_category}">Products of Category</h2>
                 </div>
             </div>
 
@@ -45,22 +45,22 @@
                                             <thead>
                                             <tr>
                                                 <th style="width: 32%">
-                                                    <b>Product Name</b>
+                                                    <b th:text="#{product_name}">Product Name</b>
                                                     <img src="/images/sort_both.svg" alt="sort"
                                                          onclick="sortTable(0)">
                                                 </th>
                                                 <th style="width: 15%">
-                                                    <b>Expiry Date</b>
+                                                    <b th:text="#{product_expiry}">Expiry Date</b>
                                                     <img src="/images/sort_both.svg" alt="sort"
                                                          onclick="sortTable(1)">
                                                 </th>
                                                 <th style="width: 25%">
-                                                    <b>Brand</b>
+                                                    <b th:text="#{product_brand}">Brand</b>
                                                     <img src="/images/sort_both.svg" alt="sort"
                                                          onclick="sortTable(2)">
                                                 </th>
                                                 <th style="width: 25%">
-                                                    <b>Description</b>
+                                                    <b th:text="#{product_desc}">Description</b>
                                                     <img src="/images/sort_both.svg" alt="sort"
                                                          onclick="sortTable(3)">
                                                 </th>
@@ -84,18 +84,18 @@
                                               action="/" method="POST">
                                             <div class="form-row py-3">
                                                 <div class="col-md-3 py-1">
-                                                    <label for="name" class="sr-only">Product Name</label>
+                                                    <label for="name" class="sr-only" th:text="#{product_name}">Product Name</label>
                                                     <input id="name" name="name" type="text"
-                                                           class="form-control" placeholder="Product Name"/>
+                                                           class="form-control" th:placeholder="#{product_name}"/>
 <!--                                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"-->
 <!--                                                           class="alert alert-danger p-1">-->
 <!--                                                        Name is required.-->
 <!--                                                    </small>-->
                                                 </div>
                                                 <div class="col-md-2 py-1">
-                                                    <label for="expiryDate" class="sr-only">Expiry Date</label>
+                                                    <label for="expiryDate" class="sr-only" th:text="#{product_expiry}">Expiry Date</label>
                                                     <input id="expiryDate" name="expiryDate" type="date"
-                                                           class="form-control" placeholder="Expiry date"/>
+                                                           class="form-control" th:placeholder="#{product_expiry}"/>
 <!--                                                    <small th:if="${#fields.hasErrors('expiryDate')}"-->
 <!--                                                           th:errors="*{expiryDate}"-->
 <!--                                                           class="alert alert-danger p-1">-->
@@ -103,18 +103,18 @@
 <!--                                                    </small>-->
                                                 </div>
                                                 <div class="col-md-2 py-1">
-                                                    <label for="brand" class="sr-only">Brand</label>
+                                                    <label for="brand" class="sr-only" th:text="#{product_brand}">Brand</label>
                                                     <input id="brand" name="brand" type="text"
                                                            class="form-control"
-                                                           placeholder="Brand"/>
+                                                           th:placeholder="#{product_brand}"/>
                                                 </div>
                                                 <div class="col-md-3 py-1">
-                                                    <label for="description" class="sr-only">Description</label>
+                                                    <label for="description" class="sr-only" th:text="#{product_desc}">Description</label>
                                                     <input id="description" name="description" type="text"
-                                                           class="form-control" placeholder="Description"/>
+                                                           class="form-control" th:placeholder="#{product_desc}"/>
                                                 </div>
                                                 <div class="col-md-2 py-1">
-                                                    <button type="submit" class="btn add-btn">Add
+                                                    <button type="submit" class="btn add-btn" th:text="#{add}">Add
                                                     </button>
                                                 </div>
                                             </div>

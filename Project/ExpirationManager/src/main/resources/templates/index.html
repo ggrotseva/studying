@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>Expiration Date Manager</title>
+    <title th:text="#{exp_date_manager}">Expiration Date Manager</title>
 </head>
 
 <body>
@@ -14,14 +14,18 @@
 
 <main>
     <section class="text-white container-fluid pt-4">
-        <h1 class="text-center">Expiration Date Manager</h1>
-        <h5 class="text-center mb-5">get your pantry organized</h5>
+        <h1 class="text-center" th:text="#{exp_date_manager}">Expiration Date Manager</h1>
+        <h5 class="text-center mb-5" th:text="#{pantry_organizer}">Get your pantry organized</h5>
 
         <div>
             <div class="row justify-content-center">
-                <form th:action="@{/users/login}"><button class="btn my-btn" type="submit">Login</button></form>
+                <form th:action="@{/users/login}">
+                    <button class="btn my-btn" type="submit" th:text="#{navbar_login}">Login</button>
+                </form>
                 <div class="col-sm-auto"></div>
-                <form th:action="@{/users/register}"><button class="btn my-btn" type="submit">Register</button></form>
+                <form th:action="@{/users/register}">
+                    <button class="btn my-btn" type="submit" th:text="#{navbar_register}">Register</button>
+                </form>
             </div>
         </div>
     </section>

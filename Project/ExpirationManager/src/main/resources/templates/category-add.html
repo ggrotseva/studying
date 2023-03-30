@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>Add Category</title>
+    <title th:text="#{category_add}">Add Category</title>
 </head>
 
 <body>
@@ -14,7 +14,7 @@
 
 <main>
 
-    <h2 class="text-center text-white p-3">Add Category</h2>
+    <h2 class="text-center text-white p-3" th:text="#{category_add}">Add Category</h2>
 
     <div class="container">
         <form th:method="POST" th:action="@{/categories/add}" th:object="${categoryAddDTO}"
@@ -22,7 +22,7 @@
               enctype="multipart/form-data">
 
             <div class="form-group">
-                <label for="name" class="text-white font-weight-bold">Name</label>
+                <label for="name" class="text-white font-weight-bold" th:text="#{category_name}">Name</label>
                 <input id="name" th:field="*{name}" type="text" class="form-control"
                        placeholder="Category name"/>
                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
@@ -31,7 +31,7 @@
                 </small>
             </div>
             <div class="form-group">
-                <label for="description" class="text-white font-weight-bold">Description (optional)</label>
+                <label for="description" class="text-white font-weight-bold" th:text="#{category_desc}">Description (optional)</label>
                 <input id="description" th:field="*{description}" type="text" class="form-control"
                        placeholder="Description"/>
                 <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
@@ -44,10 +44,10 @@
 
             <div class="row">
                 <div class="form-group col mb-3">
-                    <p class="text-white">
+                    <p class="text-white" th:text="#{upload_png}">
                         Upload *.png file (up to 64 kB) if you want custom icon to your Category (optional)
                     </p>
-                    <label for="icon" class="text-white font-weight-bold">Icon (optional)</label>
+                    <label for="icon" class="text-white font-weight-bold" th:text="#{icon}">Icon (optional)</label>
                     <input id="icon" th:field="*{icon}" type="file" accept="image/png" class="form-control-file"/>
                     <div th:if="${#fields.hasErrors('icon')}" th:errors="*{icon}"
                          class="alert alert-danger">
@@ -61,7 +61,7 @@
             <div class="row my-3">
                 <div class="col col-md-4">
                     <div class="d-flex">
-                        <input type="submit" class="btn my-btn" value="Add"/>
+                        <button type="submit" class="btn my-btn" th:text="#{add}">Add</button>
                     </div>
                 </div>
             </div>

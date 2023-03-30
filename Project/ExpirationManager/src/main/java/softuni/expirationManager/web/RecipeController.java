@@ -59,7 +59,7 @@ public class RecipeController {
         RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
-        model.addAttribute("isAuthenticated", this.recipeService.authorizeActions(principal, id));
+        model.addAttribute("isAuthorized", this.recipeService.authorizeActions(principal, id));
 
         return "recipe-details";
     }
