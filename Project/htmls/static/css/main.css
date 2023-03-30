@@ -131,6 +131,10 @@ th img {
      background-color: #e3e9dc;
 }
 
+.page-item .page-link {
+     color: black;
+}
+
 .type-input {
      display: none;
 }
