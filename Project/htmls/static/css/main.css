@@ -130,3 +130,17 @@ th img {
 .table-striped #tableContent tr:target {
      background-color: #e3e9dc;
 }
+
+.type-input {
+     display: none;
+}
+
+.type-span:hover {
+     cursor: pointer;
+}
+
+.type-input:checked ~ span {
+     color: #212529;
+     background-color: #e2e6ea;
+     border-color: #dae0e5;
+}

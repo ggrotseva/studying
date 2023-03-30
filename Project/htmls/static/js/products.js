@@ -116,10 +116,11 @@ function formatDate(dateString) {
 //             })
 //             .then(isAvailable => {
 //                 if (isAvailable === false) {
-//                     let smallElement = document.createElement("small");
-//                     smallElement.className = "error-text";
-//                     smallElement.innerText = "You already have recipe with the same title.";
-//                     titleErrorElement.appendChild(smallElement);
+//                     let listElement = document.createElement("ul");	
+//                     let itemElement = document.createElement("li");	
+//                     itemElement.innerText = "You already have recipe with the same title.";	
+//                     listElement.appendChild(itemElement);	
+//                     titleErrorElement.appendChild(listElement);
 //                 }
 //             })
 //             .catch(error => console.log(error));
