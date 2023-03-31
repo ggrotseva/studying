@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>Recipes</title>
+    <title th:text="#{navbar_recipes}">Recipes</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 
             <div class="row pt-4">
                 <div class="col text-center text-white">
-                    <h2>Recipes</h2>
+                    <h2 th:text="#{navbar_recipes}">Recipes</h2>
                 </div>
             </div>
 
@@ -40,16 +40,16 @@
                                             <div class="form-check mt-2 mt-sm-0 mx-1">
                                                 <input class="form-check-input type-input mx-1" type="checkbox"
                                                        name="type" id="sweet" value="SWEET">
-                                                <label class="btn btn-light type-label mx-1" for="sweet">Sweet</label>
+                                                <label class="btn btn-light type-label mx-1" for="sweet" th:text="#{sweet}">Sweet</label>
                                             </div>
                                             <div class="form-check mt-2 mt-sm-0 mx-1">
                                                 <input class="form-check-input type-input mx-1" type="checkbox"
                                                        name="type" id="savory" value="SAVORY">
-                                                <label class="btn btn-light type-label mx-1" for="savory">Savory</label>
+                                                <label class="btn btn-light type-label mx-1" for="savory" th:text="#{savory}">Savory</label>
                                             </div>
                                         </div>
 
-                                        <button class="btn my-btn m-1" type="submit">Search</button>
+                                        <button class="btn my-btn m-1" type="submit" th:text="#{search}">Search</button>
                                     </form>
                                 </div>
 
@@ -67,12 +67,12 @@
                                                                    class="h4 recipe-link px-1">
                                                                     <h4 th:text="*{name}">Recipe name</h4>
                                                                 </a>
-                                                                <p>by
+                                                                <p><span th:text="|#{by} |">by </span>
                                                                     <a th:href="@{/profile/{id}(id=*{authorId})}"
                                                                        class="text-dark"
                                                                        th:text="*{authorUsername}">username</a>
                                                                 </p>
-                                                                <p>Published: <span
+                                                                <p><span th:text="#{published} + ': '">Published: </span><span
                                                                         th:text="${#temporals.format(recipe.created, 'dd/MM/yyyy')}"></span>
                                                                 </p>
                                                                 <p th:text="*{preparation}">Put the flour, eggs, milk,
@@ -108,38 +108,36 @@
                                             <li class="page-item"
                                                 th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
                                                 <a th:unless="${recipes.isFirst()}" class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${0})}">First</a>
-                                                <a th:if="${recipes.isFirst()}" class="page-link" href="#">First</a>
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${0})}" th:text="#{first}">First</a>
+                                                <a th:if="${recipes.isFirst()}" class="page-link" href="#" th:text="#{first}">First</a>
                                             </li>
                                             <li class="page-item"
                                                 th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
                                                 <a class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() - 1})}"
-                                                   aria-label="Previous">
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() - 1})}" aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
+                                                    <span class="sr-only" th:text="#{previous}">Previous</span>
                                                 </a>
                                             </li>
 
-                                            <li class="page-item disabled"><span th:text="${recipes.getNumber() + 1}"
-                                                                                 class="page-link">1</span>
+                                            <li class="page-item disabled">
+                                                <span th:text="${recipes.getNumber() + 1}" class="page-link">1</span>
                                             </li>
 
                                             <li class="page-item"
                                                 th:classappend="${recipes.isLast() ? 'disabled' : ''}">
                                                 <a class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}"
-                                                   aria-label="Next">
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
+                                                    <span class="sr-only" th:text="#{next}">Next</span>
                                                 </a>
                                             </li>
                                             <li class="page-item"
                                                 th:classappend="${recipes.isLast() ? 'disabled' : ''}">
                                                 <a th:unless="${recipes.isLast()}" class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getTotalPages() - 1})}">Last</a>
+                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getTotalPages() - 1})}" th:text="#{last}">Last</a>
                                                 <a th:if="${recipes.isLast()}" class="page-link"
-                                                   href="#">Last</a>
+                                                   href="#" th:text="#{last}">Last</a>
                                             </li>
                                         </ul>
                                     </nav>

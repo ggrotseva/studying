@@ -4,7 +4,7 @@
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>Recipe Details</title>
+    <title th:text="${recipe.name}">Recipe Details</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 
                 <div class="row pt-4">
                     <div class="col text-center text-white">
-                        <h2>Recipe Details</h2>
+                        <h2 th:text="#{recipe_details}">Recipe Details</h2>
                     </div>
                 </div>
 
@@ -69,11 +69,11 @@
                                     <div class="row justify-content-center p-3"
                                     th:if="${isAuthorized}">
                                         <form th:action="@{/recipes/{id}/edit(id=*{id})}">
-                                            <button class="btn my-btn" type="submit">Edit</button>
+                                            <button class="btn my-btn" type="submit" th:text="#{edit}">Edit</button>
                                         </form>
                                         <div class="col-sm-auto"></div>
                                         <form th:action="@{/recipes/{id}(id=*{id})}" th:method="DELETE">
-                                            <button class="btn my-btn" type="submit">Delete</button>
+                                            <button class="btn my-btn" type="submit" th:text="#{delete}">Delete</button>
                                         </form>
                                     </div>
 

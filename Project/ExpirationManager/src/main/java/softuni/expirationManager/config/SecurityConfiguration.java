@@ -1,6 +1,7 @@
 package softuni.expirationManager.config;
 
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import softuni.expirationManager.model.enums.UserRoleEnum;
 import softuni.expirationManager.repository.UserRepository;
 import softuni.expirationManager.service.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -24,7 +25,7 @@ public class SecurityConfiguration {
                 authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
-//                .requestMatchers("/admin").hasRole(UserRoleEnum.ADMIN.name())
+                .requestMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()
              .and()
                 .formLogin().loginPage("/users/login")

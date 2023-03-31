@@ -5,6 +5,7 @@ import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededExceptio
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,7 +46,9 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/search")
-    public String getSearchRecipes(RecipeSearchDTO recipeSearchDTO, Model model, @PageableDefault(size = 3) Pageable pageable) {
+    public String getSearchRecipes(RecipeSearchDTO recipeSearchDTO,
+                                   Model model,
+                                   @PageableDefault(size = 3, sort = "created", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<RecipeBriefDTO> allRecipesPage = this.recipeService.searchRecipes(recipeSearchDTO, pageable);
 

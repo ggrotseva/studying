@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <div th:replace="~{fragments/head}"/>
 
-    <title>My Profile</title>
+    <title th:text="|#{profile_of} ${userProfileDTO.username}|">My Profile</title>
 </head>
 
 <body>
@@ -18,7 +20,7 @@
 
                 <div class="row py-4">
                     <div class="col text-center text-white">
-                        <h2>My Profile</h2>
+                        <h2 th:text="#{profile}">User Profile</h2>
                     </div>
                 </div>
 
@@ -30,7 +32,7 @@
                                 <section class="bg-white box"
                                 th:object="${userProfileDTO}">
                                     <div class="box-head">
-                                        <h4>Username: <span th:text="*{username}"></span></h4>
+                                        <h4><span th:text="#{username} + ': '">Username: </span><span th:text="*{username}"></span></h4>
                                     </div>
                                     <div class="px-3 pt-3">
                                         <div class="text-center">
@@ -39,31 +41,27 @@
 
                                         <div class="row mt-3">
                                             <div class="col-6 text-right">
-                                                <p>Full name: </p>
-                                                <p>Email: </p>
+                                                <p th:text="#{full_name} + ': '">Full name: </p>
+                                                <p th:text="#{email} + ': '">Email: </p>
                                             </div>
                                             <div class="col-6 text-left">
-                                                <p th:text="${userProfileDTO.getFullName()}">My full name</p>
-                                                <p th:text="*{email}">myemail@mail.mail</p>
+                                                <p th:text="${userProfileDTO.getFullName()}">Full Name</p>
+                                                <p th:text="*{email}">email@mail.mail</p>
                                             </div>
                                         </div>
 
                                         <div class="row justify-content-center text-center p-3 box-bottom">
                                             <div class="col-4">
-                                                <form th:action="@{/profile/edit}">
-                                                    <button>Edit profile</button>
+                                                <form th:action="@{/profile/{id}/recipes(id=*{id})}">
+                                                    <button th:text="#{my_recipes}">My Recipes</button>
                                                 </form>
                                             </div>
-                                            <div class="col-4">
-                                                <form th:action="@{/categories}">
-                                                    <button>My Categories</button>
+                                            <div class="col-4" sec:authorize="hasRole('ADMIN')">
+                                                <form th:action="@{/admin/switch/{id}(id=*{id})}" th:method="POST">
+                                                    <button th:unless="${isAdmin}" th:text="#{make_admin}">Make Admin</button>
+                                                    <button th:if="${isAdmin}" th:text="#{remove_admin}">Remove Admin Role</button>
                                                 </form>
                                             </div>
-                                            <!-- <div class="col-4">
-                                                <form th:action="@{/recipes}">
-                                                    <button>My Recipes</button>
-                                                </form>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </section>
