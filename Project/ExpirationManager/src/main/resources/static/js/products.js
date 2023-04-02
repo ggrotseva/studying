@@ -47,14 +47,50 @@ function deleteProduct(productId) {
 // add product form element
 let productForm = document.getElementById("productForm");
 
+function isNameValid(name) {
+    document.getElementById("nameError").innerHTML = "";
+    if (typeof name === "undefined" || name.length == 0) {
+        let nameError = document.createElement("small");
+        nameError.setAttribute("class", "alert alert-danger p-1");
+        nameError.innerHTML = "Product Name is required.";
+        document.getElementById("nameError").appendChild(nameError);
+        return false;
+    }
+    return true;
+}
+
+function isDateValid(expiryDate) {
+    document.getElementById("dateError").innerHTML = "";
+    if(typeof expiryDate === "undefined" || expiryDate.length == 0) {
+        let expiryDateError = document.createElement("small");
+        expiryDateError.setAttribute("class", "alert alert-danger p-1");
+        expiryDateError.innerHTML = "Expiry Date is required.";
+        document.getElementById("dateError").appendChild(expiryDateError);
+        return false;
+    }
+    return true;
+}
+
 // productForm on submit event
 productForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    let nameInput = document.getElementById("name").value;
-    let expiryDateInput = document.getElementById("expiryDate").value;
+    let nameInputElement = document.getElementById("name");
+    let expiryDateInputElement = document.getElementById("expiryDate");
+
+    let validName = isNameValid(nameInputElement.value);
+    let validDate = isDateValid(expiryDateInputElement.value);
+
+    if (!validName || !validDate) {
+        return;
+//        throw new Error(`Invalid input`);
+    }
+
+    let nameInput = nameInputElement.value;
+    let expiryDateInput = expiryDateInputElement.value;
     let brandInput = document.getElementById("brand").value;
     let descriptionInput = document.getElementById("description").value;
+
 
     fetch(`${backendLocation}/categories/${categoryId}/products`, {
         method: 'POST',

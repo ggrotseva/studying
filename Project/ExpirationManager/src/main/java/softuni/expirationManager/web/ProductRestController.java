@@ -54,9 +54,8 @@ public class ProductRestController {
     @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("categoryId") Long categoryId,
-                                                      @RequestBody @Valid ProductAddDTO productAddDTO,
+                                                      @RequestBody ProductAddDTO productAddDTO,
                                                       @AuthenticationPrincipal MyUserDetails principal) {
-        // TODO: better validation?
 
         Long productId = this.productService.addProduct(productAddDTO, categoryId);
 
@@ -74,15 +73,15 @@ public class ProductRestController {
     }
 
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        // TODO: make it return custom Error class
-        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-
-        Map<String, String> fieldsErrors = new HashMap<>();
-        fieldErrors.forEach(err -> fieldsErrors.put(err.getField(), err.getDefaultMessage()));
-
-        return ResponseEntity.badRequest().body(fieldsErrors);
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+//        // TODO: make it return custom Error class
+//        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+//
+//        Map<String, String> fieldsErrors = new HashMap<>();
+//        fieldErrors.forEach(err -> fieldsErrors.put(err.getField(), err.getDefaultMessage()));
+//
+//        return ResponseEntity.badRequest().body(fieldsErrors);
+//    }
 
 }

@@ -106,6 +106,11 @@ public class RecipeService {
         return recipe;
     }
 
+    public Page<RecipeBriefDTO> getRecipesByAuthor(Long authorId, Pageable pageable) {
+        return this.recipeRepository.findAllByAuthorIdOrderByCreatedDesc(authorId, pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+    }
+
     private void handleImageUrlEdit(RecipeEntity recipe, RecipeEditDTO recipeEditDTO) {
         // if user doesn't upload an image
         if (recipeEditDTO.getImage() == null || recipeEditDTO.getImage().isEmpty()) {

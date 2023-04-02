@@ -35,6 +35,12 @@ public class UserService {
                 () -> new NoSuchElementException(Constants.NO_USER_FOUND)), UserProfileDTO.class);
     }
 
+    public String getUsernameById(Long id) {
+        return this.userRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException(Constants.NO_USER_FOUND))
+                .getUsername();
+    }
+
     public void switchAdminRole(Long userId) {
         UserEntity user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException(Constants.NO_USER_FOUND));

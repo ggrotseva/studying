@@ -69,7 +69,7 @@
                                             </thead>
 
                                             <tbody id="tableContent">
-<!--                                                Products here -->
+                                            <!-- Products here -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -84,26 +84,24 @@
                                               action="/" method="POST">
                                             <div class="form-row py-3">
                                                 <div class="col-md-3 py-1">
-                                                    <label for="name" class="sr-only" th:text="#{product_name}">Product Name</label>
+                                                    <label for="name" class="sr-only" th:text="#{product_name}">Product
+                                                        Name</label>
                                                     <input id="name" name="name" type="text"
                                                            class="form-control" th:placeholder="#{product_name}"/>
-<!--                                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"-->
-<!--                                                           class="alert alert-danger p-1">-->
-<!--                                                        Name is required.-->
-<!--                                                    </small>-->
+                                                    <div id="nameError"> </div>
+
                                                 </div>
                                                 <div class="col-md-2 py-1">
-                                                    <label for="expiryDate" class="sr-only" th:text="#{product_expiry}">Expiry Date</label>
+                                                    <label for="expiryDate" class="sr-only" th:text="#{product_expiry}">Expiry
+                                                        Date</label>
                                                     <input id="expiryDate" name="expiryDate" type="date"
                                                            class="form-control" th:placeholder="#{product_expiry}"/>
-<!--                                                    <small th:if="${#fields.hasErrors('expiryDate')}"-->
-<!--                                                           th:errors="*{expiryDate}"-->
-<!--                                                           class="alert alert-danger p-1">-->
-<!--                                                        Expiry date is required.-->
-<!--                                                    </small>-->
+                                                    <div id="dateError"> </div>
+
                                                 </div>
                                                 <div class="col-md-2 py-1">
-                                                    <label for="brand" class="sr-only" th:text="#{product_brand}">Brand</label>
+                                                    <label for="brand" class="sr-only"
+                                                           th:text="#{product_brand}">Brand</label>
                                                     <input id="brand" name="brand" type="text"
                                                            class="form-control"
                                                            th:placeholder="#{product_brand}"/>

@@ -1,26 +1,32 @@
 package softuni.expirationManager.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import softuni.expirationManager.model.MyUserDetails;
+import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
 import softuni.expirationManager.model.dtos.user.UserProfileDTO;
+import softuni.expirationManager.service.RecipeService;
 import softuni.expirationManager.service.UserService;
 
-import java.security.Principal;
 import java.util.Objects;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final RecipeService recipeService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RecipeService recipeService) {
         this.userService = userService;
+        this.recipeService = recipeService;
     }
 
     @GetMapping("/profile")
@@ -49,6 +55,19 @@ public class UserController {
         model.addAttribute("isAdmin", this.userService.isAdmin(userId));
 
         return "profile";
+    }
+
+    @GetMapping("/profile/{id}/recipes")
+    public String getProfile(@PathVariable("id") Long userId, Model model,
+                             @PageableDefault(size = 3, sort = "created", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<RecipeBriefDTO> recipesByAuthor = this.recipeService.getRecipesByAuthor(userId, pageable);
+        String authorUsername = this.userService.getUsernameById(userId);
+
+        model.addAttribute("username", authorUsername);
+        model.addAttribute("recipes", recipesByAuthor);
+
+        return "recipes-by";
     }
 
     @PostMapping("/admin/switch/{id}")

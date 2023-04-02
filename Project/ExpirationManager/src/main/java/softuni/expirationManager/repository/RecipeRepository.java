@@ -28,5 +28,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long>, Jpa
 
     Page<RecipeEntity> findAllByOrderByCreatedDesc(Pageable pageable);
 
+    Page<RecipeEntity> findAllByAuthorIdOrderByCreatedDesc(Long id, Pageable pageable);
+
     Page<RecipeEntity> findAll(Specification<RecipeEntity> spec, Pageable pageable);
 }

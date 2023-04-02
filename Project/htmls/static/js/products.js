@@ -19,6 +19,7 @@ function fillTableRow(product) {
     productHtml += '<td>' + formatDate(product.expiryDate) + '</td>\n';
     productHtml += '<td>' + product.brand + '</td>\n';
     productHtml += '<td>' + product.description + '</td>\n';
+    // productHtml += `<td><img class="close" src="../static/images/edit.svg" alt="edit" onclock="editProduct(${product.id})"></td>\n`;
     productHtml += `<td>\n
                         <button onclick="deleteProduct(${product.id})" class="close" aria-label="delete">\n
                             <span aria-hidden="true">&times;</span>\n
@@ -47,14 +48,50 @@ function deleteProduct(productId) {
 // add product form element
 let productForm = document.getElementById("productForm");
 
+function isNameValid(name) {
+    document.getElementById("nameError").innerHTML = "";
+    if (typeof name === "undefined" || name.length == 0) {
+        let nameError = document.createElement("small");
+        nameError.setAttribute("class", "alert alert-danger p-1");
+        nameError.innerHTML = "Product Name is required.";
+        document.getElementById("nameError").appendChild(nameError);
+        return false;
+    }
+    return true;
+}
+
+function isDateValid(expiryDate) {
+    document.getElementById("dateError").innerHTML = "";
+    if(typeof expiryDate === "undefined" || expiryDate.length == 0) {
+        let expiryDateError = document.createElement("small");
+        expiryDateError.setAttribute("class", "alert alert-danger p-1");
+        expiryDateError.innerHTML = "Expiry Date is required.";
+        document.getElementById("dateError").appendChild(expiryDateError);
+        return false;
+    }
+    return true;
+}
+
 // productForm on submit event
 productForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    let nameInput = document.getElementById("name").value;
-    let expiryDateInput = document.getElementById("expiryDate").value;
+    let nameInputElement = document.getElementById("name");
+    let expiryDateInputElement = document.getElementById("expiryDate");
+    console.log(expiryDateInputElement.value);
+
+    let validName = isNameValid(nameInputElement.value);
+    let validDate = isDateValid(expiryDateInputElement.value);
+
+    if (!validName || !validDate) {
+        throw new Error(`Invalid input`);
+    }
+
+    let nameInput = nameInputElement.value;
+    let expiryDateInput = expiryDateInputElement.value;
     let brandInput = document.getElementById("brand").value;
     let descriptionInput = document.getElementById("description").value;
+
 
     fetch(`${backendLocation}/categories/${categoryId}/products`, {
         method: 'POST',
@@ -80,7 +117,8 @@ productForm.addEventListener("submit", (event) => {
             .then(res => res.json())
             .then(product => fillTableRow(product))
     })
-})
+}).catch(error => console.log(error))
+
 
 // format date
 function formatDate(dateString) {
@@ -116,10 +154,10 @@ function formatDate(dateString) {
 //             })
 //             .then(isAvailable => {
 //                 if (isAvailable === false) {
-//                     let listElement = document.createElement("ul");	
-//                     let itemElement = document.createElement("li");	
-//                     itemElement.innerText = "You already have recipe with the same title.";	
-//                     listElement.appendChild(itemElement);	
+//                     let listElement = document.createElement("ul");
+//                     let itemElement = document.createElement("li");
+//                     itemElement.innerText = "You already have recipe with the same title.";
+//                     listElement.appendChild(itemElement);
 //                     titleErrorElement.appendChild(listElement);
 //                 }
 //             })

@@ -38,10 +38,11 @@
                 <a class="nav-link dropdown-toggle" th:href="@{/profile}" id="profileDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img style="max-height: 25px" alt="profile" th:src="@{/images/profile.png}">
+                    <span class="active" th:text="#{hello}+' '">Hello, </span><span th:text="${#authentication.principal.username}"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="recipeDropdown">
-                    <a class="dropdown-item" th:text="#{navbar_profile}" th:href="@{/profile}">Profile</a>
                     <a class="dropdown-item" th:text="#{navbar_categories}" th:href="@{/categories}">My Categories</a>
+                    <a class="dropdown-item" th:text="#{navbar_profile}" th:href="@{/profile}">Profile</a>
                     <form th:method="post" th:action="@{/logout}">
                         <button th:text="#{navbar_logout}" class="btn dropdown-item" type="submit">Logout</button>
                     </form>
