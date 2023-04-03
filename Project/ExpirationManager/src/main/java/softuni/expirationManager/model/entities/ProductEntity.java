@@ -28,6 +28,19 @@ public class ProductEntity {
     @JoinColumn(nullable = false)
     private CategoryEntity category;
 
+    public ProductEntity() {
+    }
+
+    public ProductEntity(String name, String brand,
+                         String description, LocalDate expiryDate,
+                         CategoryEntity category) {
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.expiryDate = expiryDate;
+        this.category = category;
+    }
+
     public Long getId() {
         return id;
     }

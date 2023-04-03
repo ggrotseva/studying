@@ -75,7 +75,6 @@ public class ProductRestController {
 
 //    @ExceptionHandler(MethodArgumentNotValidException.class)
 //    public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-//        // TODO: make it return custom Error class
 //        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 //
 //        Map<String, String> fieldsErrors = new HashMap<>();

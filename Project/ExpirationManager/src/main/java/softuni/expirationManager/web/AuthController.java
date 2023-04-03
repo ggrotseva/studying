@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
-import softuni.expirationManager.service.AuthService;
+import softuni.expirationManager.service.UserService;
 
 import java.io.IOException;
 
 @Controller
 public class AuthController {
 
-    private final AuthService authService;
+    private final UserService userService;
 
     @Autowired
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @ModelAttribute
@@ -46,7 +46,7 @@ public class AuthController {
             return "redirect:/users/register";
         }
 
-        this.authService.register(userRegisterDTO);
+        this.userService.register(userRegisterDTO);
 
         return "redirect:/users/login";
     }

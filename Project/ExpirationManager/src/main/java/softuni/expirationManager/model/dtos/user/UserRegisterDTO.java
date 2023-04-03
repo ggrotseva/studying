@@ -31,11 +31,11 @@ public class UserRegisterDTO {
     @UniqueEmail
     private String email;
 
-    @Size(min = 6, max = 50, message = "Password should be between 6 and 50 characters long.")
+    @Size(min = 5, max = 50, message = "Password should be between 5 and 50 characters long.")
     @NotNull(message = "Password is required")
     private String password;
 
-//    @Size(min = 6, max = 50, message = "Password should be between 6 and 50 characters long.")
+//    @Size(min = 5, max = 50, message = "Password should be between 5 and 50 characters long.")
     @NotBlank(message = "Password confirmation is required")
     private String confirmPassword;
 

@@ -56,7 +56,7 @@ public class CategoryController {
     public String postAddCategory(@Valid CategoryAddDTO categoryAddDTO,
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes,
-                                  Principal principal) throws IOException {
+                                  Principal principal) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddDTO", categoryAddDTO);
@@ -86,7 +86,7 @@ public class CategoryController {
     public String putEditCategory(@Valid CategoryEditDTO categoryEditDTO,
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes,
-                                  @AuthenticationPrincipal MyUserDetails principal) throws IOException {
+                                  @AuthenticationPrincipal MyUserDetails principal) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryEditDTO", categoryEditDTO);
@@ -113,7 +113,7 @@ public class CategoryController {
     @GetMapping("/categories/{id}")
     public String getProductsByCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
 
-        model.addAttribute("category", this.categoryService.getCategoryNameIdDTO(id));
+        model.addAttribute("category", this.categoryService.getCategoryNameIdDto(id));
 
         return "category";
     }

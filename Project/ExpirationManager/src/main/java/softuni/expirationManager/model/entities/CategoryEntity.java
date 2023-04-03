@@ -88,12 +88,4 @@ public class CategoryEntity {
         this.products = products;
         return this;
     }
-
-    public void addProduct(ProductEntity product) {
-        this.products.add(product);
-    }
-
-    public void removeProduct(ProductEntity product) {
-        this.products.remove(product);
-    }
 }

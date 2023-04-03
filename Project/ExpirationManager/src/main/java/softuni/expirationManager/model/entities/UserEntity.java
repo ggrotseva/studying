@@ -36,11 +36,19 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "user_role_id", referencedColumnName = "id"))
     private List<UserRoleEntity> userRoles;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
-
     public UserEntity() {
         this.userRoles = new ArrayList<>();
+    }
+
+    public UserEntity(String username, String firstName,
+                      String lastName, String email,
+                      String password, List<UserRoleEntity> userRoles) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.userRoles = userRoles;
     }
 
     public Long getId() {
@@ -103,15 +111,6 @@ public class UserEntity {
 
     public UserEntity setUserRoles(List<UserRoleEntity> userRoles) {
         this.userRoles = userRoles;
-        return this;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public UserEntity setDeleted(boolean deleted) {
-        isDeleted = deleted;
         return this;
     }
 

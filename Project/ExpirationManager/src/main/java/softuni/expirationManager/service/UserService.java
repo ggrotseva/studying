@@ -2,7 +2,10 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.model.entities.UserRoleEntity;
 import softuni.expirationManager.model.enums.UserRoleEnum;
@@ -11,6 +14,8 @@ import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.dtos.user.UserProfileDTO;
 import softuni.expirationManager.repository.UserRepository;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -19,15 +24,36 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
+    private final CategoryService categoryService;
+    private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository,
+                       CategoryService categoryService,
+                       PasswordEncoder passwordEncoder,
                        ModelMapper mapper) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.categoryService = categoryService;
+        this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
+    }
+
+    public void register(UserRegisterDTO userRegisterDTO) throws IOException {
+        UserEntity newUser = mapper.map(userRegisterDTO, UserEntity.class);
+
+        List<UserRoleEntity> allRoles = this.userRepository.count() == 0 ?
+                this.userRoleRepository.findAll() :
+                List.of(this.userRoleRepository.findByRole(UserRoleEnum.USER).orElseThrow());
+
+        newUser.setUserRoles(allRoles)
+                .setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+
+        this.userRepository.saveAndFlush(newUser);
+
+        this.categoryService.initStartCategoriesForUser(newUser);
     }
 
     public UserProfileDTO getUserInfoById(Long id) {
@@ -66,4 +92,5 @@ public class UserService {
                 .stream()
                 .anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN));
     }
+
 }

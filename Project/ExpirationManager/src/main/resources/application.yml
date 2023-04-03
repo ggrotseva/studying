@@ -29,9 +29,13 @@ spring:
         format_sql: false
         show_sql: true
     defer-datasource-initialization: true
-#  Cloudinary Properties
+# Cloudinary Properties
 expirationManager:
   cloudinary:
     cloud-name: ${CLOUD_NAME}
     api-key: ${API_KEY}
     api-secret: ${API_SECRET}
+# Custom properties
+  default:
+    password: ${DEFAULT_PASS:123456}
+    mailDomain: ${DEFAULT_DOMAIN:@email.email}
