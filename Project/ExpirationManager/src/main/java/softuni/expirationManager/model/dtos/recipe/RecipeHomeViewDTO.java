@@ -8,6 +8,7 @@ public class RecipeHomeViewDTO {
     private String name;
     private RecipeType type;
     private String imageUrl;
+    private String products;
 
     public Long getId() {
         return id;
@@ -42,6 +43,15 @@ public class RecipeHomeViewDTO {
 
     public RecipeHomeViewDTO setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public String getProducts() {
+        return products;
+    }
+
+    public RecipeHomeViewDTO setProducts(String products) {
+        this.products = products;
         return this;
     }
 }

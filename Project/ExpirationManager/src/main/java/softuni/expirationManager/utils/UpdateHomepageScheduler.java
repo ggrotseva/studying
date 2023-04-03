@@ -8,6 +8,6 @@ public class UpdateHomepageScheduler {
 
     @Scheduled(cron = "0 0 0 * * *")
     public void updateHomepage() {
-
+        // TODO
     }
 }

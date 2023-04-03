@@ -9,11 +9,11 @@ import softuni.expirationManager.model.dtos.recipe.RecipeSearchDTO;
 import softuni.expirationManager.model.entities.RecipeEntity;
 import softuni.expirationManager.model.enums.RecipeType;
 
-public class RecipeSpecification implements Specification<RecipeEntity> {
+public class RecipeSearchSpecification implements Specification<RecipeEntity> {
 
     private final RecipeSearchDTO recipeSearchDTO;
 
-    public RecipeSpecification(RecipeSearchDTO recipeSearchDTO) {
+    public RecipeSearchSpecification(RecipeSearchDTO recipeSearchDTO) {
         this.recipeSearchDTO = recipeSearchDTO;
     }
 

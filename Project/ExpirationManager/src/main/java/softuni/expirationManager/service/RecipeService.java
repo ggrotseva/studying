@@ -2,10 +2,11 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.repository.RecipeSpecification;
+import softuni.expirationManager.repository.RecipeSearchSpecification;
 import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
@@ -17,6 +18,8 @@ import softuni.expirationManager.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,7 +78,7 @@ public class RecipeService {
 
         handleImageUrlEdit(recipe, recipeEditDTO);
 
-        recipe.setName(recipeEditDTO.getName())
+        recipe = recipe.setName(recipeEditDTO.getName())
                 .setRecipeType(recipeEditDTO.getType())
                 .setIngredientsDescription(recipeEditDTO.getIngredientsDescription())
                 .setPreparation(recipeEditDTO.getPreparation())
@@ -127,10 +130,21 @@ public class RecipeService {
         }
     }
 
+    public Page<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
+        return this.recipeRepository.findAllByOrderByCreatedDesc(pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+    }
+
+    public Page<RecipeBriefDTO> searchRecipes(RecipeSearchDTO recipeSearchDTO, Pageable pageable) {
+        return this.recipeRepository.findAll(new RecipeSearchSpecification(recipeSearchDTO), pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+    }
+
+    @Cacheable("recipeIdeas")
     public List<RecipeHomeViewDTO> getRecipeIdeas(List<ProductHomeViewDTO> expiredProducts,
                                                   List<ProductHomeViewDTO> closeToExpiryProducts) {
 
-        Set<RecipeEntity> recipes = new HashSet<>();
+        List<RecipeHomeViewDTO> recipes = new ArrayList<>();
 
         if (!expiredProducts.isEmpty()) {
 
@@ -139,7 +153,11 @@ public class RecipeService {
                     .collect(Collectors.joining("|"));
 
             recipes = this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
-                    .orElse(new HashSet<>());
+                    .orElse(new HashSet<>())
+                    .stream()
+                    .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
+                            .setProducts(extractIncludedProducts(r, productsRegex)))
+                    .collect(Collectors.toList());
 
         } else {
             if (!closeToExpiryProducts.isEmpty()) {
@@ -149,28 +167,38 @@ public class RecipeService {
                         .collect(Collectors.joining("|"));
 
                 recipes = this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
-                        .orElse(new HashSet<>());
+                        .orElse(new HashSet<>())
+                        .stream()
+                        .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
+                                .setProducts(extractIncludedProducts(r, productsRegex)))
+                        .collect(Collectors.toList());
             }
 
         }
 
         if (recipes.isEmpty()) {
             recipes = this.recipeRepository.findFirst25ByOrderByCreatedDesc()
-                    .orElse(new HashSet<>());
+                    .orElse(new HashSet<>())
+                    .stream()
+                    .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
+                    .collect(Collectors.toList());
         }
 
-        return recipes.stream()
-                .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
-                .collect(Collectors.toList());
+        return recipes;
     }
 
-    public Page<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
-        return this.recipeRepository.findAllByOrderByCreatedDesc(pageable)
-                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
-    }
+    private String extractIncludedProducts(RecipeEntity recipe, String productsRegex) {
+        List<String> matched = new ArrayList<>();
 
-    public Page<RecipeBriefDTO> searchRecipes(RecipeSearchDTO recipeSearchDTO, Pageable pageable) {
-        return this.recipeRepository.findAll(new RecipeSpecification(recipeSearchDTO), pageable)
-                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+        Pattern pattern = Pattern.compile(productsRegex);
+        Matcher matcher = pattern.matcher(recipe.getIngredientsDescription());
+
+        while (matcher.find()) {
+            String match = matcher.group();
+
+            matched.add(match);
+        }
+
+        return String.join("; ", matched);
     }
 }

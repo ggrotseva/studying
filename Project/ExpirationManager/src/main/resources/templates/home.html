@@ -123,7 +123,7 @@
                                                     <b th:text="#{recipe_type} + ' '">Type: </b><span th:text="*{type}"></span>
                                                 </p>
                                                 <p>
-                                                    <b th:text="#{recipe_includes} + ': '">Includes: </b><span>your product</span>
+                                                    <b th:text="#{recipe_includes} + ': '">Includes: </b><span th:text="*{products}">your product</span>
                                                 </p>
                                             </div>
                                         </div>
