@@ -159,8 +159,8 @@ public class DbInitService {
             products.add(new ProductEntity("паста", "Deroni", "царевично пенне", LocalDate.of(2023, 1,8), pasta));
             products.add(new ProductEntity("спагети", "Barilla", "", LocalDate.of(2024, 10,5), pasta));
 
-            products.add(new ProductEntity("яйца", "", "", LocalDate.of(2023, 4,11), fridge));
-            products.add(new ProductEntity("масло", "немско", "250гр", LocalDate.of(2023, 6,28), fridge));
+            products.add(new ProductEntity("яйца", "p&p", "", LocalDate.of(2023, 4,11), fridge));
+            products.add(new ProductEntity("масло", "немско", "250гр", LocalDate.of(2023, 4,28), fridge));
 
             this.productRepository.saveAllAndFlush(products);
         }
