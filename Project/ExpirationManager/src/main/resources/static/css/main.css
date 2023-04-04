@@ -96,7 +96,8 @@ footer {
 }
 
 .box-recipes {
-     height: 600px;
+     min-height: 60px;
+     max-height: 600px;
      overflow: auto;
 }
 

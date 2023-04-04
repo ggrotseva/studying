@@ -34,11 +34,12 @@
 
                                 <div class="box-content px-2">
                                     <table
-                                           class="table table-striped table-sm">
+                                            class="table table-striped table-sm">
                                         <thead>
                                         <tr>
                                             <th style="width: 60%;"><b th:text="#{product}">Product</b></th>
-                                            <th style="width: 40%;"><b th:text="#{product_expiry} + ':'">Expiry Date</b></th>
+                                            <th style="width: 40%;"><b th:text="#{product_expiry} + ':'">Expiry Date</b>
+                                            </th>
                                         </tr>
                                         </thead>
 
@@ -46,7 +47,8 @@
                                         <tr th:each="product : ${expiredProducts}" th:object="${product}">
                                             <td>
                                                 <a th:href="@{'/categories/' + *{categoryId} + '#product' + *{id}}"
-                                                class="text-dark green-link" th:text="*{name} + ' - ' + *{brand}">Name - Brand</a>
+                                                   class="text-dark green-link" th:text="*{name} + ' - ' + *{brand}">Name
+                                                    - Brand</a>
                                             </td>
                                             <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
                                                 Date
@@ -71,7 +73,8 @@
                                         <thead>
                                         <tr>
                                             <th style="width: 60%;"><b th:text="#{product}">Product</b></th>
-                                            <th style="width: 40%;"><b th:text="#{product_expiry} + ':'">Expiry Date</b></th>
+                                            <th style="width: 40%;"><b th:text="#{product_expiry} + ':'">Expiry Date</b>
+                                            </th>
                                         </tr>
                                         </thead>
 
@@ -108,6 +111,12 @@
 
                                 <div class="box-recipes px-3">
                                     <div class="row">
+                                        <div class="col text-center h5 pt-3"
+                                             th:if="${recipes.empty}"
+                                             th:text="#{contribute_recipes}">
+                                            Still no recipes found. You can contribute by adding your favorite recipes.
+                                        </div>
+
                                         <div class="card col-sm-6 col-md-4 pt-3"
                                              th:each="recipe : ${recipes}" th:object="${recipe}">
                                             <a th:href="@{/recipes/{id}(id=*{id})}">
@@ -121,10 +130,12 @@
                                                     </a>
                                                 </p>
                                                 <p>
-                                                    <b th:text="#{recipe_type} + ' '">Type: </b><span th:text="*{type}"></span>
+                                                    <b th:text="#{recipe_type} + ' '">Type: </b><span
+                                                        th:text="*{type}"></span>
                                                 </p>
                                                 <p th:if="*{products}">
-                                                    <b th:text="#{recipe_includes} + ': '">Includes: </b><span th:text="*{products}">your product</span>
+                                                    <b th:text="#{recipe_includes} + ': '">Includes: </b><span
+                                                        th:text="*{products}">your product</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -134,8 +145,15 @@
 
                                 <div class="row justify-content-center p-3">
                                     <div class="col">
-                                        <form th:action="@{/recipes}">
-                                            <button class="btn my-btn" type="submit" th:text="#{all_recipes}">All Recipes</button>
+                                        <form th:unless="${recipes.empty}" th:action="@{/recipes}">
+                                            <button class="btn my-btn" type="submit" th:text="#{all_recipes}">All
+                                                Recipes
+                                            </button>
+                                        </form>
+                                        <form th:if="${recipes.empty}" th:action="@{/recipes/add}">
+                                            <button class="btn my-btn" type="submit" th:text="#{recipe_add}">Add
+                                                Recipe
+                                            </button>
                                         </form>
                                     </div>
                                 </div>

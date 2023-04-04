@@ -2,7 +2,6 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ public class RecipeService {
 
     public boolean authorizeActions(MyUserDetails userDetails, Long recipeId) {
         Long categoryUserId = this.recipeRepository.findById(recipeId)
-                    .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
                 .getAuthor().getId();
 
         return userDetails.getId().equals(categoryUserId)
@@ -114,6 +113,40 @@ public class RecipeService {
                 .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
     }
 
+    public Page<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
+        return this.recipeRepository.findAllByOrderByCreatedDesc(pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+    }
+
+    public Page<RecipeBriefDTO> searchRecipes(RecipeSearchDTO recipeSearchDTO, Pageable pageable) {
+        return this.recipeRepository.findAll(new RecipeSearchSpecification(recipeSearchDTO), pageable)
+                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
+    }
+
+    public List<RecipeHomeViewDTO> getRecipeIdeas(List<ProductHomeViewDTO> expiredProducts,
+                                                  List<ProductHomeViewDTO> closeToExpiryProducts) {
+
+        List<RecipeHomeViewDTO> recipes = new ArrayList<>();
+
+        if (!expiredProducts.isEmpty()) {
+            recipes.addAll(extractRecipesFromProducts(expiredProducts));
+        }
+
+        if (!closeToExpiryProducts.isEmpty()) {
+            recipes.addAll(extractRecipesFromProducts(closeToExpiryProducts));
+        }
+
+        if (recipes.isEmpty()) {
+            recipes = this.recipeRepository.findFirst25ByOrderByCreatedDesc()
+                    .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
+                    .stream()
+                    .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
+                    .collect(Collectors.toList());
+        }
+
+        return recipes;
+    }
+
     private void handleImageUrlEdit(RecipeEntity recipe, RecipeEditDTO recipeEditDTO) {
         // if user doesn't upload an image
         if (recipeEditDTO.getImage() == null || recipeEditDTO.getImage().isEmpty()) {
@@ -130,75 +163,33 @@ public class RecipeService {
         }
     }
 
-    public Page<RecipeBriefDTO> getAllRecipeBriefs(Pageable pageable) {
-        return this.recipeRepository.findAllByOrderByCreatedDesc(pageable)
-                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
-    }
-
-    public Page<RecipeBriefDTO> searchRecipes(RecipeSearchDTO recipeSearchDTO, Pageable pageable) {
-        return this.recipeRepository.findAll(new RecipeSearchSpecification(recipeSearchDTO), pageable)
-                .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
-    }
-
-    @Cacheable("recipeIdeas")
-    public List<RecipeHomeViewDTO> getRecipeIdeas(List<ProductHomeViewDTO> expiredProducts,
-                                                  List<ProductHomeViewDTO> closeToExpiryProducts) {
-
-        List<RecipeHomeViewDTO> recipes = new ArrayList<>();
-
-        if (!expiredProducts.isEmpty()) {
-
-            String productsRegex = expiredProducts.stream()
-                    .map(ProductHomeViewDTO::getName)
-                    .collect(Collectors.joining("|"));
-
-            recipes = this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
-                    .orElse(new HashSet<>())
-                    .stream()
-                    .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
-                            .setProducts(extractIncludedProducts(r, productsRegex)))
-                    .collect(Collectors.toList());
-
-        } else {
-            if (!closeToExpiryProducts.isEmpty()) {
-
-                String productsRegex = closeToExpiryProducts.stream()
-                        .map(ProductHomeViewDTO::getName)
-                        .collect(Collectors.joining("|"));
-
-                recipes = this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
-                        .orElse(new HashSet<>())
-                        .stream()
-                        .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
-                                .setProducts(extractIncludedProducts(r, productsRegex)))
-                        .collect(Collectors.toList());
-            }
-
-        }
-
-        if (recipes.isEmpty()) {
-            recipes = this.recipeRepository.findFirst25ByOrderByCreatedDesc()
-                    .orElse(new HashSet<>())
-                    .stream()
-                    .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
-                    .collect(Collectors.toList());
-        }
-
-        return recipes;
-    }
-
     private String extractIncludedProducts(RecipeEntity recipe, String productsRegex) {
-        List<String> matched = new ArrayList<>();
+
+        Set<String> matched = new HashSet<>();
 
         Pattern pattern = Pattern.compile(productsRegex);
         Matcher matcher = pattern.matcher(recipe.getIngredientsDescription());
 
         while (matcher.find()) {
             String match = matcher.group();
-
             matched.add(match);
         }
 
         return String.join("; ", matched);
+    }
+
+    private List<RecipeHomeViewDTO> extractRecipesFromProducts(List<ProductHomeViewDTO> products) {
+
+        String productsRegex = products.stream()
+                .map(ProductHomeViewDTO::getName)
+                .collect(Collectors.joining("|"));
+
+        return this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
+                .orElse(new HashSet<>())
+                .stream()
+                .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
+                        .setProducts(extractIncludedProducts(r, productsRegex)))
+                .collect(Collectors.toList());
+
     }
 }
