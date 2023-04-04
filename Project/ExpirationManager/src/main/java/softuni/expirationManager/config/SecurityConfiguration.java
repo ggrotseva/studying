@@ -36,7 +36,11 @@ public class SecurityConfiguration {
              .and()
                 .rememberMe().key("rememberMeKey")
              .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID", "remember-me")
+                .invalidateHttpSession(true);
 
         return httpSecurity.build();
     }
