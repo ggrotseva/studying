@@ -32,7 +32,7 @@
                                     <h4 th:text="#{expired_items}">Expired items:</h4>
                                 </div>
 
-                                <div class="box-content px-3 pt-3">
+                                <div class="box-content px-2">
                                     <table
                                            class="table table-striped table-sm">
                                         <thead>
@@ -66,7 +66,7 @@
                                     <h4 th:text="#{expiry_close}">Close to expiry items:</h4>
                                 </div>
 
-                                <div class="box-content px-3 pt-3">
+                                <div class="box-content px-2">
                                     <table class="table table-striped table-sm">
                                         <thead>
                                         <tr>
@@ -78,8 +78,9 @@
                                         <tbody>
                                         <tr th:each="product : ${closeToExpiryProducts}" th:object="${product}">
                                             <td>
-                                                <a th:href="@{'/categories/' + *{categoryId} + '#product' + *{id}}"
-                                                   class="text-dark green-link" th:text="*{name} + ' - ' + *{brand}">Name - Brand</a>
+                                                <a class="text-dark green-link"
+                                                   th:href="@{'/categories/' + *{categoryId} + '#product' + *{id}}"
+                                                   th:text="*{name} + ' - ' + *{brand}">Name - Brand</a>
                                             </td>
                                             <td th:text="${#temporals.format(product.expiryDate, 'dd/MM/yyyy')}">Expiry
                                                 Date
@@ -122,7 +123,7 @@
                                                 <p>
                                                     <b th:text="#{recipe_type} + ' '">Type: </b><span th:text="*{type}"></span>
                                                 </p>
-                                                <p>
+                                                <p th:if="*{products}">
                                                     <b th:text="#{recipe_includes} + ': '">Includes: </b><span th:text="*{products}">your product</span>
                                                 </p>
                                             </div>

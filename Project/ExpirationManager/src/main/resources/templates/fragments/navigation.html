@@ -20,6 +20,9 @@
                 <a class="nav-link" th:text="#{navbar_register}" th:href="@{/users/register}">Register</a>
             </li>
 
+            <li sec:authorize="isAuthenticated()" class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Home</a>
+            </li>
             <li sec:authorize="hasRole('USER')" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" th:text="#{navbar_recipes}" th:href="@{/recipes}" id="recipeDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
