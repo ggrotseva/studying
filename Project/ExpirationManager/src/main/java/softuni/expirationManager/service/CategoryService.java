@@ -1,6 +1,8 @@
 package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,8 @@ import static softuni.expirationManager.utils.Constants.*;
 
 @Service
 public class CategoryService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
 
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
@@ -54,7 +58,7 @@ public class CategoryService {
             FileInputStream fis = new FileInputStream(DEFAULT_ICON_PATH);
             defaultIcon = fis.readAllBytes();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            LOGGER.info("An error occurred while reading from path: " + DEFAULT_ICON_PATH);
         }
 
         final byte[] finalDefaultIcon = defaultIcon;
@@ -73,18 +77,18 @@ public class CategoryService {
     public void addCategory(CategoryAddDTO categoryAddDTO, String username) {
         UserEntity principalUser = this.userRepository.findByUsername(username).orElseThrow();
 
+        CategoryEntity newCategory = new CategoryEntity().setName(categoryAddDTO.getName())
+                .setDescription(categoryAddDTO.getDescription())
+                .setUser(principalUser);
+
         try {
-            CategoryEntity newCategory = new CategoryEntity().setName(categoryAddDTO.getName())
-                    .setDescription(categoryAddDTO.getDescription())
-                    .setIcon(categoryAddDTO.getIcon().getBytes());
-
-            newCategory.setUser(principalUser);
-
-            this.categoryRepository.saveAndFlush(newCategory);
-
+            newCategory.setIcon(categoryAddDTO.getIcon().getBytes());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            newCategory.setIcon(null);
+            LOGGER.info("An error occurred while reading from html form of file: " + categoryAddDTO.getIcon().getOriginalFilename());
         }
+
+        this.categoryRepository.saveAndFlush(newCategory);
     }
 
     public void editCategory(CategoryEditDTO categoryEditDTO) {
@@ -98,7 +102,8 @@ public class CategoryService {
             try {
                 category.setIcon(categoryEditDTO.getIcon().getBytes());
             } catch (IOException e) {
-                System.out.println(e.getMessage());
+                category.setIcon(null);
+                LOGGER.info("An error occurred while reading from html form of file: " + categoryEditDTO.getIcon().getOriginalFilename());
             }
         }
 
