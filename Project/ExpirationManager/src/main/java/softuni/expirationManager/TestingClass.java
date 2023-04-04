@@ -1,6 +1,9 @@
 package softuni.expirationManager;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Component;
 import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.dtos.product.ProductViewDTO;
 import softuni.expirationManager.model.entities.CategoryEntity;
@@ -13,20 +16,26 @@ import softuni.expirationManager.service.ProductService;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-//@Component
+@Component
 public class TestingClass implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
     private final ProductRepository productRepository;
     private final ProductService productService;
+    private final CacheManager cacheManager;
 
     @Autowired
-    public TestingClass(CategoryRepository categoryRepository, CategoryService categoryService, ProductRepository productRepository, ProductService productService) {
+    public TestingClass(CategoryRepository categoryRepository,
+                        CategoryService categoryService,
+                        ProductRepository productRepository,
+                        ProductService productService,
+                        CacheManager cacheManager) {
         this.categoryRepository = categoryRepository;
         this.categoryService = categoryService;
         this.productRepository = productRepository;
         this.productService = productService;
+        this.cacheManager = cacheManager;
     }
 
 //    @Transactional
@@ -42,10 +51,16 @@ public class TestingClass implements CommandLineRunner {
 //
 //        this.productRepository.save(product);
 
-        List<ProductViewDTO> cat10 = this.productService.findAllByCategoryId(30L);
+//        List<ProductViewDTO> cat10 = this.productService.findAllByCategoryId(30L);
+//
+//        CategoryEntity categoryEntity = this.categoryRepository.findById(30L)
+//                .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
 
-        CategoryEntity categoryEntity = this.categoryRepository.findById(30L)
-                .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
+    }
 
+    @PostConstruct
+    public void clearCache() {
+        this.cacheManager.getCache("expiredProducts").clear();
+        this.cacheManager.getCache("closeToExpiryProducts").clear();
     }
 }

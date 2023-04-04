@@ -4,6 +4,7 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import softuni.expirationManager.model.dtos.category.CategoryViewDTO;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Configuration
+@EnableCaching
 public class Config {
 
     @Bean
