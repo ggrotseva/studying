@@ -24,7 +24,8 @@ public class ApplicationUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return map(this.userRepository.findByUsername(username).orElseThrow());
+        return map(this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username '" + username + "' not found!")));
     }
 
     private UserDetails map(UserEntity userEntity) {
