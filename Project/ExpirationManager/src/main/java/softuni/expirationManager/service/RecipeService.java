@@ -2,6 +2,7 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -123,28 +124,29 @@ public class RecipeService {
                 .map(r -> this.mapper.map(r, RecipeBriefDTO.class));
     }
 
+    @Cacheable("recipeIdeas")
     public List<RecipeHomeViewDTO> getRecipeIdeas(List<ProductHomeViewDTO> expiredProducts,
                                                   List<ProductHomeViewDTO> closeToExpiryProducts) {
 
-        List<RecipeHomeViewDTO> recipes = new ArrayList<>();
+        List<RecipeHomeViewDTO> recipeIdeas = new ArrayList<>();
 
         if (!expiredProducts.isEmpty()) {
-            recipes.addAll(extractRecipesFromProducts(expiredProducts));
+            recipeIdeas.addAll(extractRecipesFromProducts(expiredProducts));
         }
 
         if (!closeToExpiryProducts.isEmpty()) {
-            recipes.addAll(extractRecipesFromProducts(closeToExpiryProducts));
+            recipeIdeas.addAll(extractRecipesFromProducts(closeToExpiryProducts));
         }
 
-        if (recipes.isEmpty()) {
-            recipes = this.recipeRepository.findFirst25ByOrderByCreatedDesc()
+        if (recipeIdeas.isEmpty()) {
+            recipeIdeas = this.recipeRepository.findFirst25ByOrderByCreatedDesc()
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
                     .stream()
                     .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
                     .collect(Collectors.toList());
         }
 
-        return recipes;
+        return recipeIdeas;
     }
 
     private void handleImageUrlEdit(RecipeEntity recipe, RecipeEditDTO recipeEditDTO) {
