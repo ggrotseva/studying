@@ -35,24 +35,26 @@ public class UserController {
         UserProfileDTO userProfileDTO = this.userService.getUserInfoById(userDetails.getId());
 
         model.addAttribute("userProfileDTO", userProfileDTO);
-        model.addAttribute("isAdmin", userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
+        model.addAttribute("isAdmin", isPrincipalAdmin(userDetails));
+        model.addAttribute("seeSubscribe", true);
 
         return "profile";
     }
 
     @GetMapping("/profile/{id}")
-    public String getProfile(@PathVariable("id") Long userId,
-                             Model model,
-                             @AuthenticationPrincipal MyUserDetails userDetails) {
+    public String getProfile(@AuthenticationPrincipal MyUserDetails userDetails,
+                             @PathVariable("id") Long userId, Model model) {
 
         if (Objects.equals(userId, userDetails.getId())) {
             return "redirect:/profile";
         }
 
         UserProfileDTO userProfileDTO = this.userService.getUserInfoById(userId);
+        boolean isAdmin = this.userService.isAdmin(userId);
 
         model.addAttribute("userProfileDTO", userProfileDTO);
         model.addAttribute("isAdmin", this.userService.isAdmin(userId));
+        model.addAttribute("seeSubscribe", isPrincipalAdmin(userDetails));
 
         return "profile";
     }
@@ -70,6 +72,14 @@ public class UserController {
         return "recipes-by";
     }
 
+    @PostMapping("/profile/{id}/subscription")
+    public String switchSubscription(@PathVariable("id") Long userId) {
+
+        this.userService.switchSubscription(userId);
+
+        return "redirect:/profile/" + userId;
+    }
+
     @PostMapping("/admin/switch/{id}")
     public String addRole(@PathVariable("id") Long userId) {
 
@@ -78,4 +88,7 @@ public class UserController {
         return "redirect:/profile/" + userId;
     }
 
+    private boolean isPrincipalAdmin(@AuthenticationPrincipal MyUserDetails userDetails) {
+        return userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
 }

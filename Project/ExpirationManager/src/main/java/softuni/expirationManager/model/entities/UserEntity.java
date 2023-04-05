@@ -36,19 +36,24 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "user_role_id", referencedColumnName = "id"))
     private List<UserRoleEntity> userRoles;
 
+    @Column(name="is_subscribed")
+    private boolean isSubscribed;
+
     public UserEntity() {
         this.userRoles = new ArrayList<>();
     }
 
     public UserEntity(String username, String firstName,
                       String lastName, String email,
-                      String password, List<UserRoleEntity> userRoles) {
+                      String password, List<UserRoleEntity> userRoles,
+                      boolean isSubscribed) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.userRoles = userRoles;
+        this.isSubscribed = isSubscribed;
     }
 
     public Long getId() {
@@ -111,6 +116,15 @@ public class UserEntity {
 
     public UserEntity setUserRoles(List<UserRoleEntity> userRoles) {
         this.userRoles = userRoles;
+        return this;
+    }
+
+    public boolean isSubscribed() {
+        return isSubscribed;
+    }
+
+    public UserEntity setSubscribed(boolean subscribed) {
+        isSubscribed = subscribed;
         return this;
     }
 

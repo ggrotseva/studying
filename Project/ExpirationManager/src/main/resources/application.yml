@@ -29,13 +29,20 @@ spring:
         format_sql: false
         show_sql: true
     defer-datasource-initialization: true
-# Cloudinary Properties
+
 expirationManager:
+  # Custom properties
+  default:
+    password: ${DEFAULT_PASS:123456}
+    mailDomain: ${DEFAULT_DOMAIN:@email.email}
+  # Cloudinary Properties
   cloudinary:
     cloud-name: ${CLOUD_NAME}
     api-key: ${API_KEY}
     api-secret: ${API_SECRET}
-# Custom properties
-  default:
-    password: ${DEFAULT_PASS:123456}
-    mailDomain: ${DEFAULT_DOMAIN:@email.email}
+# Mailhog properties
+mailhog:
+  host: ${MAIL_HOST:localhost}
+  port: 1025
+  username: "expiration@manager.bg"
+  password: ""

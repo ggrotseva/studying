@@ -84,7 +84,7 @@ public class DbInitService {
             UserEntity admin = new UserEntity("admin", "Admin", "Adminov",
                     "admin.adminov" + mailDomain,
                     this.passwordEncoder.encode(defaultPass),
-                    this.userRoleRepository.findAll());
+                    this.userRoleRepository.findAll(), true);
 
             this.userRepository.saveAndFlush(admin);
 
@@ -94,19 +94,16 @@ public class DbInitService {
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_ROLE_FOUND));
 
             users.add(new UserEntity("anito", "Anna", "Atanasova",
-                    "anna.atanasova" + mailDomain,
-                    this.passwordEncoder.encode(defaultPass),
-                    List.of(roleUser)));
+                    "anna.atanasova" + mailDomain, this.passwordEncoder.encode(defaultPass),
+                    List.of(roleUser), true));
 
             users.add(new UserEntity("peshkata", "Pesho", "Petrov",
-                    "pesho.petrov" + mailDomain,
-                    this.passwordEncoder.encode(defaultPass),
-                    List.of(roleUser)));
+                    "pesho.petrov" + mailDomain, this.passwordEncoder.encode(defaultPass),
+                    List.of(roleUser), true));
 
             users.add(new UserEntity("nikita", "Nikoleta", "Nikolova",
-                    "nikita.nikolova" + mailDomain,
-                    this.passwordEncoder.encode(defaultPass),
-                    List.of(roleUser)));
+                    "nikita.nikolova" + mailDomain, this.passwordEncoder.encode(defaultPass),
+                    List.of(roleUser), true));
 
             this.userRepository.saveAllAndFlush(users);
         }

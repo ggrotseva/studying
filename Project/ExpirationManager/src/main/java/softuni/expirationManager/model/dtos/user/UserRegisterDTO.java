@@ -39,6 +39,8 @@ public class UserRegisterDTO {
     @NotBlank(message = "Password confirmation is required")
     private String confirmPassword;
 
+    private boolean isSubscribed;
+
     public String getUsername() {
         return username;
     }
@@ -90,6 +92,15 @@ public class UserRegisterDTO {
 
     public UserRegisterDTO setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+        return this;
+    }
+
+    public boolean isSubscribed() {
+        return isSubscribed;
+    }
+
+    public UserRegisterDTO setSubscribed(boolean subscribed) {
+        isSubscribed = subscribed;
         return this;
     }
 }

@@ -7,6 +7,7 @@ public class UserProfileDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private boolean isSubscribed;
 
     public Long getId() {
         return id;
@@ -53,6 +54,15 @@ public class UserProfileDTO {
 
     public UserProfileDTO setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public boolean isSubscribed() {
+        return isSubscribed;
+    }
+
+    public UserProfileDTO setSubscribed(boolean subscribed) {
+        isSubscribed = subscribed;
         return this;
     }
 }

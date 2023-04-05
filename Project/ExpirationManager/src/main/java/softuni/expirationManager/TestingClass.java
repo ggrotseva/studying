@@ -16,7 +16,7 @@ import softuni.expirationManager.service.ProductService;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Component
+//@Component
 public class TestingClass implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
@@ -55,12 +55,10 @@ public class TestingClass implements CommandLineRunner {
 //
 //        CategoryEntity categoryEntity = this.categoryRepository.findById(30L)
 //                .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
-
     }
 
     @PostConstruct
     public void clearCache() {
-        this.cacheManager.getCache("expiredProducts").clear();
-        this.cacheManager.getCache("closeToExpiryProducts").clear();
+        this.cacheManager.getCache("recipeIdeas").clear();
     }
 }

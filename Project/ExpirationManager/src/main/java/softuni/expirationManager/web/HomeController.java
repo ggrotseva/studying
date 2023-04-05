@@ -19,13 +19,11 @@ public class HomeController {
 
     private final RecipeService recipeService;
     private final ProductService productService;
-    private final CacheManager cacheManager;
 
     @Autowired
-    public HomeController(RecipeService recipeService, ProductService productService, CacheManager cacheManager) {
+    public HomeController(RecipeService recipeService, ProductService productService) {
         this.recipeService = recipeService;
         this.productService = productService;
-        this.cacheManager = cacheManager;
     }
 
     @GetMapping("/")
@@ -33,9 +31,6 @@ public class HomeController {
         if (principal == null) {
             return "index";
         }
-
-        Cache expiredProducts1 = this.cacheManager.getCache("expiredProducts");
-        Cache closeToExpiryProducts1 = this.cacheManager.getCache("closeToExpiryProducts");
 
         List<ProductHomeViewDTO> expiredProducts = this.productService.getExpiredProducts(principal.getName());
         List<ProductHomeViewDTO> closeToExpiryProducts = this.productService.getCloseToExpiryProducts(principal.getName());

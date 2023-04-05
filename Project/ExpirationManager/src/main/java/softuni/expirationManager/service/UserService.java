@@ -85,6 +85,22 @@ public class UserService {
         this.userRepository.save(user);
     }
 
+    public void switchSubscription(Long userId) {
+        UserEntity user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException(Constants.NO_USER_FOUND));
+
+        user.setSubscribed(!user.isSubscribed());
+
+        this.userRepository.saveAndFlush(user);
+    }
+
+    public List<UserProfileDTO> getSubscribedUsersInfo() {
+        return this.userRepository.findByIsSubscribedTrue()
+                .stream()
+                .map(u -> this.mapper.map(u, UserProfileDTO.class))
+                .toList();
+    }
+
     public boolean isAdmin(Long userId) {
         return this.userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException(Constants.NO_USER_FOUND))
@@ -92,5 +108,4 @@ public class UserService {
                 .stream()
                 .anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN));
     }
-
 }
