@@ -23,7 +23,7 @@ public class ImageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
-    private Cloudinary cloudinary;
+    private final Cloudinary cloudinary;
 
     public ImageService(@Value("${expirationManager.cloudinary.cloud-name}") String cloudinaryName,
                         @Value("${expirationManager.cloudinary.api-key}") String cloudinaryKey,
@@ -36,7 +36,7 @@ public class ImageService {
         ));
     }
 
-    public String saveImage(MultipartFile multipartFile) {
+    public String saveImageToCloudinary(MultipartFile multipartFile) {
         String imageId = UUID.randomUUID().toString();
 
         Map params = Map.of(

@@ -64,7 +64,7 @@ public class RecipeService {
         if (recipeAddDTO.getImage() == null || recipeAddDTO.getImage().isEmpty()) {
             recipe.setImageUrl(recipeAddDTO.getType().getDefaultImageUrl());
         } else {
-            String imageUrl = this.imageService.saveImage(recipeAddDTO.getImage());
+            String imageUrl = this.imageService.saveImageToCloudinary(recipeAddDTO.getImage());
             recipe.setImageUrl(imageUrl);
         }
 
@@ -160,7 +160,7 @@ public class RecipeService {
             } // else nothing changes
         } else {
             // if user uploads new image
-            String imageUrl = this.imageService.saveImage(recipeEditDTO.getImage());
+            String imageUrl = this.imageService.saveImageToCloudinary(recipeEditDTO.getImage());
             recipe.setImageUrl(imageUrl);
         }
     }
