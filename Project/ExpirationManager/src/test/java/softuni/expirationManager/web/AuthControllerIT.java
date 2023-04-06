@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
 import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
 import softuni.expirationManager.model.entities.UserEntity;
@@ -15,11 +16,15 @@ import softuni.expirationManager.repository.UserRepository;
 import softuni.expirationManager.repository.UserRoleRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -95,23 +100,24 @@ public class AuthControllerIT {
     @Test
     void testUserRegistration_UserExists() throws Exception {
 
-        UserRoleEntity userRole = new UserRoleEntity().setRole(UserRoleEnum.USER);
-        this.userRoleRepository.saveAndFlush(userRole);
-
-        UserEntity testUser = new UserEntity("abcdef", "Ivan", "Ivanov", "ivan@email.email",
-                "topsecret", List.of(userRole), true);
-        this.userRepository.saveAndFlush(testUser);
-
-        mockMvc.perform(post("/users/register")
-                        .param("username", "abcdef")
+        MvcResult result = mockMvc.perform(post("/users/register")
+                        .param("username", "peshkata")
                         .param("firstName", "Test")
                         .param("lastName", "Testov")
-                        .param("email", "test.abcdef@email.email")
+                        .param("email", "pesho.petrov@email.email")
                         .param("password", "topsecret")
                         .param("confirmPassword", "topsecret")
                         .param("isSubscribed", "true")
                         .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/users/register"));
+                .andDo(print())
+                .andExpect(status().is(302))
+                .andReturn();
+
+        BindingResult bindingResult = (BindingResult) result.getFlashMap().get("org.springframework.validation.BindingResult.userRegisterDTO");
+
+        assertEquals(2, bindingResult.getErrorCount());
+
+        assertTrue(bindingResult.hasFieldErrors("username"));
+        assertTrue(bindingResult.hasFieldErrors("email"));
     }
 }

@@ -24,10 +24,10 @@ public class RecipeEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "ingredients_description", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "ingredients_description", nullable = false, length = 65535)
     private String ingredientsDescription;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(nullable = false, length = 65535)
     private String preparation;
 
     @ManyToOne
