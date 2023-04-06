@@ -1,0 +1,33 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
+  #  sql:
+  #    init:
+  #      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+
+expirationManager:
+  # Custom properties
+  default:
+    password: ${DEFAULT_PASS:123456}
+    mailDomain: ${DEFAULT_DOMAIN:@email.email}
+  # Cloudinary Properties
+  cloudinary:
+    cloud-name: ${CLOUD_NAME}
+    api-key: ${API_KEY}
+    api-secret: ${API_SECRET}
+# Mailhog properties
+mailhog:
+  host: ${MAIL_HOST:localhost}
+  port: 1025
+  username: "expiration@manager.bg"
+  password: ""

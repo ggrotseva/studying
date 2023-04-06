@@ -16,6 +16,7 @@ public enum Constants {
     public static final String NO_ROLE_FOUND = "No such role found!";
 
     public static final String DEFAULT_ICON_PATH = "src/main/resources/static/images/jar-of-jam.png";
+    public static final String TEST_ICON_PATH = "src/main/resources/init/pasta.png";
 
     public final static Map<String, String> INITIAL_CATEGORIES = Map.of(
             "grains", "pasta, flours, oats, rice, etc.",

@@ -41,7 +41,7 @@ public class UserService {
         this.mapper = mapper;
     }
 
-    public void register(UserRegisterDTO userRegisterDTO) throws IOException {
+    public void register(UserRegisterDTO userRegisterDTO) {
         UserEntity newUser = mapper.map(userRegisterDTO, UserEntity.class);
 
         List<UserRoleEntity> allRoles = this.userRepository.count() == 0 ?
@@ -56,7 +56,7 @@ public class UserService {
         this.categoryService.initStartCategoriesForUser(newUser);
     }
 
-    public UserProfileDTO getUserInfoById(Long id) {
+    public UserProfileDTO getUserProfileDtoById(Long id) {
         return this.mapper.map(this.userRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException(Constants.NO_USER_FOUND)), UserProfileDTO.class);
     }
@@ -82,7 +82,7 @@ public class UserService {
             user.addRole(adminRole);
         }
 
-        this.userRepository.save(user);
+        this.userRepository.saveAndFlush(user);
     }
 
     public void switchSubscription(Long userId) {

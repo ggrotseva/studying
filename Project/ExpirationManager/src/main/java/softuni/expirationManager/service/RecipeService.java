@@ -27,17 +27,17 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
-    private final ImageCloudService imageCloudService;
+    private final ImageService imageService;
     private final ModelMapper mapper;
 
     @Autowired
     public RecipeService(RecipeRepository recipeRepository,
                          UserRepository userRepository,
-                         ImageCloudService imageCloudService,
+                         ImageService imageService,
                          ModelMapper mapper) {
         this.recipeRepository = recipeRepository;
         this.userRepository = userRepository;
-        this.imageCloudService = imageCloudService;
+        this.imageService = imageService;
         this.mapper = mapper;
     }
 
@@ -64,7 +64,7 @@ public class RecipeService {
         if (recipeAddDTO.getImage() == null || recipeAddDTO.getImage().isEmpty()) {
             recipe.setImageUrl(recipeAddDTO.getType().getDefaultImageUrl());
         } else {
-            String imageUrl = this.imageCloudService.saveImage(recipeAddDTO.getImage());
+            String imageUrl = this.imageService.saveImage(recipeAddDTO.getImage());
             recipe.setImageUrl(imageUrl);
         }
 
@@ -160,7 +160,7 @@ public class RecipeService {
             } // else nothing changes
         } else {
             // if user uploads new image
-            String imageUrl = this.imageCloudService.saveImage(recipeEditDTO.getImage());
+            String imageUrl = this.imageService.saveImage(recipeEditDTO.getImage());
             recipe.setImageUrl(imageUrl);
         }
     }

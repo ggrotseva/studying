@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@Service
+//@Service
 public class DbInitService {
 
     private final UserRoleRepository userRoleRepository;

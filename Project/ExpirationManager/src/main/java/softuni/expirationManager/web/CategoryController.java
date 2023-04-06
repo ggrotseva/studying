@@ -19,7 +19,6 @@ import softuni.expirationManager.model.dtos.category.CategoryEditDTO;
 import softuni.expirationManager.model.dtos.category.CategoryViewDTO;
 import softuni.expirationManager.service.CategoryService;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public String getCategories(Principal principal, Model model) {
-        List<CategoryViewDTO> categories = this.categoryService.findAllByUserUsername(principal.getName());
+        List<CategoryViewDTO> categories = this.categoryService.getCategoryViewDtosByUsername(principal.getName());
 
         model.addAttribute("categories", categories);
 

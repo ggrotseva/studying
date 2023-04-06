@@ -13,8 +13,9 @@ public class UserProfileDTO {
         return id;
     }
 
-    public void setId(Long id) {
+    public UserProfileDTO setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getFullName() {

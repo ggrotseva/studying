@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping("/profile")
     public String getProfile(Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
-        UserProfileDTO userProfileDTO = this.userService.getUserInfoById(userDetails.getId());
+        UserProfileDTO userProfileDTO = this.userService.getUserProfileDtoById(userDetails.getId());
 
         model.addAttribute("userProfileDTO", userProfileDTO);
         model.addAttribute("isAdmin", isPrincipalAdmin(userDetails));
@@ -49,7 +49,7 @@ public class UserController {
             return "redirect:/profile";
         }
 
-        UserProfileDTO userProfileDTO = this.userService.getUserInfoById(userId);
+        UserProfileDTO userProfileDTO = this.userService.getUserProfileDtoById(userId);
         boolean isAdmin = this.userService.isAdmin(userId);
 
         model.addAttribute("userProfileDTO", userProfileDTO);

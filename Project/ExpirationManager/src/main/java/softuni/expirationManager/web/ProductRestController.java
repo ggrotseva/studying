@@ -1,25 +1,17 @@
 package softuni.expirationManager.web;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductAddDTO;
 import softuni.expirationManager.model.dtos.product.ProductViewDTO;
 import softuni.expirationManager.service.ProductService;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/categories/{categoryId}")
@@ -71,16 +63,5 @@ public class ProductRestController {
 
         return ResponseEntity.ok(this.productService.deleteById(productId));
     }
-
-
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-//        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-//
-//        Map<String, String> fieldsErrors = new HashMap<>();
-//        fieldErrors.forEach(err -> fieldsErrors.put(err.getField(), err.getDefaultMessage()));
-//
-//        return ResponseEntity.badRequest().body(fieldsErrors);
-//    }
 
 }
