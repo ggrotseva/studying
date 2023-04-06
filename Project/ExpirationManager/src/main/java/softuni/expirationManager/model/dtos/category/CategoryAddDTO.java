@@ -7,11 +7,11 @@ import softuni.expirationManager.model.validations.FileSize;
 
 public class CategoryAddDTO {
 
-    @Size(min = 2, max = 50, message = "Name should be between 2 and 50 characters long")
+    @Size(min = 2, max = 50, message = "Name should be between 2 and 50 characters long.")
     @NotEmpty(message = "Category Name is required")
     private String name;
 
-    @Size(max = 255, message = "Description should be less than 255 characters")
+    @Size(max = 255, message = "Description should be less than 255 characters long.")
     private String description;
 
     @FileSize(maxSizeInKilobytes = "64")

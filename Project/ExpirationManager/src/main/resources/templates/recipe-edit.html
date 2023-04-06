@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="form-group col-lg-6 mb-3">
                             <label for="name" class="text-white font-weight-bold" th:text="#{recipe_name}">Name</label>
-                            <input id="name" name="name" th:field="*{name}" type="text" class="form-control"
+                            <input id="name" name="name" th:field="*{name}" type="text" required class="form-control"
                                    placeholder="Recipe name"/>
                             <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
                                  class="alert alert-danger">
@@ -54,13 +54,13 @@
                                 </div>
                                 <div class="col-lg-10">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="type"
+                                        <input class="form-check-input" type="radio" name="type" required
                                                id="sweet" value="SWEET"
                                                th:checked="*{type.name()} == 'SWEET'">
                                         <label class="form-check-label text-white" for="sweet" th:text="#{sweet}">Sweet</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="type"
+                                        <input class="form-check-input" type="radio" name="type" required
                                                id="savory" value="SAVORY"
                                                th:checked="*{type.name()} == 'SAVORY'">
                                         <label class="form-check-label text-white" for="savory" th:text="#{savory}">Savory</label>
@@ -81,7 +81,7 @@
                                 description</label>
                             <textarea id="ingredientsDescription" name="ingredientsDescription"
                                       th:field="*{ingredientsDescription}"
-                                      rows="10" class="form-control" onkeyup="formatInputWithBullets(event)"
+                                      rows="10" maxlength="65535" required class="form-control" onkeyup="formatInputWithBullets(event)"
                                       placeholder="Ingredients"></textarea>
                             <div th:if="${#fields.hasErrors('ingredientsDescription')}"
                                  th:errors="*{ingredientsDescription}"
@@ -93,7 +93,7 @@
                         <div class="form-group col-lg-6 mb-3">
                             <label for="preparation" class="text-white font-weight-bold" th:text="#{preparation}">How to prepare?</label>
                             <textarea id="preparation" name="preparation" th:field="*{preparation}" rows="10"
-                                      class="form-control" placeholder="Preparation description"></textarea>
+                                      maxlength="65535" required class="form-control" placeholder="Preparation description"></textarea>
                             <div th:if="${#fields.hasErrors('preparation')}" th:errors="*{preparation}"
                                  class="alert alert-danger">
                                 Preparation description is required.

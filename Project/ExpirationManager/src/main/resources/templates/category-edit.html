@@ -23,19 +23,19 @@
 
             <div class="form-group">
                 <label for="name" class="text-white font-weight-bold" th:text="#{category_name}">Name</label>
-                <input id="name" th:field="*{name}" type="text" class="form-control"
+                <input id="name" th:field="*{name}" type="text" minlength="2" maxlength="50" required class="form-control"
                        placeholder="Category name"/>
                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                       class="errors alert alert-danger">
+                       class="alert alert-danger">
                     Name is required.
                 </small>
             </div>
             <div class="form-group">
                 <label for="description" class="text-white font-weight-bold" th:text="#{category_desc}">Description (optional)</label>
-                <input id="description" th:field="*{description}" type="text" class="form-control"
+                <input id="description" th:field="*{description}" type="text" maxlength="255" class="form-control"
                        placeholder="Description"/>
                 <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                       class="errors alert alert-danger">
+                       class="alert alert-danger">
                     Description is too long
                 </small>
             </div>
