@@ -24,30 +24,30 @@ public class ProductRestController {
         this.productService = productService;
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #categoryId)")
     @GetMapping("/products")
     public ResponseEntity<List<ProductViewDTO>> getProductsOfCategory(@PathVariable("categoryId") Long categoryId,
-                                                                      @AuthenticationPrincipal MyUserDetails principal) {
+                                                                      @AuthenticationPrincipal MyUserDetails userDetails) {
 
         return ResponseEntity.
                 ok(this.productService.findAllByCategoryId(categoryId));
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #categoryId)")
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable("categoryId") Long categoryId,
                                                      @PathVariable("productId") Long productId,
-                                                     @AuthenticationPrincipal MyUserDetails principal) {
+                                                     @AuthenticationPrincipal MyUserDetails userDetails) {
 
         return ResponseEntity.
                 ok(this.productService.findById(productId));
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #categoryId)")
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductViewDTO> postProduct(@PathVariable("categoryId") Long categoryId,
                                                       @RequestBody ProductAddDTO productAddDTO,
-                                                      @AuthenticationPrincipal MyUserDetails principal) {
+                                                      @AuthenticationPrincipal MyUserDetails userDetails) {
 
         Long productId = this.productService.addProduct(productAddDTO, categoryId);
 
@@ -55,11 +55,11 @@ public class ProductRestController {
                 .build();
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryId)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #categoryId)")
     @DeleteMapping("/products/{productId}")
-    public ResponseEntity<ProductViewDTO> deleteComment(@PathVariable("categoryId") Long categoryId,
+    public ResponseEntity<ProductViewDTO> deleteProduct(@PathVariable("categoryId") Long categoryId,
                                                         @PathVariable("productId") Long productId,
-                                                        @AuthenticationPrincipal MyUserDetails principal) {
+                                                        @AuthenticationPrincipal MyUserDetails userDetails) {
 
         return ResponseEntity.ok(this.productService.deleteById(productId));
     }

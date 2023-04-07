@@ -19,8 +19,8 @@ public enum Constants {
     public static final String TEST_ICON_PATH = "src/main/resources/init/pasta.png";
 
     public final static Map<String, String> INITIAL_CATEGORIES = Map.of(
+            "cans", "chickpeas, beans, coconut milk, etc.",
             "grains", "pasta, flours, oats, rice, etc.",
             "jars", "jams, tahini, honey, pickles, etc.",
-            "cans", "chickpeas, beans, coconut milk, etc.",
             "sweets", "biscuits, pralines, chocolates, etc.");
 }

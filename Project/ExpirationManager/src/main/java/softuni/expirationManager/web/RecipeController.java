@@ -58,11 +58,11 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{id}")
-    public String getRecipeDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
+    public String getRecipeDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
         RecipeDTO recipe = this.recipeService.getRecipeDtoById(id);
 
         model.addAttribute("recipe", recipe);
-        model.addAttribute("isAuthorized", this.recipeService.authorizeActions(principal, id));
+        model.addAttribute("isAuthorized", this.recipeService.authorizeActions(userDetails, id));
 
         return "recipe-details";
     }
@@ -79,7 +79,7 @@ public class RecipeController {
     public String postAddRecipe(@Valid RecipeAddDTO recipeAddDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
-                                @AuthenticationPrincipal MyUserDetails principal) {
+                                @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeAddDTO", recipeAddDTO);
@@ -88,14 +88,14 @@ public class RecipeController {
             return "redirect:/recipes/add";
         }
 
-        this.recipeService.addRecipe(recipeAddDTO, principal.getUsername());
+        this.recipeService.addRecipe(recipeAddDTO, userDetails.getUsername());
 
         return "redirect:/recipes";
     }
 
-    @PreAuthorize("@recipeService.authorizeActions(#principal, #id)")
+    @PreAuthorize("@recipeService.authorizeActions(#userDetails, #id)")
     @GetMapping("/recipes/{id}/edit")
-    public String getEditRecipe(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
+    public String getEditRecipe(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (!model.containsAttribute("recipeEditDTO")) {
             model.addAttribute("recipeEditDTO", this.recipeService.getRecipeEditDtoById(id));
@@ -104,12 +104,12 @@ public class RecipeController {
         return "recipe-edit";
     }
 
-    @PreAuthorize("@recipeService.authorizeActions(#principal, #recipeEditDTO.getId())")
+    @PreAuthorize("@recipeService.authorizeActions(#userDetails, #recipeEditDTO.getId())")
     @PutMapping("/recipes/{id}/edit")
     public String putEditRecipe(@Valid RecipeEditDTO recipeEditDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
-                                @AuthenticationPrincipal MyUserDetails principal) {
+                                @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("recipeEditDTO", recipeEditDTO);
@@ -123,9 +123,9 @@ public class RecipeController {
         return "redirect:/recipes/" + recipeEditDTO.getId();
     }
 
-    @PreAuthorize("@recipeService.authorizeActions(#principal, #id)")
+    @PreAuthorize("@recipeService.authorizeActions(#userDetails, #id)")
     @DeleteMapping("/recipes/{id}")
-    public String deleteRecipe(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails principal) {
+    public String deleteRecipe(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         this.recipeService.deleteById(id);
 

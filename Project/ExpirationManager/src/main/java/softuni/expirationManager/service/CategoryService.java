@@ -51,7 +51,7 @@ public class CategoryService {
     }
 
     public void initStartCategoriesForUser(UserEntity userEntity) {
-        byte[] defaultIcon = imageService.getCategoryDefaultIcon();
+        byte[] defaultIcon = this.imageService.getCategoryDefaultIcon();
 
         List<CategoryEntity> categories = INITIAL_CATEGORIES.entrySet().stream().map(e ->
                         new CategoryEntity()
@@ -71,8 +71,13 @@ public class CategoryService {
         CategoryEntity newCategory = new CategoryEntity()
                 .setName(categoryAddDTO.getName())
                 .setDescription(categoryAddDTO.getDescription())
-                .setUser(principalUser)
-                .setIcon(imageService.readBytes(categoryAddDTO.getIcon()));
+                .setUser(principalUser);
+
+        if (categoryAddDTO.getIcon() == null || categoryAddDTO.getIcon().isEmpty()) {
+            newCategory.setIcon(this.imageService.getCategoryDefaultIcon());
+        } else {
+            newCategory.setIcon(this.imageService.readBytes(categoryAddDTO.getIcon()));
+        }
 
         this.categoryRepository.saveAndFlush(newCategory);
     }
@@ -84,8 +89,8 @@ public class CategoryService {
         category.setName(categoryEditDTO.getName())
                 .setDescription(categoryEditDTO.getDescription());
 
-        if (!categoryEditDTO.getIcon().isEmpty()) {
-            category.setIcon(imageService.readBytes(categoryEditDTO.getIcon()));
+        if (categoryEditDTO.getIcon() != null && !categoryEditDTO.getIcon().isEmpty()) {
+            category.setIcon(this.imageService.readBytes(categoryEditDTO.getIcon()));
         }
 
         this.categoryRepository.saveAndFlush(category);

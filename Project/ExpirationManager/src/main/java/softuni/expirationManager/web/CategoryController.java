@@ -69,9 +69,9 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #id)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #id)")
     @GetMapping("/categories/{id}/edit")
-    public String getEditCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
+    public String getEditCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (!model.containsAttribute("categoryEditDTO")) {
             model.addAttribute("categoryEditDTO", this.categoryService.getCategoryEditDtoById(id));
@@ -80,12 +80,12 @@ public class CategoryController {
         return "category-edit";
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #categoryEditDTO.getId())")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #categoryEditDTO.getId())")
     @PutMapping("/categories/{id}/edit")
     public String putEditCategory(@Valid CategoryEditDTO categoryEditDTO,
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes,
-                                  @AuthenticationPrincipal MyUserDetails principal) {
+                                  @AuthenticationPrincipal MyUserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryEditDTO", categoryEditDTO);
@@ -99,18 +99,18 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #id)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #id)")
     @DeleteMapping("/categories/{id}")
-    public String deleteCategory(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails principal) {
+    public String deleteCategory(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         this.categoryService.deleteById(id);
 
         return "redirect:/categories";
     }
 
-    @PreAuthorize("@categoryService.authorizeActions(#principal, #id)")
+    @PreAuthorize("@categoryService.authorizeActions(#userDetails, #id)")
     @GetMapping("/categories/{id}")
-    public String getProductsByCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails principal) {
+    public String getCategory(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
 
         model.addAttribute("category", this.categoryService.getCategoryNameIdDto(id));
 

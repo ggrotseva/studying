@@ -8,23 +8,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
-import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
-import softuni.expirationManager.model.entities.UserEntity;
-import softuni.expirationManager.model.entities.UserRoleEntity;
-import softuni.expirationManager.model.enums.UserRoleEnum;
-import softuni.expirationManager.repository.UserRepository;
-import softuni.expirationManager.repository.UserRoleRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -33,12 +22,6 @@ public class AuthControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
 
     @Test
     void testRegisterPageShown() throws Exception {
@@ -109,7 +92,6 @@ public class AuthControllerIT {
                         .param("confirmPassword", "topsecret")
                         .param("isSubscribed", "true")
                         .with(csrf()))
-                .andDo(print())
                 .andExpect(status().is(302))
                 .andReturn();
 

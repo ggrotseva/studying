@@ -128,7 +128,7 @@ public class DbInitService {
                     .setIcon(Files.readAllBytes(Path.of("src/main/resources/init/fridge.png"))));
 
             categories.add(new CategoryEntity()
-                    .setName("pasta").setDescription("pasta's")
+                    .setName("pasta").setDescription("pastas")
                     .setUser(this.userRepository.findByUsername("nikita")
                             .orElseThrow(() -> new NoSuchElementException(Constants.NO_USER_FOUND)))
                     .setIcon(Files.readAllBytes(Path.of("src/main/resources/init/pasta.png"))));
@@ -146,18 +146,18 @@ public class DbInitService {
             CategoryEntity pasta = this.categoryRepository.findByName("pasta")
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_CATEGORY_FOUND));
 
-            List<ProductEntity> products = new ArrayList<>();
+            List<ProductEntity> products = new LinkedList<>();
 
             products.add(new ProductEntity("шоколад", "Gaillot", "черен", LocalDate.of(2023, 3,25), chocolates));
             products.add(new ProductEntity("шоколад", "bett'r", "бял капки", LocalDate.of(2023, 4,16), chocolates));
             products.add(new ProductEntity("шоколад", "Gaillot", "бял", LocalDate.of(2024, 2,2), chocolates));
             products.add(new ProductEntity("шоколад", "Gaillot", "розов", LocalDate.of(2024, 5,5), chocolates));
 
-            products.add(new ProductEntity("паста", "Deroni", "царевично пенне", LocalDate.of(2023, 1,8), pasta));
-            products.add(new ProductEntity("спагети", "Barilla", "", LocalDate.of(2024, 10,5), pasta));
-
             products.add(new ProductEntity("яйца", "p&p", "", LocalDate.of(2023, 4,11), fridge));
             products.add(new ProductEntity("масло", "немско", "250гр", LocalDate.of(2023, 4,28), fridge));
+
+            products.add(new ProductEntity("паста", "Deroni", "царевично пенне", LocalDate.of(2023, 1,8), pasta));
+            products.add(new ProductEntity("спагети", "Barilla", "", LocalDate.of(2024, 10,5), pasta));
 
             this.productRepository.saveAllAndFlush(products);
         }

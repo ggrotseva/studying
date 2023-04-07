@@ -53,7 +53,7 @@ public class UserController {
         boolean isAdmin = this.userService.isAdmin(userId);
 
         model.addAttribute("userProfileDTO", userProfileDTO);
-        model.addAttribute("isAdmin", this.userService.isAdmin(userId));
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("seeSubscribe", isPrincipalAdmin(userDetails));
 
         return "profile";
