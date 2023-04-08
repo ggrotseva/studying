@@ -27,6 +27,13 @@ public class EmailService {
     }
 
     public void sendEmail(String username, String userEmail) {
+        List<ProductHomeViewDTO> expiredProducts = this.productService.getExpiredProducts(username);
+        List<ProductHomeViewDTO> closeToExpiryProducts = this.productService.getCloseToExpiryProducts(username);
+
+        if (expiredProducts.isEmpty() && closeToExpiryProducts.isEmpty()) {
+            return;
+        }
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
@@ -35,7 +42,7 @@ public class EmailService {
             mimeMessageHelper.setFrom("expiration@manager.bg");
             mimeMessageHelper.setTo(userEmail);
             mimeMessageHelper.setSubject("Daily report from your pantry!");
-            mimeMessageHelper.setText(composeEmail(username), true);
+            mimeMessageHelper.setText(composeEmail(username, expiredProducts, closeToExpiryProducts), true);
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -44,13 +51,13 @@ public class EmailService {
         javaMailSender.send(mimeMessageHelper.getMimeMessage());
     }
 
-    private String composeEmail(String username) {
-
-        List<ProductHomeViewDTO> expiredProducts = this.productService.getExpiredProducts(username);
-        List<ProductHomeViewDTO> closeToExpiryProducts = this.productService.getCloseToExpiryProducts(username);
+    private String composeEmail(String username,
+                                List<ProductHomeViewDTO> expiredProducts,
+                                List<ProductHomeViewDTO> closeToExpiryProducts) {
 
         Context context = new Context();
 
+        context.setVariable("username", username);
         context.setVariable("expiredProducts", expiredProducts);
         context.setVariable("closeToExpiryProducts", closeToExpiryProducts);
 
