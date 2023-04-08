@@ -33,6 +33,10 @@ import static softuni.expirationManager.utils.Constants.*;
 @ExtendWith(MockitoExtension.class)
 public class CategoryServiceTest {
 
+    private final String TEST_ICON_PATH = "src/main/resources/init/pasta.png";
+
+    private UserEntity TEST_USER;
+
     @Mock
     private CategoryRepository mockCategoryRepository;
 
@@ -56,34 +60,31 @@ public class CategoryServiceTest {
     @BeforeEach
     void setUp() {
         testCategoryService = new CategoryService(mockCategoryRepository, mockUserRepository, mockImageService, mockMapper);
+
+        TEST_USER = new UserEntity("abcdef", "Test", "Testov",
+                "test.abcdef@email.email", "topsecret",
+                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER).setId(1L)), true)
+                .setId(2L);
     }
 
     @Test
     void testInitStartCategoriesForUser() throws IOException {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER).setId(2L)), true);
 
         FileInputStream fis = new FileInputStream(DEFAULT_ICON_PATH);
         byte[] defaultIcon = fis.readAllBytes();
         when(mockImageService.getCategoryDefaultIcon()).thenReturn(defaultIcon);
 
-        Map<String, String> categoriesNamesDescriptions = INITIAL_CATEGORIES;
-
-        testCategoryService.initStartCategoriesForUser(user);
+        testCategoryService.initStartCategoriesForUser(TEST_USER);
 
         verify(mockCategoryRepository).saveAllAndFlush(categoryListArgumentCaptor.capture());
         List<CategoryEntity> savedCategories = categoryListArgumentCaptor.getValue();
 
-        assertTrue(savedCategories.stream().allMatch(c -> c.getUser().getUsername().equals(user.getUsername())));
-        assertEquals(savedCategories.get(1).getIcon(), defaultIcon);
+        assertTrue(savedCategories.stream().allMatch(c -> c.getUser().getUsername().equals(TEST_USER.getUsername())));
+        assertEquals(defaultIcon, savedCategories.get(1).getIcon());
     }
 
     @Test
     void testAddCategory() throws IOException {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true);
 
         FileInputStream fis = new FileInputStream(TEST_ICON_PATH);
         byte[] testIcon = fis.readAllBytes();
@@ -91,31 +92,28 @@ public class CategoryServiceTest {
         MockMultipartFile multipartFile = new MockMultipartFile("icon", testIcon);
 
         when(mockImageService.readBytes(multipartFile)).thenReturn(testIcon);
-        when(mockUserRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(mockUserRepository.findByUsername(TEST_USER.getUsername())).thenReturn(Optional.of(TEST_USER));
 
         CategoryAddDTO categoryAddDto = new CategoryAddDTO()
                 .setName("pasta")
                 .setDescription("different pastas")
                 .setIcon(multipartFile);
 
-        testCategoryService.addCategory(categoryAddDto, user.getUsername());
+        testCategoryService.addCategory(categoryAddDto, TEST_USER.getUsername());
 
         verify(mockCategoryRepository).saveAndFlush(categoryArgumentCaptor.capture());
 
         CategoryEntity savedCategory = categoryArgumentCaptor.getValue();
 
-        assertEquals(savedCategory.getUser().getEmail(), user.getEmail());
+        assertEquals(savedCategory.getUser().getEmail(), TEST_USER.getEmail());
 
-        assertEquals(savedCategory.getIcon(), testIcon);
-        assertEquals(savedCategory.getName(), categoryAddDto.getName());
-        assertEquals(savedCategory.getDescription(), categoryAddDto.getDescription());
+        assertEquals(testIcon, savedCategory.getIcon());
+        assertEquals(categoryAddDto.getName(), savedCategory.getName());
+        assertEquals(categoryAddDto.getDescription(), savedCategory.getDescription());
     }
 
     @Test
     void testEditCategory_WithMultipartFile() throws IOException {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true);
 
         FileInputStream fis = new FileInputStream(DEFAULT_ICON_PATH);
         byte[] defaultIcon = fis.readAllBytes();
@@ -124,7 +122,7 @@ public class CategoryServiceTest {
                 .setIcon(defaultIcon)
                 .setName("test")
                 .setDescription("testing category description")
-                .setUser(user);
+                .setUser(TEST_USER);
 
         fis = new FileInputStream(DEFAULT_ICON_PATH);
         byte[] newIcon = fis.readAllBytes();
@@ -146,17 +144,14 @@ public class CategoryServiceTest {
 
         CategoryEntity savedCategory = categoryArgumentCaptor.getValue();
 
-        assertEquals(savedCategory.getIcon(), newIcon);
-        assertEquals(savedCategory.getId(), testCategory.getId());
-        assertEquals(savedCategory.getName(), categoryEditDto.getName());
-        assertEquals(savedCategory.getDescription(), categoryEditDto.getDescription());
+        assertEquals(newIcon, savedCategory.getIcon());
+        assertEquals(testCategory.getId(), savedCategory.getId());
+        assertEquals(categoryEditDto.getName(), savedCategory.getName());
+        assertEquals(categoryEditDto.getDescription(), savedCategory.getDescription());
     }
 
     @Test
     void testEditCategory_NoMultipartFile() throws IOException {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true);
 
         FileInputStream fis = new FileInputStream(TEST_ICON_PATH);
         byte[] testIcon = fis.readAllBytes();
@@ -165,7 +160,7 @@ public class CategoryServiceTest {
                 .setIcon(testIcon)
                 .setName("test")
                 .setDescription("testing category description")
-                .setUser(user);
+                .setUser(TEST_USER);
 
         MockMultipartFile multipartFile = new MockMultipartFile("icon", new byte[0]);
 
@@ -183,17 +178,14 @@ public class CategoryServiceTest {
 
         CategoryEntity savedCategory = categoryArgumentCaptor.getValue();
 
-        assertEquals(savedCategory.getIcon(), testIcon);
-        assertEquals(savedCategory.getId(), testCategory.getId());
-        assertEquals(savedCategory.getName(), categoryEditDto.getName());
-        assertEquals(savedCategory.getDescription(), categoryEditDto.getDescription());
+        assertEquals(testIcon, savedCategory.getIcon());
+        assertEquals(testCategory.getId(), savedCategory.getId());
+        assertEquals(categoryEditDto.getName(), savedCategory.getName());
+        assertEquals(categoryEditDto.getDescription(), savedCategory.getDescription());
     }
 
     @Test
     void testFindAllByUserUsername() throws IOException {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true);
 
         FileInputStream fis = new FileInputStream(TEST_ICON_PATH);
         byte[] testIcon = fis.readAllBytes();
@@ -203,14 +195,14 @@ public class CategoryServiceTest {
                 .setIcon(testIcon)
                 .setName("pasta")
                 .setDescription("pasta category")
-                .setUser(user);
+                .setUser(TEST_USER);
 
         CategoryEntity testCategory2 = new CategoryEntity()
                 .setId(2L)
                 .setIcon(testIcon)
                 .setName("test")
                 .setDescription("testing category description")
-                .setUser(user);
+                .setUser(TEST_USER);
 
         List<CategoryEntity> categories = new ArrayList<>();
         categories.add(testCategory1);
@@ -232,30 +224,26 @@ public class CategoryServiceTest {
                 .setIcon(encodedIcon)
                 .setProductsCount(4);
 
-        when(mockCategoryRepository.findAllByUserUsername(user.getUsername())).thenReturn(Optional.of(categories));
+        when(mockCategoryRepository.findAllByUserUsername(TEST_USER.getUsername())).thenReturn(Optional.of(categories));
         when(mockMapper.map(testCategory1, CategoryViewDTO.class)).thenReturn(categoryEditDto1);
         when(mockMapper.map(testCategory2, CategoryViewDTO.class)).thenReturn(categoryEditDto2);
 
-        List<CategoryViewDTO> actualCategories = testCategoryService.getCategoryViewDtosByUsername(user.getUsername());
+        List<CategoryViewDTO> actualCategories = testCategoryService.getCategoryViewDtosByUsername(TEST_USER.getUsername());
 
-        assertEquals(actualCategories.size(), 2);
+        assertEquals(2, actualCategories.size());
 
-        assertEquals(actualCategories.get(0).getProductsCount(), 4);
+        assertEquals(4, actualCategories.get(0).getProductsCount());
     }
 
     @Test
     void testAuthorizeActions_IsAuthor() {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true)
-                .setId(2L);
 
         CategoryEntity testCategory = new CategoryEntity()
                 .setId(2L)
                 .setName("test")
-                .setUser(user);
+                .setUser(TEST_USER);
 
-        MyUserDetails myUserDetails = new MyUserDetails(user.getUsername(), user.getPassword(),
+        MyUserDetails myUserDetails = new MyUserDetails(TEST_USER.getUsername(), TEST_USER.getPassword(),
                         List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)))
                         .setId(2L);
 
@@ -266,19 +254,15 @@ public class CategoryServiceTest {
 
     @Test
     void testAuthorizeActions_IsNotAuthor() {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true)
-                .setId(4L);
 
         CategoryEntity testCategory = new CategoryEntity()
                 .setId(2L)
                 .setName("test")
-                .setUser(user);
+                .setUser(TEST_USER);
 
-        MyUserDetails myUserDetails = new MyUserDetails(user.getUsername(), user.getPassword(),
+        MyUserDetails myUserDetails = new MyUserDetails("SomeUser", "somePassword",
                 List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)))
-                .setId(2L);
+                .setId(4L);
 
         when(mockCategoryRepository.findById(2L)).thenReturn(Optional.of(testCategory));
 
@@ -287,20 +271,16 @@ public class CategoryServiceTest {
 
     @Test
     void testAuthorizeActions_IsAdmin() {
-        UserEntity user = new UserEntity("abcdef", "Test", "Testov",
-                "test.abcdef@email.email", "topsecret",
-                List.of(new UserRoleEntity().setRole(UserRoleEnum.USER)), true)
-                .setId(4L);
 
         CategoryEntity testCategory = new CategoryEntity()
                 .setId(2L)
                 .setName("test")
-                .setUser(user);
+                .setUser(TEST_USER);
 
-        MyUserDetails myUserDetails = new MyUserDetails(user.getUsername(), user.getPassword(),
+        MyUserDetails myUserDetails = new MyUserDetails("SomeUser", "somePassword",
                         List.of(new SimpleGrantedAuthority("ROLE_"  + UserRoleEnum.USER),
                                         (new SimpleGrantedAuthority("ROLE_"  + UserRoleEnum.ADMIN))))
-                        .setId(2L);
+                        .setId(4L);
 
         when(mockCategoryRepository.findById(2L)).thenReturn(Optional.of(testCategory));
 

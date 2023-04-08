@@ -57,4 +57,10 @@ public class HomeControllerIT {
                 .andExpect(view().name("about"));
     }
 
+    @Test
+    void testChangeLang_CookieIsSent() throws Exception {
+        mockMvc.perform(get("/?lang=en_US"))
+                .andExpect(status().isOk())
+                .andExpect(cookie().value("lang", "en-US"));
+    }
 }

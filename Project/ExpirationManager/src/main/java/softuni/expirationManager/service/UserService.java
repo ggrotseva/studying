@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.user.UserRegisterDTO;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.model.entities.UserRoleEntity;
@@ -17,7 +18,10 @@ import softuni.expirationManager.repository.UserRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
+
+import static softuni.expirationManager.utils.Constants.NO_CATEGORY_FOUND;
 
 @Service
 public class UserService {
@@ -39,6 +43,10 @@ public class UserService {
         this.categoryService = categoryService;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
+    }
+
+    public boolean authorizeActions(MyUserDetails userDetails, Long id) {
+        return Objects.equals(userDetails.getId(), id) || isAdmin(userDetails.getId());
     }
 
     public void register(UserRegisterDTO userRegisterDTO) {

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,8 +73,10 @@ public class UserController {
         return "recipes-by";
     }
 
+    @PreAuthorize("@userService.authorizeActions(#userDetails, #userId)")
     @PostMapping("/profile/{id}/subscription")
-    public String switchSubscription(@PathVariable("id") Long userId) {
+    public String switchSubscription(@PathVariable("id") Long userId,
+                                     @AuthenticationPrincipal MyUserDetails userDetails) {
 
         this.userService.switchSubscription(userId);
 

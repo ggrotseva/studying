@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class UserControllerTest {
+public class UserControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,6 +34,11 @@ public class UserControllerTest {
         mockMvc.perform(get("/profile/2"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/profile"));
+
+        mockMvc.perform(get("/profile"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("profile"))
+                .andExpect(model().attributeExists("userProfileDTO", "seeSubscribe"));
     }
 
     @Test
@@ -105,7 +110,7 @@ public class UserControllerTest {
 
     @Test
     @WithUserDetails(value = "peshkata", userDetailsServiceBeanName = "userDetailsService")
-    void testChangeSubscription() throws Exception {
+    void testChangeSubscription_ByOwner() throws Exception {
         mockMvc.perform(post("/profile/3/subscription")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
@@ -122,9 +127,28 @@ public class UserControllerTest {
     @Test
     @WithUserDetails(value = "anito", userDetailsServiceBeanName = "userDetailsService")
     void testChangeSubscription_NotByOwner() throws Exception {
-        // TODO wrong implemented - needs authorization
         mockMvc.perform(post("/profile/3/subscription")
+                        .with(csrf()))
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("error"))
+                .andExpect(model().attributeExists("errorMessage"));
+    }
+
+    @Test
+    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "userDetailsService")
+    void testChangeAdmin_ByAdmin() throws Exception {
+        mockMvc.perform(post("/admin/switch/3")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/profile/3"));
+    }
+
+    @Test
+    @WithUserDetails(value = "anito", userDetailsServiceBeanName = "userDetailsService")
+    void testChangeAdmin_NotByAdmin() throws Exception {
+        mockMvc.perform(post("/admin/switch/3")
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
+
 }

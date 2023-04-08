@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class ProductRestControllerTest {
+public class ProductRestControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,7 +48,7 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = "peshkata", userDetailsServiceBeanName = "userDetailsService")
+    @WithUserDetails(value = "nikita", userDetailsServiceBeanName = "userDetailsService")
     void testGetProductsOfCategory_NotByAuthor_ReturnsForbidden() throws Exception {
         mockMvc.perform(get("/categories/17/products"))
                 .andExpect(status().isForbidden())

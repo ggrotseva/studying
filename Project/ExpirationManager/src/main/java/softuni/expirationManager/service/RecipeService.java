@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.expirationManager.repository.RecipeSearchSpecification;
+import softuni.expirationManager.utils.DateTimeProvider;
 import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
@@ -16,7 +17,6 @@ import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.repository.RecipeRepository;
 import softuni.expirationManager.repository.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,17 +27,20 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
-    private final ImageService imageService;
+    private final CloudinaryService cloudinaryService;
+    private final DateTimeProvider dateTimeProvider;
     private final ModelMapper mapper;
 
     @Autowired
     public RecipeService(RecipeRepository recipeRepository,
                          UserRepository userRepository,
-                         ImageService imageService,
+                         CloudinaryService cloudinaryService,
+                         DateTimeProvider dateTimeProvider,
                          ModelMapper mapper) {
         this.recipeRepository = recipeRepository;
         this.userRepository = userRepository;
-        this.imageService = imageService;
+        this.cloudinaryService = cloudinaryService;
+        this.dateTimeProvider = dateTimeProvider;
         this.mapper = mapper;
     }
 
@@ -58,13 +61,13 @@ public class RecipeService {
                 () -> new NoSuchElementException(Constants.NO_USER_FOUND));
 
         recipe.setAuthor(author)
-                .setCreated(LocalDateTime.now())
-                .setModified(LocalDateTime.now());
+                .setCreated(this.dateTimeProvider.getDateTimeNow())
+                .setModified(this.dateTimeProvider.getDateTimeNow());
 
         if (recipeAddDTO.getImage() == null || recipeAddDTO.getImage().isEmpty()) {
             recipe.setImageUrl(recipeAddDTO.getType().getDefaultImageUrl());
         } else {
-            String imageUrl = this.imageService.saveImageToCloudinary(recipeAddDTO.getImage());
+            String imageUrl = this.cloudinaryService.saveImageToCloudinary(recipeAddDTO.getImage());
             recipe.setImageUrl(imageUrl);
         }
 
@@ -82,7 +85,7 @@ public class RecipeService {
                 .setRecipeType(recipeEditDTO.getType())
                 .setIngredientsDescription(recipeEditDTO.getIngredientsDescription())
                 .setPreparation(recipeEditDTO.getPreparation())
-                .setModified(LocalDateTime.now());
+                .setModified(this.dateTimeProvider.getDateTimeNow());
 
         this.recipeRepository.saveAndFlush(recipe);
     }
@@ -160,24 +163,9 @@ public class RecipeService {
             } // else nothing changes
         } else {
             // if user uploads new image
-            String imageUrl = this.imageService.saveImageToCloudinary(recipeEditDTO.getImage());
+            String imageUrl = this.cloudinaryService.saveImageToCloudinary(recipeEditDTO.getImage());
             recipe.setImageUrl(imageUrl);
         }
-    }
-
-    private String extractIncludedProducts(RecipeEntity recipe, String productsRegex) {
-
-        Set<String> matched = new HashSet<>();
-
-        Pattern pattern = Pattern.compile(productsRegex);
-        Matcher matcher = pattern.matcher(recipe.getIngredientsDescription());
-
-        while (matcher.find()) {
-            String match = matcher.group();
-            matched.add(match);
-        }
-
-        return String.join("; ", matched);
     }
 
     private List<RecipeHomeViewDTO> extractRecipesFromProducts(List<ProductHomeViewDTO> products) {
@@ -193,5 +181,20 @@ public class RecipeService {
                         .setProducts(extractIncludedProducts(r, productsRegex)))
                 .collect(Collectors.toList());
 
+    }
+
+    private String extractIncludedProducts(RecipeEntity recipe, String productsRegex) {
+
+        Set<String> matched = new HashSet<>();
+
+        Pattern pattern = Pattern.compile(productsRegex);
+        Matcher matcher = pattern.matcher(recipe.getIngredientsDescription());
+
+        while (matcher.find()) {
+            String match = matcher.group();
+            matched.add(match);
+        }
+
+        return String.join("; ", matched);
     }
 }
