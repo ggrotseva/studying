@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Size;
 
 public class CommentAddDTO {
 
-//    @Size(min = 10)
-//    @NotBlank
+    @Size(min = 10)
+    @NotBlank
     private String message;
 
     public String getMessage() {
