@@ -24,7 +24,7 @@ This custom ORM is light and basic implementation of ORM framework, working with
 ## EntityManager
 
 Importing EntityManager class gives you access to the following methods:
-- void doCreate(Class\<E> entityClass)
+- void handleEntityTable(Class\<E> entityClass)
 - boolean persist(E entity)
 - E findFirst(Class\<E> entityType)
 - E findFirst(Class\<E> entityType, String where)
