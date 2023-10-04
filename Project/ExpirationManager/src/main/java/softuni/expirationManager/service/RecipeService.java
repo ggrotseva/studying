@@ -131,14 +131,15 @@ public class RecipeService {
     public List<RecipeHomeViewDTO> getRecipeIdeas(List<ProductHomeViewDTO> expiredProducts,
                                                   List<ProductHomeViewDTO> closeToExpiryProducts) {
 
+        Set<String> productsToBeUsed = new LinkedHashSet<>();
+
+        expiredProducts.stream().map(ProductHomeViewDTO::getName).forEach(productsToBeUsed::add);
+        closeToExpiryProducts.stream().map(ProductHomeViewDTO::getName).forEach(productsToBeUsed::add);
+
         List<RecipeHomeViewDTO> recipeIdeas = new ArrayList<>();
 
-        if (!expiredProducts.isEmpty()) {
-            recipeIdeas.addAll(extractRecipesFromProducts(expiredProducts));
-        }
-
-        if (!closeToExpiryProducts.isEmpty()) {
-            recipeIdeas.addAll(extractRecipesFromProducts(closeToExpiryProducts));
+        if (!productsToBeUsed.isEmpty()) {
+            recipeIdeas.addAll(extractRecipesFromProducts(productsToBeUsed));
         }
 
         if (recipeIdeas.isEmpty()) {
@@ -168,11 +169,9 @@ public class RecipeService {
         }
     }
 
-    private List<RecipeHomeViewDTO> extractRecipesFromProducts(List<ProductHomeViewDTO> products) {
+    private List<RecipeHomeViewDTO> extractRecipesFromProducts(Collection<String> products) {
 
-        String productsRegex = products.stream()
-                .map(ProductHomeViewDTO::getName)
-                .collect(Collectors.joining("|"));
+        String productsRegex = String.join("|", products);
 
         return this.recipeRepository.findByIngredientsDescriptionMatchesRegex(productsRegex)
                 .orElse(new HashSet<>())
@@ -180,7 +179,6 @@ public class RecipeService {
                 .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
                         .setProducts(extractIncludedProducts(r, productsRegex)))
                 .collect(Collectors.toList());
-
     }
 
     private String extractIncludedProducts(RecipeEntity recipe, String productsRegex) {

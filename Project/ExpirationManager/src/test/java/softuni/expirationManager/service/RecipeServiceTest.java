@@ -311,15 +311,15 @@ public class RecipeServiceTest {
     @Test
     void testGetRecipeIdeas_ReturnsRecipesMatchingProducts() {
         ProductHomeViewDTO product1 = new ProductHomeViewDTO().setName("какао");
-        ProductHomeViewDTO product2 = new ProductHomeViewDTO().setName("масло");
-        ProductHomeViewDTO product3 = new ProductHomeViewDTO().setName("яйца");
+        ProductHomeViewDTO product2 = new ProductHomeViewDTO().setName("яйца");
+        ProductHomeViewDTO productNotIn = new ProductHomeViewDTO().setName("масло");
 
         List<ProductHomeViewDTO> mockExpiredProducts = new ArrayList<>();
         List<ProductHomeViewDTO> mockCloseToExpiryProducts = new ArrayList<>();
 
         mockExpiredProducts.add(product1);
-        mockExpiredProducts.add(product2);
-        mockExpiredProducts.add(product3);
+        mockExpiredProducts.add(productNotIn);
+        mockCloseToExpiryProducts.add(product2);
 
         RecipeEntity recipe = new RecipeEntity()
                 .setId(1L)
@@ -342,7 +342,9 @@ public class RecipeServiceTest {
 
         assertEquals(1, actualRecipeIdeas.size());
         assertTrue(actualRecipeIdeas.get(0).getProducts().contains(product1.getName()));
-        assertTrue(actualRecipeIdeas.get(0).getProducts().contains(product3.getName()));
+        assertTrue(actualRecipeIdeas.get(0).getProducts().contains(product2.getName()));
+
+        assertFalse(actualRecipeIdeas.get(0).getProducts().contains(productNotIn.getName()));
     }
 
     @Test
