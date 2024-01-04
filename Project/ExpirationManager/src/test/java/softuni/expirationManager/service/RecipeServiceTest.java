@@ -96,7 +96,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void testAddCategory_WithMultipartFile() throws IOException {
+    void testAddRecipe_WithMultipartFile() throws IOException {
 
         FileInputStream fis = new FileInputStream(TEST_ICON_PATH);
         byte[] image = fis.readAllBytes();
@@ -169,7 +169,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void testEditCategory_ChangedRecipeType_WithMultipartFile() throws IOException {
+    void testEditRecipe_ChangedRecipeType_WithMultipartFile() throws IOException {
 
         LocalDateTime modified = LocalDateTime.of(2023, 4, 4, 12, 0);
 
@@ -208,7 +208,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void testEditCategory_WithDefaultImage_AndChangedRecipeType_NoMultipartFile() {
+    void testEditRecipe_WithDefaultImage_AndChangedRecipeType_NoMultipartFile() {
 
         RecipeEditDTO recipeEditDTO = new RecipeEditDTO()
                 .setId(2L)
