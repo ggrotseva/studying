@@ -13,6 +13,7 @@ import softuni.expirationManager.model.entities.*;
 import softuni.expirationManager.model.enums.UserRoleEnum;
 import softuni.expirationManager.repository.*;
 import softuni.expirationManager.utils.Constants;
+import softuni.expirationManager.utils.DateTimeProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class DbInitService {
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
 
+    private final DateTimeProvider dateTimeProvider;
     private final CategoryService categoryService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
@@ -45,6 +47,7 @@ public class DbInitService {
                          ProductRepository productRepository,
                          RecipeRepository recipeRepository,
                          CategoryRepository categoryRepository,
+                         DateTimeProvider dateTimeProvider,
                          CategoryService categoryService,
                          PasswordEncoder passwordEncoder,
                          ModelMapper mapper,
@@ -55,6 +58,7 @@ public class DbInitService {
         this.productRepository = productRepository;
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
+        this.dateTimeProvider = dateTimeProvider;
         this.categoryService = categoryService;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
@@ -148,16 +152,16 @@ public class DbInitService {
 
             List<ProductEntity> products = new LinkedList<>();
 
-            products.add(new ProductEntity("шоколад", "Gaillot", "черен", LocalDate.of(2023, 3,25), chocolates));
-            products.add(new ProductEntity("шоколад", "bett'r", "бял капки", LocalDate.of(2023, 4,16), chocolates));
-            products.add(new ProductEntity("шоколад", "Gaillot", "бял", LocalDate.of(2024, 2,2), chocolates));
-            products.add(new ProductEntity("шоколад", "Gaillot", "розов", LocalDate.of(2024, 5,5), chocolates));
+            products.add(new ProductEntity("шоколад", "Gaillot", "черен", this.dateTimeProvider.getDateToday().minusDays(10), chocolates));
+            products.add(new ProductEntity("шоколад", "bett'r", "бял капки", this.dateTimeProvider.getDateToday().plusDays(15), chocolates));
+            products.add(new ProductEntity("шоколад", "Gaillot", "бял", this.dateTimeProvider.getDateToday().plusYears(1), chocolates));
+            products.add(new ProductEntity("шоколад", "Gaillot", "розов", this.dateTimeProvider.getDateToday().plusMonths(1), chocolates));
 
-            products.add(new ProductEntity("яйца", "p&p", "", LocalDate.of(2023, 4,11), fridge));
-            products.add(new ProductEntity("масло", "немско", "250гр", LocalDate.of(2023, 4,28), fridge));
+            products.add(new ProductEntity("яйца", "p&p", "", this.dateTimeProvider.getDateToday().plusDays(15), fridge));
+            products.add(new ProductEntity("масло", "немско", "250гр", this.dateTimeProvider.getDateToday().plusDays(20), fridge));
 
-            products.add(new ProductEntity("паста", "Deroni", "царевично пенне", LocalDate.of(2023, 1,8), pasta));
-            products.add(new ProductEntity("спагети", "Barilla", "", LocalDate.of(2024, 10,5), pasta));
+            products.add(new ProductEntity("паста", "Deroni", "царевично пенне", this.dateTimeProvider.getDateToday().minusMonths(2), pasta));
+            products.add(new ProductEntity("спагети", "Barilla", "", this.dateTimeProvider.getDateToday().plusYears(1), pasta));
 
             this.productRepository.saveAllAndFlush(products);
         }
