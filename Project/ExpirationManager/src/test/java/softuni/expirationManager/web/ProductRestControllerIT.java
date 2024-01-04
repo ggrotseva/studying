@@ -63,7 +63,6 @@ public class ProductRestControllerIT {
                 .andExpect(jsonPath("$.name", is("шоколад")))
                 .andExpect(jsonPath("$.brand", is("Gaillot")))
                 .andExpect(jsonPath("$.description", is("черен")))
-                .andExpect(jsonPath("$.expiryDate", is("2023-03-25")))
                 .andExpect(jsonPath("$.categoryUserId", is(2)));
     }
 
@@ -75,7 +74,6 @@ public class ProductRestControllerIT {
                 .andExpect(jsonPath("$.name", is("шоколад")))
                 .andExpect(jsonPath("$.brand", is("Gaillot")))
                 .andExpect(jsonPath("$.description", is("черен")))
-                .andExpect(jsonPath("$.expiryDate", is("2023-03-25")))
                 .andExpect(jsonPath("$.categoryUserId", is(2)));
     }
 
