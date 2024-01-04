@@ -2,7 +2,6 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import softuni.expirationManager.model.MyUserDetails;
@@ -15,13 +14,10 @@ import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.dtos.user.UserProfileDTO;
 import softuni.expirationManager.repository.UserRepository;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
-
-import static softuni.expirationManager.utils.Constants.NO_CATEGORY_FOUND;
 
 @Service
 public class UserService {

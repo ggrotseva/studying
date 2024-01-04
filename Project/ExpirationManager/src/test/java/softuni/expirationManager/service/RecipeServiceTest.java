@@ -208,7 +208,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void testEditCategory_WithDefaultImage_AndChangedRecipeType_NoMultipartFile() throws IOException {
+    void testEditCategory_WithDefaultImage_AndChangedRecipeType_NoMultipartFile() {
 
         RecipeEditDTO recipeEditDTO = new RecipeEditDTO()
                 .setId(2L)

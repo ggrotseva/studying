@@ -1,7 +1,6 @@
 package softuni.expirationManager.model.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.Collections;

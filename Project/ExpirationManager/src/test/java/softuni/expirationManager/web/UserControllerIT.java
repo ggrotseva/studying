@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.ui.ModelMap;
 import softuni.expirationManager.model.dtos.recipe.RecipeBriefDTO;
-import softuni.expirationManager.model.dtos.user.UserProfileDTO;
 
 import java.util.Map;
 

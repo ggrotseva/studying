@@ -14,12 +14,10 @@ import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.repository.CategoryRepository;
 import softuni.expirationManager.repository.UserRepository;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 import static softuni.expirationManager.utils.Constants.*;
 
 @Service
