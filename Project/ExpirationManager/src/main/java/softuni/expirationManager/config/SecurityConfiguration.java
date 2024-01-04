@@ -21,26 +21,23 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.
-                authorizeHttpRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
-                .requestMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name())
-                .anyRequest().authenticated()
-             .and()
-                .formLogin().loginPage("/users/login")
-                .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
-                .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                .defaultSuccessUrl("/")
-                .failureForwardUrl("/users/login-error")
-             .and()
-                .rememberMe().key("rememberMeKey")
-             .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .deleteCookies("JSESSIONID", "remember-me")
-                .invalidateHttpSession(true);
+        httpSecurity
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
+                        .requestMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name())
+                        .anyRequest().authenticated())
+                .formLogin(customize -> customize.loginPage("/users/login")
+                        .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                        .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
+                        .defaultSuccessUrl("/")
+                        .failureForwardUrl("/users/login-error"))
+                .rememberMe(customize -> customize.rememberMeParameter("rememberMeKey"))
+                .logout(customize -> customize
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID", "remember-me")
+                        .invalidateHttpSession(true));
 
         return httpSecurity.build();
     }
