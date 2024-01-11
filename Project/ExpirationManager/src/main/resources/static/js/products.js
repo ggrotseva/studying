@@ -14,19 +14,33 @@ fetch(`${backendLocation}/categories/${categoryId}/products`)
 
 // fill table row with product data
 function fillTableRow(product) {
-    let productHtml = `<tr id="product${product.id}">\n`;
-    productHtml += '<td>' + product.name + '</td>\n';
-    productHtml += '<td>' + formatDate(product.expiryDate) + '</td>\n';
-    productHtml += '<td>' + product.brand + '</td>\n';
-    productHtml += '<td>' + product.description + '</td>\n';
-    productHtml += `<td>\n
-                        <button onclick="deleteProduct(${product.id})" class="close" aria-label="delete">\n
-                            <span aria-hidden="true">&times;</span>\n
-                        </button>\n
-                    </td>\n`
-    productHtml += '</tr>\n';
+    let tableRow = document.createElement("tr");
+    tableRow.setAttribute("id", `product${product.id}`);
 
-    productTable.innerHTML += productHtml;
+    let nameData = document.createElement("td");
+    nameData.append(product.name);
+    tableRow.append(nameData);
+
+    let dateData = document.createElement("td");
+    dateData.append(formatDate(product.expiryDate));
+    tableRow.append(dateData);
+
+    let brandData = document.createElement("td");
+    brandData.append(product.brand);
+    tableRow.append(brandData);
+
+    let descriptionData = document.createElement("td");
+    descriptionData.append(product.description);
+    tableRow.append(descriptionData);
+
+    let deleteButton = document.createElement("td");
+    deleteButton.innerHTML = `<button onclick="deleteProduct(${product.id})" class="close" aria-label="delete">\n
+                        <span aria-hidden="true">&times;</span>\n
+                    </button>\n`;
+    tableRow.append(deleteButton);
+
+    productTable.appendChild(tableRow);
+
 }
 
 // csrf token
@@ -61,7 +75,7 @@ function isNameValid(name) {
 
 function isDateValid(expiryDate) {
     document.getElementById("dateError").innerHTML = "";
-    if(typeof expiryDate === "undefined" || expiryDate.length == 0) {
+    if (typeof expiryDate === "undefined" || expiryDate.length == 0) {
         let expiryDateError = document.createElement("small");
         expiryDateError.setAttribute("class", "alert alert-danger p-1");
         expiryDateError.innerHTML = "Expiry Date is required.";
@@ -83,7 +97,7 @@ productForm.addEventListener("submit", (event) => {
 
     if (!validName || !validDate) {
         return;
-//        throw new Error(`Invalid input`);
+        //        throw new Error(`Invalid input`);
     }
 
     let nameInput = nameInputElement.value;
