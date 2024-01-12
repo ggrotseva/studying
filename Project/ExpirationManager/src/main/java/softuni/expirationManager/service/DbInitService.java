@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -39,7 +38,7 @@ public class DbInitService {
     private final ModelMapper mapper;
 
     private final String defaultPass;
-    private final String mailDomain;
+    private final String defaultMailDomain;
 
     @Autowired
     public DbInitService(UserRoleRepository userRoleRepository,
@@ -52,7 +51,7 @@ public class DbInitService {
                          PasswordEncoder passwordEncoder,
                          ModelMapper mapper,
                          @Value("${expirationManager.default.password}") String defaultPass,
-                         @Value("${expirationManager.default.mailDomain}") String mailDomain) {
+                         @Value("${expirationManager.default.mailDomain}") String defaultMailDomain) {
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -63,7 +62,7 @@ public class DbInitService {
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
         this.defaultPass = defaultPass;
-        this.mailDomain = mailDomain;
+        this.defaultMailDomain = defaultMailDomain;
     }
 
     @PostConstruct
@@ -86,7 +85,7 @@ public class DbInitService {
     public void initUsers() {
         if (this.userRepository.count() == 0) {
             UserEntity admin = new UserEntity("admin", "Admin", "Adminov",
-                    "admin.adminov" + mailDomain,
+                    "admin.adminov" + defaultMailDomain,
                     this.passwordEncoder.encode(defaultPass),
                     this.userRoleRepository.findAll(), true);
 
@@ -98,15 +97,15 @@ public class DbInitService {
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_ROLE_FOUND));
 
             users.add(new UserEntity("anito", "Anna", "Atanasova",
-                    "anna.atanasova" + mailDomain, this.passwordEncoder.encode(defaultPass),
+                    "anna.atanasova" + defaultMailDomain, this.passwordEncoder.encode(defaultPass),
                     List.of(roleUser), true));
 
             users.add(new UserEntity("peshkata", "Pesho", "Petrov",
-                    "pesho.petrov" + mailDomain, this.passwordEncoder.encode(defaultPass),
+                    "pesho.petrov" + defaultMailDomain, this.passwordEncoder.encode(defaultPass),
                     List.of(roleUser), true));
 
             users.add(new UserEntity("nikita", "Nikoleta", "Nikolova",
-                    "nikita.nikolova" + mailDomain, this.passwordEncoder.encode(defaultPass),
+                    "nikita.nikolova" + defaultMailDomain, this.passwordEncoder.encode(defaultPass),
                     List.of(roleUser), true));
 
             this.userRepository.saveAllAndFlush(users);
