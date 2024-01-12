@@ -67,6 +67,7 @@ public class UserController {
         Page<RecipeBriefDTO> recipesByAuthor = this.recipeService.getRecipesByAuthor(userId, pageable);
         String authorUsername = this.userService.getUsernameById(userId);
 
+        model.addAttribute("authorId", userId);
         model.addAttribute("username", authorUsername);
         model.addAttribute("recipes", recipesByAuthor);
 

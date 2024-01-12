@@ -95,7 +95,7 @@
                                             <li class="page-item"
                                                 th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
                                                 <a th:unless="${recipes.isFirst()}" class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${0})}"
+                                                   th:href="@{/profile/{id}/recipes(id=${authorId}, size=${recipes.getSize()}, page=${0})}"
                                                    th:text="#{first}">First</a>
                                                 <a th:if="${recipes.isFirst()}" class="page-link" href="#"
                                                    th:text="#{first}">First</a>
@@ -103,7 +103,7 @@
                                             <li class="page-item"
                                                 th:classappend="${recipes.isFirst() ? 'disabled' : ''}">
                                                 <a class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() - 1})}"
+                                                   th:href="@{/profile/{id}/recipes(id=${authorId}, size=${recipes.getSize()}, page=${recipes.getNumber() - 1})}"
                                                    aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only" th:text="#{previous}">Previous</span>
@@ -117,7 +117,7 @@
                                             <li class="page-item"
                                                 th:classappend="${recipes.isLast() ? 'disabled' : ''}">
                                                 <a class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}"
+                                                   th:href="@{/profile/{id}/recipes(id=${authorId}, size=${recipes.getSize()}, page=${recipes.getNumber() + 1})}"
                                                    aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only" th:text="#{next}">Next</span>
@@ -126,7 +126,7 @@
                                             <li class="page-item"
                                                 th:classappend="${recipes.isLast() ? 'disabled' : ''}">
                                                 <a th:unless="${recipes.isLast()}" class="page-link"
-                                                   th:href="@{/recipes(size=${recipes.getSize()}, page=${recipes.getTotalPages() - 1})}"
+                                                   th:href="@{/profile/{id}/recipes(id=${authorId}, size=${recipes.getSize()}, page=${recipes.getTotalPages() - 1})}"
                                                    th:text="#{last}">Last</a>
                                                 <a th:if="${recipes.isLast()}" class="page-link"
                                                    href="#" th:text="#{last}">Last</a>
