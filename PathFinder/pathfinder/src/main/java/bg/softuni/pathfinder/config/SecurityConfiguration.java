@@ -1,4 +1,4 @@
-package bg.softuni.pathfinder.model.config;
+package bg.softuni.pathfinder.config;
 
 import bg.softuni.pathfinder.model.enums.UserRole;
 import bg.softuni.pathfinder.service.PathfinderUserDetailsService;
