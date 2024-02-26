@@ -45,11 +45,11 @@ public class RecipeService {
     }
 
     public boolean authorizeActions(MyUserDetails userDetails, Long recipeId) {
-        Long categoryUserId = this.recipeRepository.findById(recipeId)
+        Long recipeAuthorId = this.recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
                 .getAuthor().getId();
 
-        return userDetails.getId().equals(categoryUserId)
+        return userDetails.getId().equals(recipeAuthorId)
                 || userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
