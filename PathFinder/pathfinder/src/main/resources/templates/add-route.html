@@ -71,12 +71,11 @@
         <div class="form-group">
             <div>
                 <label for="level">Level</label>
-                <select id="level" class="custom-select" name="level">
+                <select id="level" th:field="*{level}" class="custom-select">
                     <option value="" selected>Select level</option>
                     <option th:each="level : ${T(bg.softuni.pathfinder.model.enums.Level).values()}"
                             th:value="${level}"
-                            th:text="${level}"
-                            th:selected="${level} == *{level}">level
+                            th:text="${level}">level
                     </option>
                 </select>
             </div>
