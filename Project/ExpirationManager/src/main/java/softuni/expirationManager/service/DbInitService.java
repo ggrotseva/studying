@@ -170,8 +170,9 @@ public class DbInitService {
         if (this.recipeRepository.count() == 0) {
             ObjectMapper objectMapper = new ObjectMapper();
 
-            List<RecipeFromJsonDTO> recipeDtos = objectMapper.readValue(new File("src/main/resources/init/recipes.json"),
-                    new TypeReference<>(){});
+            List<RecipeFromJsonDTO> recipeDtos = Arrays.asList(
+                    objectMapper.readValue(new File("src/main/resources/init/recipes.json"),
+                    RecipeFromJsonDTO[].class));
 
             List<RecipeEntity> recipes = recipeDtos.stream()
                     .map(r -> this.mapper.map(r, RecipeEntity.class)
