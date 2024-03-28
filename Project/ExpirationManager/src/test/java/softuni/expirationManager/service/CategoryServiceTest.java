@@ -244,8 +244,7 @@ public class CategoryServiceTest {
                 .setUser(TEST_USER);
 
         MyUserDetails myUserDetails = new MyUserDetails(TEST_USER.getUsername(), TEST_USER.getPassword(),
-                        List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)))
-                        .setId(2L);
+                        List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)), 2L);
 
         when(mockCategoryRepository.findById(2L)).thenReturn(Optional.of(testCategory));
 
@@ -261,8 +260,7 @@ public class CategoryServiceTest {
                 .setUser(TEST_USER);
 
         MyUserDetails myUserDetails = new MyUserDetails("SomeUser", "somePassword",
-                List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)))
-                .setId(4L);
+                List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)), 4L);
 
         when(mockCategoryRepository.findById(2L)).thenReturn(Optional.of(testCategory));
 
@@ -279,8 +277,7 @@ public class CategoryServiceTest {
 
         MyUserDetails myUserDetails = new MyUserDetails("SomeUser", "somePassword",
                         List.of(new SimpleGrantedAuthority("ROLE_"  + UserRoleEnum.USER),
-                                        (new SimpleGrantedAuthority("ROLE_"  + UserRoleEnum.ADMIN))))
-                        .setId(4L);
+                                        (new SimpleGrantedAuthority("ROLE_"  + UserRoleEnum.ADMIN))), 4L);
 
         when(mockCategoryRepository.findById(2L)).thenReturn(Optional.of(testCategory));
 

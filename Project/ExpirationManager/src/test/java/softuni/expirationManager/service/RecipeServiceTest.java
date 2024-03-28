@@ -360,8 +360,7 @@ public class RecipeServiceTest {
                 .setAuthor(user);
 
         MyUserDetails myUserDetails = new MyUserDetails(user.getUsername(), user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)))
-                .setId(2L);
+                List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)), 2L);
 
         when(mockRecipeRepository.findById(2L)).thenReturn(Optional.of(testRecipe));
 
@@ -381,8 +380,7 @@ public class RecipeServiceTest {
                 .setAuthor(user);
 
         MyUserDetails myUserDetails = new MyUserDetails("SomeUser", "somePassword",
-                List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)))
-                .setId(2L);
+                List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER)), 2L);
 
         when(mockRecipeRepository.findById(2L)).thenReturn(Optional.of(testRecipe));
 
@@ -403,8 +401,7 @@ public class RecipeServiceTest {
 
         MyUserDetails myUserDetails = new MyUserDetails("SomeUser", "somePassword",
                 List.of(new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.USER),
-                        (new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.ADMIN))))
-                .setId(2L);
+                        (new SimpleGrantedAuthority("ROLE_" + UserRoleEnum.ADMIN))), 2L);
 
         when(mockRecipeRepository.findById(2L)).thenReturn(Optional.of(testRecipe));
 
