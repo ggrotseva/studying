@@ -9,8 +9,9 @@ public class MyUserDetails extends User {
 
     private Long id;
 
-    public MyUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public MyUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, Long id) {
         super(username, password, authorities);
+        this.id = id;
     }
 
     public Long getId() {

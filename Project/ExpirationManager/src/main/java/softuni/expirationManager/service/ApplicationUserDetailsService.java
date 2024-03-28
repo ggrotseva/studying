@@ -31,8 +31,8 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     private UserDetails map(UserEntity userEntity) {
         return new MyUserDetails(userEntity.getUsername(),
                 userEntity.getPassword(),
-                extractGrantedAuthorities(userEntity))
-                .setId(userEntity.getId());
+                extractGrantedAuthorities(userEntity),
+                userEntity.getId());
     }
 
     private List<GrantedAuthority> extractGrantedAuthorities(UserEntity userEntity) {
