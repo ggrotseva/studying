@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                         .defaultSuccessUrl("/")
                         .failureForwardUrl("/users/login-error"))
-                .rememberMe(customize -> customize.rememberMeParameter("rememberMeKey"))
+                .rememberMe(customize -> customize.rememberMeParameter("remember-me"))
                 .logout(customize -> customize
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
