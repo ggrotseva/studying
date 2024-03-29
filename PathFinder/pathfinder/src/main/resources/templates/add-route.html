@@ -94,8 +94,8 @@
             <div>
                 <label class="p-2" for="categories">Categories:</label>
                 <input class="m-3" type="checkbox" name="categories" id="categories"
+                       th:field="*{categories}"
                        th:each="category : ${T(bg.softuni.pathfinder.model.enums.RouteCategory).values()}"
-                       th:object="${category}"
                        th:value="${category}"
                        th:text="${category}">
                 <br>
