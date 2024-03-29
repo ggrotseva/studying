@@ -76,7 +76,8 @@ public class RouteController extends BaseController {
         List<RouteBriefDTO> routes = this.routeService.findByCategoriesContains(categoryName);
 
         modelAndView.addObject("routes", routes);
+        modelAndView.addObject("categoryName", categoryName);
 
-        return super.view("car", modelAndView);
+        return super.view("by-category", modelAndView);
     }
 }

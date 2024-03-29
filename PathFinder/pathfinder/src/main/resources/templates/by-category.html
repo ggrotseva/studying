@@ -2,7 +2,7 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Car</title>
+    <title th:text="${#strings.capitalize(categoryName)}">Car</title>
     <th:block th:insert="~{fragments/head}"/>
 </head>
 
