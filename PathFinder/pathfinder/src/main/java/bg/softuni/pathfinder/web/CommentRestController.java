@@ -44,7 +44,7 @@ public class CommentRestController {
                 .body(comment);
     }
 
-    @DeleteMapping("api/{routeId}/comments/{commentId}")
+    @DeleteMapping("/api/{routeId}/comments/{commentId}")
     public ResponseEntity<CommentDTO> deleteComment(@PathVariable("commentId") Long commentId,
                                                     Principal principal) {
 
@@ -54,7 +54,7 @@ public class CommentRestController {
                 commentForDelete.getAuthorUsername().equals(principal.getName())) {
 
             this.commentService.deleteById(commentId);
-            return ResponseEntity.ok(commentForDelete);
+            return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
