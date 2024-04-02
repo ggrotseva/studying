@@ -11,7 +11,7 @@ public class FileSizeValidator implements ConstraintValidator<FileSize, Multipar
 
     @Override
     public void initialize(FileSize constraintAnnotation) {
-        this.maxBytes = Long.parseLong(constraintAnnotation.maxSizeInKilobytes()+"000");
+        this.maxBytes = Long.parseLong(constraintAnnotation.maxSizeInKilobytes()) * 1024;
         this.message = constraintAnnotation.message() + String.format("Max file size is %s kB.", constraintAnnotation.maxSizeInKilobytes());
     }
 
