@@ -14,16 +14,16 @@ spring:
 expirationManager:
   # Custom properties
   default:
-    password: ${DEFAULT_PASS:123456}
-    mailDomain: ${DEFAULT_DOMAIN:@email.email}
+    password: 123456
+    mailDomain: "@email.email"
   # Cloudinary Properties
   cloudinary:
-    cloud-name: ${CLOUD_NAME}
-    api-key: ${API_KEY}
-    api-secret: ${API_SECRET}
+    cloud-name: cloud_name
+    api-key: key
+    api-secret: api
 # Mailhog properties
 mailhog:
-  host: ${MAIL_HOST:localhost}
+  host: localhost
   port: 1025
   username: "expiration@manager.bg"
   password: ""
