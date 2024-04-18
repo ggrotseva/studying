@@ -2,6 +2,11 @@ package softuni.expirationManager.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import softuni.expirationManager.model.MyUserDetails;
@@ -27,18 +32,21 @@ public class UserService {
     private final CategoryService categoryService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
+    private final UserDetailsService applicationUserDetailsService;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository,
                        CategoryService categoryService,
                        PasswordEncoder passwordEncoder,
-                       ModelMapper mapper) {
+                       ModelMapper mapper,
+                       UserDetailsService applicationUserDetailsService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.categoryService = categoryService;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
+        this.applicationUserDetailsService = applicationUserDetailsService;
     }
 
     public boolean authorizeActions(MyUserDetails userDetails, Long id) {
@@ -58,6 +66,20 @@ public class UserService {
         this.userRepository.saveAndFlush(newUser);
 
         this.categoryService.initStartCategoriesForUser(newUser);
+    }
+
+    public void createUserIfNotExist(String email, String username, String names) {
+
+    }
+
+    public Authentication login(String username) {
+        UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(username);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return auth;
     }
 
     public UserProfileDTO getUserProfileDtoById(Long id) {

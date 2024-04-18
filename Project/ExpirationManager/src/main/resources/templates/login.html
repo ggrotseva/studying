@@ -17,6 +17,7 @@
     <h2 class="text-center text-white m-3" th:text="#{navbar_login}">Login</h2>
 
     <div class="container">
+
         <form th:method="post" th:action="@{/users/login}"
               class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <div class="form-group">
@@ -51,6 +52,13 @@
                     <div class="d-flex">
                         <button type="submit" class="btn my-btn" th:text="#{login}">Log in</button>
                     </div>
+                </div>
+                <div class="col col-md-4">
+                    <!-- href is automatically exposed by the OAuth2 client dependency -->
+                    <a class="btn my-btn"
+                       th:href="@{/oauth2/authorization/github}">
+                        Login with Github
+                    </a>
                 </div>
             </div>
         </form>

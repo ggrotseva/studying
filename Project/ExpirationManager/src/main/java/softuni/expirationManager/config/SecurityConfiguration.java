@@ -13,13 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import softuni.expirationManager.service.oauth.OAuthSuccessHandler;
 
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, OAuthSuccessHandler oAuthSuccessHandler) throws Exception {
 
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
@@ -37,7 +38,8 @@ public class SecurityConfiguration {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID", "remember-me")
-                        .invalidateHttpSession(true));
+                        .invalidateHttpSession(true))
+                .oauth2Login(customizer -> customizer.successHandler(oAuthSuccessHandler));
 
         return httpSecurity.build();
     }

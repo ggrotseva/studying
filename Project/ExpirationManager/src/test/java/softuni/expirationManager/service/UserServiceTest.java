@@ -53,6 +53,9 @@ public class UserServiceTest {
     @Mock
     private ModelMapper mockMapper;
 
+    @Mock
+    private ApplicationUserDetailsService applicationUserDetailsService;
+
     @Captor
     private ArgumentCaptor<UserEntity> userEntityArgumentCaptor;
 
@@ -60,7 +63,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockCategoryService, mockPasswordEncoder, mockMapper);
+        testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockCategoryService, mockPasswordEncoder, mockMapper, applicationUserDetailsService);
         ADMIN_ROLE = new UserRoleEntity().setRole(UserRoleEnum.ADMIN).setId(1L);
         USER_ROLE = new UserRoleEntity().setRole(UserRoleEnum.USER).setId(2L);
 

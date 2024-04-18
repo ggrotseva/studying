@@ -29,6 +29,14 @@ spring:
         format_sql: false
         show_sql: true
     defer-datasource-initialization: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT}
+            client-secret: ${GITHUB_SECRET}
+            scope: user:email
 
   thymeleaf: # Thymeleaf
     cache: false
