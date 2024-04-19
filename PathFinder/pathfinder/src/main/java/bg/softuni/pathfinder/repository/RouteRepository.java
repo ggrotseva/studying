@@ -11,6 +11,9 @@ import java.util.Optional;
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
 
+//     Query method for when comment approving logic is implemented
+//     Optional<Route> findFirstByOrderByCommentsApprovedDesc();
+
     Optional<Route> findFirstByOrderByCommentsDesc();
 
     Optional<List<Route>> findByCategoriesContains(Category category);
