@@ -11,8 +11,8 @@ const brandInputElement = document.getElementById('brand');
 const descriptionInputElement = document.getElementById('description');
 
 // csrf token
-const csrfHeaderName = document.getElementById('csrf').name;
-const csrfHeaderValue = document.getElementById('csrf').value;
+const csrfHeaderName = document.getElementById('csrf').getAttribute('name');
+const csrfHeaderValue = document.getElementById('csrf').getAttribute('value');
 
 // fetch all products of category
 fetch(`${backendLocation}/categories/${categoryId}/products`)
@@ -55,8 +55,11 @@ function createTableRow(product) {
             headers: {
                 [csrfHeaderName]: csrfHeaderValue
             }
+        }).then(response => {
+            if (response.ok) {
+                tableRow.remove();
+            }
         })
-            .then(tableRow.remove());
     });
 
     tableRow.append(nameData);

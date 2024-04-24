@@ -40,11 +40,11 @@ public class CategoryService {
     }
 
     public boolean authorizeActions(MyUserDetails userDetails, Long categoryId) {
-        Long categoryUserId = this.categoryRepository.findById(categoryId)
+        Long categoryOwnerId = this.categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NoSuchElementException(NO_CATEGORY_FOUND))
                 .getUser().getId();
 
-        return userDetails.getId().equals(categoryUserId)
+        return userDetails.getId().equals(categoryOwnerId)
                 || userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
