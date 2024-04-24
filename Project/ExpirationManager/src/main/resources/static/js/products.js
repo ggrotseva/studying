@@ -1,110 +1,89 @@
-const backendLocation = "http://localhost:8080";
+const backendLocation = 'http://localhost:8080';
 
-let categoryId = document.getElementById("categoryId").getAttribute("value");
-let productTable = document.getElementById("tableContent");
+const categoryId = document.getElementById('categoryId').value;
+
+const productTable = document.getElementById('tableContent');
+const productForm = document.getElementById('productForm');
+
+const nameInputElement = document.getElementById('name');
+const expiryDateInputElement = document.getElementById('expiryDate');
+const brandInputElement = document.getElementById('brand');
+const descriptionInputElement = document.getElementById('description');
+
+// csrf token
+const csrfHeaderName = document.getElementById('csrf').name;
+const csrfHeaderValue = document.getElementById('csrf').value;
 
 // fetch all products of category
 fetch(`${backendLocation}/categories/${categoryId}/products`)
-    .then((response) => response.json())
-    .then((body) => {
-        for (product of body) {
-            fillTableRow(product);
+    .then(response => response.json())
+    .then(products => {
+        const productsFragment = document.createDocumentFragment();
+
+        for (let product of products) {
+            productsFragment.append(createTableRow(product));
         }
-    })
+
+        productTable.append(productsFragment);
+    });
 
 // fill table row with product data
-function fillTableRow(product) {
-    let tableRow = document.createElement("tr");
-    tableRow.setAttribute("id", `product${product.id}`);
+function createTableRow(product) {
+    const tableRow = document.createElement('tr');
 
-    let nameData = document.createElement("td");
-    nameData.append(product.name);
+    const nameData = document.createElement('td');
+    nameData.textContent = product.name;
+
+    const dateData = document.createElement('td');
+    dateData.textContent = formatDate(product.expiryDate);
+
+    const brandData = document.createElement('td');
+    brandData.textContent = product.brand;
+
+    const descriptionData = document.createElement('td');
+    descriptionData.textContent = product.description;
+
+    const deleteButton = document.createElement('td');
+    deleteButton.innerHTML = `<button class="close" aria-label="delete">
+                        <span aria-hidden="true">&times;</span>
+                            </button>`;
+
+    // delete product event listener
+    deleteButton.addEventListener('click', () => {
+        fetch(`${backendLocation}/categories/${categoryId}/products/${product.id}`, {
+            method: 'DELETE',
+            headers: {
+                [csrfHeaderName]: csrfHeaderValue
+            }
+        })
+            .then(tableRow.remove());
+    });
+
     tableRow.append(nameData);
-
-    let dateData = document.createElement("td");
-    dateData.append(formatDate(product.expiryDate));
     tableRow.append(dateData);
-
-    let brandData = document.createElement("td");
-    brandData.append(product.brand);
     tableRow.append(brandData);
-
-    let descriptionData = document.createElement("td");
-    descriptionData.append(product.description);
     tableRow.append(descriptionData);
-
-    let deleteButton = document.createElement("td");
-    deleteButton.innerHTML = `<button onclick="deleteProduct(${product.id})" class="close" aria-label="delete">\n
-                        <span aria-hidden="true">&times;</span>\n
-                    </button>\n`;
     tableRow.append(deleteButton);
 
-    productTable.appendChild(tableRow);
-
-}
-
-// csrf token
-const csrfHeaderName = document.getElementById('csrf').getAttribute('name');
-const csrfHeaderValue = document.getElementById('csrf').getAttribute('value');
-
-// delete product
-function deleteProduct(productId) {
-    fetch(`${backendLocation}/categories/${categoryId}/products/${productId}`, {
-        method: 'DELETE',
-        headers: {
-            [csrfHeaderName]: csrfHeaderValue
-        }
-    })
-        .then(document.getElementById("product" + productId).remove());
-}
-
-// add product form element
-let productForm = document.getElementById("productForm");
-
-function isNameValid(name) {
-    document.getElementById("nameError").innerHTML = "";
-    if (typeof name === "undefined" || name.length == 0) {
-        let nameError = document.createElement("small");
-        nameError.setAttribute("class", "alert alert-danger p-1");
-        nameError.innerHTML = "Product Name is required.";
-        document.getElementById("nameError").appendChild(nameError);
-        return false;
-    }
-    return true;
-}
-
-function isDateValid(expiryDate) {
-    document.getElementById("dateError").innerHTML = "";
-    if (typeof expiryDate === "undefined" || expiryDate.length == 0) {
-        let expiryDateError = document.createElement("small");
-        expiryDateError.setAttribute("class", "alert alert-danger p-1");
-        expiryDateError.innerHTML = "Expiry Date is required.";
-        document.getElementById("dateError").appendChild(expiryDateError);
-        return false;
-    }
-    return true;
+    return tableRow;
 }
 
 // productForm on submit event
-productForm.addEventListener("submit", (event) => {
+productForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    let nameInputElement = document.getElementById("name");
-    let expiryDateInputElement = document.getElementById("expiryDate");
+    const name = nameInputElement.value;
+    const expiryDate = expiryDateInputElement.value;
 
-    let validName = isNameValid(nameInputElement.value);
-    let validDate = isDateValid(expiryDateInputElement.value);
+    const validName = isNameValid(name);
+    const validDate = isDateValid(expiryDate);
 
     if (!validName || !validDate) {
         return;
-        //        throw new Error(`Invalid input`);
     }
 
-    let nameInput = nameInputElement.value;
-    let expiryDateInput = expiryDateInputElement.value;
-    let brandInput = document.getElementById("brand").value;
-    let descriptionInput = document.getElementById("description").value;
-
+    const brand = brandInputElement.value;
+    const description = descriptionInputElement.value;
 
     fetch(`${backendLocation}/categories/${categoryId}/products`, {
         method: 'POST',
@@ -114,27 +93,25 @@ productForm.addEventListener("submit", (event) => {
             [csrfHeaderName]: csrfHeaderValue
         },
         body: JSON.stringify({
-            name: nameInput,
-            expiryDate: expiryDateInput,
-            brand: brandInput,
-            description: descriptionInput
+            name,
+            expiryDate,
+            brand,
+            description
         })
-    }).then((response) => {
-        document.getElementById("name").value = "";
-        document.getElementById("expiryDate").value = "";
-        document.getElementById("brand").value = "";
-        document.getElementById("description").value = "";
+    }).then(response => {
+        clearInputs();
 
-        let location = response.headers.get("Location");
+        const location = response.headers.get('Location');
+
         fetch(`${backendLocation}${location}`)
             .then(res => res.json())
-            .then(product => fillTableRow(product))
+            .then(product => createTableRow(product))
     })
 })
 
 // format date
 function formatDate(dateString) {
-    let date = new Date(dateString);
+    const date = new Date(dateString);
 
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -144,4 +121,41 @@ function formatDate(dateString) {
     month < 10 && (month = `0${month}`);
 
     return `${day}/${month}/${year}`;
+}
+
+// product name validation
+function isNameValid(name) {
+    document.getElementById('nameError').innerHTML = '';
+
+    if (typeof name === 'undefined' || name.length == 0) {
+        const nameError = document.createElement('small');
+        nameError.classList.add('alert', 'alert-danger', 'p-1');
+        nameError.textContent = 'Product Name is required.';
+        document.getElementById('nameError').append(nameError);
+        return false;
+    }
+
+    return true;
+}
+
+// product date validation
+function isDateValid(expiryDate) {
+    document.getElementById('dateError').innerHTML = '';
+
+    if (typeof expiryDate === 'undefined' || expiryDate.length == 0) {
+        const expiryDateError = document.createElement('small');
+        expiryDateError.classList.add('alert', 'alert-danger', 'p-1');
+        expiryDateError.textContent = 'Expiry Date is required.';
+        document.getElementById('dateError').append(expiryDateError);
+        return false;
+    }
+
+    return true;
+}
+
+function clearInputs() {
+    nameInputElement.value = '';
+    expiryDateInputElement.value = '';
+    brandInputElement.value = '';
+    descriptionInputElement.value = '';
 }
