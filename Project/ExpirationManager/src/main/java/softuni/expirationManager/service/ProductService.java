@@ -9,13 +9,12 @@ import softuni.expirationManager.model.dtos.product.ProductViewDTO;
 import softuni.expirationManager.model.entities.ProductEntity;
 import softuni.expirationManager.repository.CategoryRepository;
 import softuni.expirationManager.repository.ProductRepository;
-import softuni.expirationManager.utils.DateTimeProvider;
 import softuni.expirationManager.utils.Constants;
+import softuni.expirationManager.utils.DateTimeProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -66,14 +65,14 @@ public class ProductService {
         return this.productRepository.findAllByCategoryId(id)
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_PRODUCT_FOUND))
                 .stream().map(p -> this.mapper.map(p, ProductViewDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<ProductHomeViewDTO> getExpiredProducts(String username) {
         return this.productRepository.findAllByExpiryDateBeforeAndCategoryUserUsername(this.dateTimeProvider.getDateToday(), username)
                 .orElse(new ArrayList<>())
                 .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<ProductHomeViewDTO> getCloseToExpiryProducts(String username) {
@@ -81,7 +80,7 @@ public class ProductService {
                         this.dateTimeProvider.getDateOneMonthForward(), this.dateTimeProvider.getDateToday(), username)
                 .orElse(new ArrayList<>())
                 .stream().map(p -> this.mapper.map(p, ProductHomeViewDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

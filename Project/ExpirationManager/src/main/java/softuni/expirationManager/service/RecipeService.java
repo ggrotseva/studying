@@ -6,21 +6,20 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import softuni.expirationManager.repository.RecipeSearchSpecification;
-import softuni.expirationManager.utils.DateTimeProvider;
-import softuni.expirationManager.utils.Constants;
 import softuni.expirationManager.model.MyUserDetails;
 import softuni.expirationManager.model.dtos.product.ProductHomeViewDTO;
 import softuni.expirationManager.model.dtos.recipe.*;
 import softuni.expirationManager.model.entities.RecipeEntity;
 import softuni.expirationManager.model.entities.UserEntity;
 import softuni.expirationManager.repository.RecipeRepository;
+import softuni.expirationManager.repository.RecipeSearchSpecification;
 import softuni.expirationManager.repository.UserRepository;
+import softuni.expirationManager.utils.Constants;
+import softuni.expirationManager.utils.DateTimeProvider;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
@@ -147,7 +146,7 @@ public class RecipeService {
                     .orElseThrow(() -> new NoSuchElementException(Constants.NO_RECIPE_FOUND))
                     .stream()
                     .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         return recipeIdeas;
@@ -178,7 +177,7 @@ public class RecipeService {
                 .stream()
                 .map(r -> this.mapper.map(r, RecipeHomeViewDTO.class)
                         .setProducts(extractIncludedProducts(r, productsRegex)))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private String extractIncludedProducts(RecipeEntity recipe, String productsRegex) {

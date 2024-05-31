@@ -16,7 +16,6 @@ import softuni.expirationManager.repository.UserRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static softuni.expirationManager.utils.Constants.*;
 
@@ -57,7 +56,7 @@ public class CategoryService {
                                 .setDescription(e.getValue())
                                 .setIcon(defaultIcon)
                                 .setUser(userEntity))
-                .collect(Collectors.toList());
+                .toList();
 
         this.categoryRepository.saveAllAndFlush(categories);
     }
@@ -104,7 +103,7 @@ public class CategoryService {
                 .orElseThrow(() -> new NoSuchElementException(NO_CATEGORY_FOUND))
                 .stream()
                 .map(c -> this.mapper.map(c, CategoryViewDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CategoryNameIdDTO getCategoryNameIdDto(Long id) {
