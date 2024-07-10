@@ -54,7 +54,7 @@ public class RecipeController {
 
         model.addAttribute("recipes", allRecipesPage);
 
-        return "recipes";
+        return "recipes-search";
     }
 
     @GetMapping("/recipes/{id}")

@@ -50,7 +50,7 @@ public class RecipeControllerIT {
         MvcResult mvcResult = mockMvc.perform(get("/recipes/search")
                         .param("search", "какао"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipes"))
+                .andExpect(view().name("recipes-search"))
                 .andExpect(model().attributeExists("recipeSearchDTO"))
                 .andReturn();
 
